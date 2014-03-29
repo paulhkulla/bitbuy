@@ -242,6 +242,7 @@
 		//Video playing
 		function videoPlaying(e) {
 			videoPreloader.fadeOut();
+			videoMask.fadeIn(1000);
 		}
 		
 		//Pattern
