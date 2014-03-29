@@ -6,4 +6,451 @@
  * @author: flashblue - http://www.codegrape.com/user/flashblue
 **************************************************************************/
 
-eval(function(p,a,c,k,e,r){e=function(c){return(c<a?'':e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)r[e(c)]=k[c]||e(c);k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}(';(5($){$.1X.1Y=5(f){6 g={10:E,N:E,11:7,12:1,1h:3,G:7,I:7,Q:7,J:7,R:7,13:7,14:7,15:7,L:"",1i:1,S:"",T:5(){}};6 f=$.1Z({},g,f);6 i=7;6 j=20.21.22(/(23)|(24)|(25)|(26)|(27)/i)?E:7;4(f.G&&!f.R){f.R=f.G}4(f.I&&!f.13){f.13=f.I}4(f.Q&&!f.14){f.14=f.Q}4(f.J&&!f.15){f.15=f.J}6 k=28(f.T)=="5"?f.T:5(){};6 l=$(1j);6 m,H;6 n=$(1u);6 o,16;6 p=0,K=0;6 q=$(\'<17 U="8-V-29" />\');6 r=$(\'<17 U="8-V-1k" 1l="8-V-1k" />\');6 s=$(\'<17 U="8-L" />\');6 t=$(\'<17 U="8-2a" />\');6 u=7;6 v=1m;n.T=k;n.W(q);q.W(r);l.2b(18);4(19.8&&(f.G||f.I||f.J)){1v()}A{6 z=1w.2c();4(z.2d>9){1x()}}5 1v(){6 a="",O="",P=7;4(19.8.2e&&f.G){a=!j?f.G:f.R;O="8/G"}A 4(19.8.J&&f.J){a=!j?f.J:f.15;O="8/J"}A 4(19.8.I&&f.I){a=!j?f.I:f.13;O="8/I"}A{P=E}q.W(t);4(!P){6 b=\' 2f="\'+(j?"2g":"2h")+\'"\';4(f.10){b+=\' 10="10"\'}4(f.N){b+=\' N="N"\'}6 c=\'<8 U="8-1y" 									X="M%" Y="M%" 									2i="\'+a+\'" O="\'+O+\'									"\'+b+\'								 />\';r.2j(c);16=r.2k(".8-1y");o=16[0];o.1a=!f.11?f.12:0;o.1b("2l",1z,7);o.1b("1A",1n,7);o.1b("2m",1B);o.1b("2n",1C);4(!j){o.1D()}A{r.1o();1c(5(){o.1D()})}i=E}}5 1c(a){6 b=$(\'<a 2o="#" 1l="1c"></a>\');b.2p("1E",5(e){e.2q();a()});$("2r").W(b);6 c,1p=$("#1c").2s(0);4(1q.1F){c=1q.1F("2t");4(c.1G){c.1G("1E",E,E,1j,0,0,0,0,0,7,7,7,7,0,1m);1p.2u(c)}}$(1p).2v()}5 1n(e){o.2w("1A",1n,7);v=2x(5(){p=o.2y;K=o.2z;4(p!=M||K!=M){2A(v);4(f.L!=""){1H()}18();r.1o();4(j){o.1I()}}},M)}5 1z(e){4(f.S!=""){1J()}n.T.2B(1u)}5 1B(e){t.2C()}5 1C(e){t.2D()}5 1H(){s.Z({"2E-2F":"2G("+f.L+")","2H":f.1i});q.W(s)}5 1x(){6 a="",P=7;4(f.G){a=!j?f.G:f.R}A 4(f.Q){a=!j?f.Q:f.14}A{P=E}4(!P){18();6 b={2I:"../"+a,2J:(f.1h+1),2K:f.12,L:f.L,2L:f.1i,N:f.N,11:f.11,S:f.S};6 c={D:"2M",2N:"E",2O:"7",2P:"#2Q",2R:"2S"};6 d={2T:"8-V-1K"};1w.2U("2V/2W.1K","8-V-1k","M%","M%","9",1m,b,c,d,1L);r.1o()}}5 1L(e){o=1q.2X(e.1l)}5 1J(){1j.2Y=f.S}5 18(e){m=l.X();H=l.Y();6 a=m/p,1d=H/K,D=1,w=0,h=0,x=0,y=0;2Z(f.1h){1e 0:4(m<p||H<K){D=B.1M(a,1d)}w=B.C(p*D);h=B.C(K*D);x=B.C((m-w)/2);y=B.C((H-h)/2);1f;1e 1:D=B.1M(a,1d);w=B.C(p*D);h=B.C(K*D);x=B.C((m-w)/2);y=B.C((H-h)/2);1f;1e 2:w=m;h=H;x=0;y=0;1f;1e 3:30:D=B.31(a,1d);w=B.C(p*D);h=B.C(K*D);x=B.C((m-w)/2);y=B.C((H-h)/2);1f}4(i){16.Z({"X":w+"F","Y":h+"F"});r.Z({"1N":x+"F","1O":y+"F"});4(f.L!=""){s.Z({"1N":x+"F","1O":y+"F","X":w+"F","Y":h+"F"})}}A{r.Z({"X":m+"F","Y":H+"F"})}}5 1r(){4(i){1g!o.32}A{1g o.1r()}}1s=5(){4(i){o.1I()}A{o.33()}};1t=5(){o.34()};35=5(){4(1r()){1t()}A{1s()}};36=5(){4(i){o.37=0}A{o.38()}};5 1P(){4(i){1g!(o.1a)}A{1g o.39()}}1Q=5(){4(i){o.1a=0}A{o.3a()}};1R=5(){4(i){o.1a=f.12}A{o.3b()}};3c=5(){4(1P()){1R()}A{1Q()}};1S=5(){1s();q.1T().1U(1V,1);u=7};1W=5(){1t();q.1T().1U(1V,0);u=E};3d=5(){4(u){1S()}A{1W()}}}})(3e);',62,201,'||||if|function|var|false|video||||||||||||||||||||||||||||else|Math|ceil|scale|true|px|mp4|winH|webm|ogg|videoH|pattern|100|loop|type|error|flv|mp4Mobile|videoEndURL|onFinish|class|bg|append|width|height|css|autoplay|muted|videoVolume|webmMobile|flvMobile|oggMobile|objVideo|div|resizeVideo|Modernizr|volume|addEventListener|videoPlayClick|yScale|case|break|return|aspectRatio|patternOpacity|window|holder|id|null|videoMetadata|show|el|document|isPlaying|videoBg_play|videoBg_pause|this|createHTML5|swfobject|createFlash|container|videoEnded|loadedmetadata|videoWaiting|videoPlaying|load|click|createEvent|initMouseEvent|createPattern|play|goToUrl|swf|callbackFlash|min|left|top|isMuted|videoBg_mute|videoBg_unmute|videoBg_show|stop|fadeTo|600|videoBg_hide|fn|videoBG|extend|navigator|userAgent|match|iPad|iPhone|iPod|android|webOS|typeof|mask|preloader|resize|getFlashPlayerVersion|major|h264|preload|auto|metadata|src|html|find|ended|waiting|playing|href|bind|preventDefault|body|get|MouseEvents|dispatchEvent|remove|removeEventListener|setInterval|videoWidth|videoHeight|clearInterval|call|fadeIn|fadeOut|background|image|url|opacity|videoUrl|fullSizeView|defaultVolume|patternAlpha|noscale|allowFullScreen|menu|bgcolor|000000|wmode|transparent|name|embedSWF|flash|videobg|getElementById|location|switch|default|max|paused|resume|pause|videoBg_toggle_play|videoBg_rewind|currentTime|rewind|isMute|mute|unmute|videoBg_toggle_sound|videoBg_toggle_hide|jQuery'.split('|'),0,{}))
+;(function($) {
+	$.fn.videoBG = function(options) {
+		
+		//Default variables
+		var defaults = {
+			autoplay:true,
+			loop:true,
+			muted:false,
+			
+			//Video volume between 0 - 1
+			videoVolume:1,
+			
+			//Aspect ratio
+			aspectRatio:3, 		//0:Normal, 1:Aspect, 2:Full, 3:Scale
+			
+			//Video Type
+			mp4:false,
+			webm:false,
+			flv:false,
+			ogg:false,
+			
+			//Mobile Video Type
+			mp4Mobile:false,
+			webmMobile:false,
+			flvMobile:false,
+			oggMobile:false,
+			
+			//Pattern
+			pattern:"",
+			patternOpacity:1,
+			
+			//Go to URL on video ended - You must set "loop:false" on top to run video ended event handler
+			videoEndURL:"",
+			
+			//Video on finish function
+			onFinish:function() {}
+		};
+		
+		//Settings
+		var options = $.extend({}, defaults, options);		
+		
+		//HTML5
+		var isHTML5 = false;
+		
+		//Mobile
+		var isMobile = navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i) ? true : false;
+		
+		//Mobile videos
+		if (options.mp4 && !options.mp4Mobile) {options.mp4Mobile = options.mp4;}
+		if (options.webm && !options.webmMobile) {options.webmMobile = options.webm;}
+		if (options.flv && !options.flvMobile) {options.flvMobile = options.flv;}
+		if (options.ogg && !options.oggMobile) {options.oggMobile = options.ogg;}
+		
+		//Video on finish
+		var onFinish = typeof(options.onFinish)=="function" ? options.onFinish : function() {};
+		
+		//Variables
+		var win = $(window);
+		var winW, winH;		
+		var container = $(this);
+		var video, objVideo;
+		var videoW=0, videoH=0;
+		var videoMask = $('<div class="video-bg-mask" />');
+		var videoHolder = $('<div class="video-bg-holder" id="video-bg-holder" />');
+		var videoPattern = $('<div class="video-pattern" />');
+		var videoPreloader = $('<div class="video-preloader" />');
+		var hidden = false;
+		var intervalId = null;
+		
+		//Append video on finish
+		container.onFinish = onFinish;
+		
+		//Video mask
+		container.append(videoMask);
+		
+		//Video holder
+		videoMask.append(videoHolder);	
+		
+		//Window resize handler
+		win.resize(resizeVideo);
+		
+		if (Modernizr.video && (options.mp4 || options.webm || options.ogg)) {			
+			//HTML5 video
+			createHTML5();
+		} else {
+			//Flash
+			var playerVersion = swfobject.getFlashPlayerVersion();
+			if(playerVersion.major>9) {
+				createFlash();
+			}
+		}		
+		
+		//Create HTML5 video tag
+		function createHTML5() {
+			var src = "", type = "", error = false;
+			
+			//Video type
+			if (Modernizr.video.h264 && options.mp4) {
+				src = !isMobile ? options.mp4 : options.mp4Mobile; 
+				type = "video/mp4";
+			} else if (Modernizr.video.ogg && options.ogg) {
+				src = !isMobile ? options.ogg : options.oggMobile; 
+				type = "video/ogg";
+			} else if (Modernizr.video.webm && options.webm) {
+				src = !isMobile ? options.webm : options.webmMobile; 
+				type = "video/webm";
+			} else {
+				error = true;	
+			}
+			
+			//Preloader
+			videoMask.append(videoPreloader);
+			
+			//Video tag
+			if (!error) {
+				var attr =' preload="'+(isMobile ? "auto" : "metadata")+'"';
+				if (options.autoplay) {
+					attr += ' autoplay="autoplay"';
+				}	
+				if (options.loop) {
+					attr += ' loop="loop"';
+				}	
+							
+				var videoCode = '<video class="video-container" \
+									width="100%" height="100%" \
+									src="'+src+'" type="'+type+'\
+									"'+attr+'\
+								 />';
+								 
+				videoHolder.html(videoCode);
+				objVideo = videoHolder.find(".video-container");
+				video = objVideo[0];
+				
+				//Set video volume
+				video.volume = !options.muted ? options.videoVolume : 0;						
+				
+				//Video event listeners
+				video.addEventListener("ended", videoEnded, false);
+				video.addEventListener("loadedmetadata", videoMetadata, false);
+				video.addEventListener("loadstart", videoWaiting);
+				video.addEventListener("play", videoPlaying);
+				
+				//Load video
+				if(!isMobile) {
+					video.load();
+				} else {
+					//Show video holder
+					videoHolder.show();
+					
+					//Create fake play button
+					videoPlayClick(function() {
+						video.load();
+					});
+				}
+				
+				//HTML5
+				isHTML5 = true;					
+			}			
+		}
+		
+		//Video play button for mobile
+		function videoPlayClick(func) {
+            var $a = $('<a href="#" id="videoPlayClick"></a>');
+                
+			$a.bind("click", function(e) {
+				e.preventDefault();
+				func();
+			});
+
+            $("body").append($a);
+
+            var evt, el = $("#videoPlayClick").get(0);
+
+            if (document.createEvent) {
+                evt = document.createEvent("MouseEvents");
+                if (evt.initMouseEvent) {
+                    evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                    el.dispatchEvent(evt);
+                }
+            }
+
+            $(el).remove();
+        }
+		
+		//Video meta data
+		function videoMetadata(e) {
+			video.removeEventListener("loadedmetadata", videoMetadata, false);
+			
+			intervalId = setInterval(
+				function() {
+					//Video dimensions
+					videoW = video.videoWidth;
+					videoH = video.videoHeight;
+					
+					if (videoW!=100 || videoH!=100) {
+						clearInterval(intervalId);
+						
+						//Pattern
+						if (options.pattern!="") {
+							createPattern();
+						}
+						
+						//Resize video
+						resizeVideo();
+						
+						//Show video holder
+						videoHolder.show();
+						
+						//Play video
+						if(isMobile) {
+							video.play();
+						}	
+					}
+				}
+			, 100);
+		}
+		
+		//Video ended
+		function videoEnded(e) {
+			//Redirect to URL
+			if (options.videoEndURL!="") {
+				goToUrl();
+			}
+			
+			//On finish function
+			container.onFinish.call(this);
+		}
+		
+		//Video waiting
+		function videoWaiting(e) {
+			videoPreloader.fadeIn();
+		}
+		
+		//Video playing
+		function videoPlaying(e) {
+			videoPreloader.fadeOut();
+		}
+		
+		//Pattern
+		function createPattern() {
+			videoPattern.css({"background-image":"url("+options.pattern+")", "opacity":options.patternOpacity});
+			videoMask.append(videoPattern);
+		}
+		
+		//Create Flash video player
+		function createFlash() {
+			var src = "", error = false;
+			if (options.mp4) {
+				src = !isMobile ? options.mp4 : options.mp4Mobile; 				
+			} else if (options.flv) {
+				src = !isMobile ? options.flv : options.flvMobile; 				
+			} else {
+				error = true;	
+			}			
+			if (!error) {
+				//Resize video
+				resizeVideo();
+				
+				//Create video SWF
+				var flashvars = {
+					videoUrl:"../"+src,
+					fullSizeView:(options.aspectRatio+1),
+					defaultVolume:options.videoVolume,
+					pattern:options.pattern,
+					patternAlpha:options.patternOpacity,
+					loop:options.loop,
+					muted:options.muted,
+					videoEndURL:options.videoEndURL				
+				};
+				var params = {
+					scale:"noscale",
+                    allowFullScreen:"true",
+					menu:"false",
+                    bgcolor:"#000000",
+					wmode:"transparent"
+                };
+                var attributes = {
+                    name: "video-bg-swf"
+                };
+				swfobject.embedSWF("flash/videobg.swf", "video-bg-holder", "100%", "100%", "9", null, flashvars, params, attributes, callbackFlash);
+				
+				//Show video holder
+				videoHolder.show();
+			}
+		}
+		
+		//Callback Flash
+		function callbackFlash(e) {
+			video = document.getElementById(e.id);
+		}
+		
+		//Go to URL
+		function goToUrl() {
+			window.location = options.videoEndURL;
+		}
+		
+		//Resize video
+		function resizeVideo(e) {
+			winW = win.width();
+			winH = win.height();
+			
+			var xScale = winW/videoW,
+			yScale = winH/videoH, 
+			scale=1, w=0, h=0, x=0, y=0;	
+			
+			switch (options.aspectRatio) {
+				case 0:	//Normal
+					if (winW<videoW || winH<videoH) {
+						scale = Math.min(xScale, yScale);						
+					}					
+					w = Math.ceil(videoW*scale);
+					h = Math.ceil(videoH*scale);					
+					x = Math.ceil((winW-w)/2);
+					y = Math.ceil((winH-h)/2);
+					break;	
+				case 1:	//Aspect
+					scale = Math.min(xScale, yScale);
+					w = Math.ceil(videoW*scale);
+					h = Math.ceil(videoH*scale);
+					x = Math.ceil((winW-w)/2);
+					y = Math.ceil((winH-h)/2);		
+					break;
+				case 2:	//Full
+					w = winW;
+					h = winH;
+					x = 0;
+					y = 0;		
+					break;
+				case 3:	//Scale
+				default:
+					scale = Math.max(xScale, yScale);
+					w = Math.ceil(videoW*scale);
+					h = Math.ceil(videoH*scale);
+					x = Math.ceil((winW-w)/2);
+					y = Math.ceil((winH-h)/2);
+					break;
+			}
+			
+			if (isHTML5) {
+				objVideo.css({"width":w+"px", "height":h+"px"});
+				videoHolder.css({"left":x+"px", "top":y+"px"});
+				if (options.pattern!="") {
+					videoPattern.css({"left":x+"px", "top":y+"px", "width":w+"px", "height":h+"px"});	
+				}
+			} else {
+				videoHolder.css({"width":winW+"px", "height":winH+"px"});
+			}	
+		}
+		
+		/********************************
+		    - JS callback functions -
+		********************************/
+		
+		//Play - Pause
+		function isPlaying() {
+			if(isHTML5) {
+				return !video.paused;
+			} else {
+				return video.isPlaying();
+			}
+		}
+		
+		videoBg_play = function() {
+			if(isHTML5) {
+				video.play();
+			} else {
+				video.resume();
+			}
+		};
+		
+		videoBg_pause = function() {
+			video.pause();
+		};
+		
+		videoBg_toggle_play = function() {
+			if(isPlaying()) {
+				videoBg_pause();
+			} else {
+				videoBg_play();
+			}
+		};	
+		
+		//Rewind
+		videoBg_rewind = function() {
+			if(isHTML5) {
+				video.currentTime = 0;
+			} else {
+				video.rewind();
+			}
+		};
+		
+		//Mute - Unmute
+		function isMuted() {
+			if(isHTML5) {
+				return !(video.volume);
+			} else {
+				return video.isMute();
+			}
+		}
+		
+		videoBg_mute = function() {
+			if(isHTML5) {
+				video.volume = 0;
+			} else {
+				video.mute();
+			}
+		};
+		
+		videoBg_unmute = function() {
+			if(isHTML5) {
+				video.volume = options.videoVolume;
+			} else {
+				video.unmute();
+			}
+		};
+		
+		videoBg_toggle_sound = function() {
+			if(isMuted()) {
+				videoBg_unmute();
+			} else {
+				videoBg_mute();
+			}
+		};
+		
+		//Show - Hide
+		videoBg_show = function() {
+			videoBg_play();
+			videoMask.stop().fadeTo(600, 1);
+			hidden = false;
+		};
+		
+		videoBg_hide = function() {
+			videoBg_pause();
+			videoMask.stop().fadeTo(600, 0);
+			hidden = true;
+		};		
+		
+		videoBg_toggle_hide = function() {
+			if(hidden) {
+				videoBg_show();
+			} else {
+				videoBg_hide();
+			}
+		};
+				
+	};
+		
+})(jQuery);
