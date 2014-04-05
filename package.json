@@ -3,9 +3,13 @@
     "version": "0.0.1",
     "description": "bitbuy.ee SPA",
     "author": "Paul-Hendrik Kulla",
-    "dependencies": {
+    "devDependencies": {
         "grunt" : "*",
         "grunt-contrib-less": "*",
         "grunt-contrib-watch": "*"
+    },
+    "dependencies": {
+        "express"   : "*",
+        "socket.io" : "*"
     }
 }
