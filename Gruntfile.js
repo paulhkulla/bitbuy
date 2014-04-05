@@ -20,7 +20,8 @@ module.exports = function(grunt) {
                 files: ['public/LESS_FILES/**/*.less'],
                 tasks: ['less'],
                 options: {
-                    nospawn: true
+                    nospawn: true,
+                    interval: 1000
                 }
             }
         }
