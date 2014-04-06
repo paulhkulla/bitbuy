@@ -17,7 +17,7 @@ $(function () {
         socket = io.connect(),
         nameMap = {},
 
-        oldSheet, appendedSheet, oldStyle,
+        appendedSheet,
 
         jqueryMap = {},
         setJqueryMap
@@ -35,11 +35,13 @@ $(function () {
         location.reload( true );
     });
     socket.on('stylesheet', function (sheet) {
-        var $link
-            = $( '<link rel="stylesheet" type="text/css" media="screen">' );
+        var
+            $link = $( '<link rel="stylesheet" type="text/css" media="screen">' ),
+            oldSheet;
 
         if (!nameMap[sheet]) { nameMap[sheet] = sheet; }
         oldSheet = nameMap[sheet];
+        console.log(nameMap);
 
         appendedSheet = sheet + '?' + Date.now();
 
@@ -54,10 +56,11 @@ $(function () {
         }
 
         setTimeout(function() {
-            oldStyle = $('link[href="' + oldSheet + '"]').remove();
+            $('link[href="' + oldSheet + '"]').remove();
         }, 1000);
 
         nameMap[sheet] = appendedSheet;
+        console.log(nameMap);
     });
     //-------------------- END EVENT LISTENERS -----------------------
 });
