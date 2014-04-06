@@ -1,25 +1,63 @@
+/*
+ * routes.js - module to provide routing
+ */
+
+/*jslint browser : true, continue : true,
+  devel          : true, indent   : 4,    maxerr   : 50,
+  newcap         : true, nomen    : true, plusplus : true,
+  regexp         : true, sloppy   : true, vars     : false,
+  white          : true
+*/
+/*global, $, io */
+
 $(function () {
+
+    //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
     var
         socket = io.connect(),
-        nameMap = {};
+        nameMap = {},
 
+        oldSheet, appendedSheet, oldStyle,
+
+        jqueryMap = {},
+        setJqueryMap
+        ;
+    //----------------- END MODULE SCOPE VARIABLES -------------------
+
+    //--------------------- BEGIN DOM METHODS ------------------------
+    setJqueryMap = (function () {
+        jqueryMap = { $head : $( 'head' ) };
+    })();
+    //---------------------- END DOM METHODS -------------------------
+
+    //------------------- BEGIN EVENT LISTENERS ----------------------
     socket.on('reload', function () {
         location.reload( true );
     });
     socket.on('stylesheet', function (sheet) {
+        var $link
+            = $( '<link rel="stylesheet" type="text/css" media="screen">' );
+
         if (!nameMap[sheet]) { nameMap[sheet] = sheet; }
-        var oldSheet = nameMap[sheet];
-        console.log(oldSheet);
-        var link = document.createElement('link');
-        var appendedSheet = sheet + '?' + Date.now();
-        var oldStyle = $('link[href="' + oldSheet + '"]').remove();
-        var head = document.getElementsByTagName('head')[0];
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('type', 'text/css');
-        link.setAttribute('href', appendedSheet);
-        head.appendChild(link);
+        oldSheet = nameMap[sheet];
+
+        appendedSheet = sheet + '?' + Date.now();
+
+
+        $link.attr('href', appendedSheet);
+
+        if ( sheet.indexOf( 'bootstrap' ) >= 0 ) {
+            jqueryMap.$head.prepend( $link );
+        }
+        else {
+            jqueryMap.$head.append( $link );
+        }
+
+        setTimeout(function() {
+            oldStyle = $('link[href="' + oldSheet + '"]').remove();
+        }, 1000);
+
         nameMap[sheet] = appendedSheet;
-        console.log(nameMap);
-        // return { nameMap : nameMap };
     });
+    //-------------------- END EVENT LISTENERS -----------------------
 });
