@@ -44,6 +44,7 @@ watcher(
         'css/smartadmin-production.css',
         'css/bootstrap.min.css',
         'css/your_style.css',
+        'css/smartadmin-skins.css',
         'js/app.js'
     ]
 );

@@ -9,7 +9,7 @@
 	$.menu_speed = 235;
 	
 	// Note: You will also need to change this variable in the "variable.less" file.
-	$.navbar_height = 49; 
+	$.navbar_height = 150; 
 
 	/*
 	 * APP DOM REFERENCES

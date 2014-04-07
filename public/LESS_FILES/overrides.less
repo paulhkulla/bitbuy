@@ -1,1 +1,48 @@
-// need to override just one or two small stylistic things and don't want to edit the main .less files?  Add those overrides here
+#left-panel {
+	border-left:1px solid @gray-mid-light;
+	// border-right:1px solid @gray-mid-light;
+}
+
+.minified #left-panel {
+    border-left: 0;
+}
+
+#header > div {
+    display: block;
+    float: none;
+}
+
+#header > *:first-child, aside {}
+
+.smart-style-2 #header {
+    background-color: #FFFFFF;
+}
+
+html {
+    background: none;
+}
+
+.fixed-header #header {
+    box-shadow: none;
+    border-bottom: 10px solid #EEEEEE;
+}
+
+#header {
+    padding: 0;
+}
+
+#logo-group > span {
+	height: @smart-navbar-height - 60;
+}
+
+#logo {
+	width: 233px;
+	margin-top: 20px;
+	margin-left: 0px;
+}
+
+	#logo img {
+		width:233px;
+		height:auto;
+		padding-left:0px;
+	}

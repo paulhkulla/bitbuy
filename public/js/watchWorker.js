@@ -34,6 +34,7 @@ $(function () {
     socket.on('reload', function () {
         location.reload( true );
     });
+
     socket.on('stylesheet', function (sheet) {
         var
             $link = $( '<link rel="stylesheet" type="text/css" media="screen">' ),
