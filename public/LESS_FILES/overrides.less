@@ -1,3 +1,9 @@
+#content {
+	padding:10px 10px;
+	position:relative;
+	left:0px;
+}
+
 #left-panel {
 	border-left:1px solid @gray-mid-light;
 	// border-right:1px solid @gray-mid-light;
@@ -33,6 +39,49 @@
             text-decoration: none;
         }
     }
+
+    &.minified aside nav > ul > li {
+        border: none;
+        padding: 0;
+
+        a i {
+            font-size: 14px !important;
+            line-height: @line-height-base;
+        }
+    }
+
+    aside nav ul {
+        & li.open > a, .active > a {
+            color: #007c9c !important;
+        }
+
+        li a {
+            border-bottom: 1px solid #E6E6E6;
+            border-top: 1px solid #FFFFFF;
+            padding: 9px 11px;
+            line-height: @line-height-base;
+
+            font-size: 14px !important;
+            i {
+                // display: none !important;
+                font-size: 14px !important;
+            }
+
+            &:hover {
+                color: #0092b7 !important;
+            }
+            &:active {
+                color: #007c9c !important;
+            }
+
+        }
+    }
+
+    #left-panel {
+        padding: 0;
+        border-left: 0 none;
+        border: 0;
+    }
 }
 
 #header-small-container {
@@ -63,6 +112,7 @@
 
         & > li {
             border: none;
+            overflow: visible;
 
             &:first-child {
                 padding-left: 0;
@@ -111,3 +161,54 @@ html {
     margin: 0 0 10px;
 }
 
+aside nav ul li a {
+    font-size: 16px !important;
+    text-align: center;
+    height: 38px;
+
+    & .fa.fa-fw {
+        width: auto;
+    }
+}
+
+.minified aside nav ul li a {
+
+    text-align: left;
+
+    padding: 9px 11px !important;
+
+    i {
+        display: block !important;
+    }
+
+    .menu-item-parent {
+        color: inherit !important;
+        padding-right: 12px;
+        border-bottom: 1px solid #BFBFBF;
+        border-top: 1px solid #BFBFBF;
+    }
+}
+
+.minified .minifyme .fa:before {
+	content:"\f105";
+}
+
+.minified .minifyme {
+    margin-top: 5px;
+    height: 28px !important;
+    font-size: 19px !important;
+}
+
+.minifyme {
+    background-color: #99cc00 !important;
+    color: white !important;
+    border-bottom: 1px solid #82ae00 !important;
+
+    &:hover {
+        background-color: #82ae00 !important;
+    }
+}
+
+aside nav ul li.active > a:before {
+	content: "" !important;
+}
