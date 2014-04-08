@@ -422,10 +422,10 @@ border-top: 1px solid #303031;
 }
 
 body.smart-style-2 {
-	background:#032538;
+	background:#fff;
 }
 
-.smart-style-2 .inbox-footer, .smart-style-2 .superbox-show {
+.smart-style-2 #header, .smart-style-2 .inbox-footer, .smart-style-2 .superbox-show {
 	background-image:none;
 	background-color: #2C3742;
 }

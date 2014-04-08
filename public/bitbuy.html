@@ -18,8 +18,8 @@
 		<link rel="stylesheet" type="text/css" media="screen" href="css/font-awesome.min.css">
 
 		<!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
-		<link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-skins.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="css/smartadmin-production.css">
 
 		<link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css">
 
@@ -61,7 +61,38 @@
 
 		<!-- HEADER -->
         <header id="header">
-        <div id="header-small-container" class="container-fluid no-padding">asd</div>
+        <div id="header-small-container" class="container-fluid no-padding">
+            <div class="container no-padding">
+                <nav>
+                    <ul id="header-nav" class="nav list-inline pull-left txt-color-white">
+                        <li><a href="">MIS ON BITCOIN?</a></li>
+                        <li><a href="">KUIDAS OSTA?</a></li>
+                        <li><a href="">KUIDAS MÜÜA?</a></li>
+                        <li><a href="">KKK</a></li>
+                    </ul>
+                </nav>
+                <div class="pull-right txt-color-white">
+                    <!-- multiple lang dropdown : find all flags in the image folder -->
+                    <ul class="header-dropdown-list hidden-xs">
+                        <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img alt="" src="img/flags/ee.png"> <span> EE </span> <i class="fa fa-angle-down"></i> </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li class="active">
+                            <a href="javascript:void(0);"><img alt="" src="img/flags/ee.png"> Eesti</a>
+                            </li>
+                            <li>
+                            <a href="javascript:void(0);"><img alt="" src="img/flags/gb.png"> English</a>
+                            </li>
+                            <li>
+                            <a href="javascript:void(0);"><img alt="" src="img/flags/ru.png"> Русский</a>
+                            </li>
+                        </ul>
+                        </li>
+                    </ul>
+                    <!-- end multiple lang -->
+                </div>
+            </div>
+        </div>
         <div id="header-large-container" class="container no-padding">
             <div id="logo-group">
 
@@ -79,37 +110,6 @@
                     <span> <a href="javascript:void(0);" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
                 </div>
                 <!-- end collapse menu -->
-
-                <!-- logout button -->
-                <div id="logout" class="btn-header transparent pull-right">
-                    <span> <a href="login.html" title="Sign Out"><i class="fa fa-sign-out"></i></a> </span>
-                </div>
-                <!-- end logout button -->
-
-                <!-- search mobile button (this is hidden till mobile view port) -->
-                <div id="search-mobile" class="btn-header transparent pull-right">
-                    <span> <a href="javascript:void(0)" title="Search"><i class="fa fa-search"></i></a> </span>
-                </div>
-                <!-- end search mobile button -->
-
-                <!-- multiple lang dropdown : find all flags in the image folder -->
-                <ul class="header-dropdown-list hidden-xs">
-                    <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <img alt="" src="img/flags/us.png"> <span> US </span> <i class="fa fa-angle-down"></i> </a>
-                    <ul class="dropdown-menu pull-right">
-                        <li class="active">
-                        <a href="javascript:void(0);"><img alt="" src="img/flags/us.png"> US</a>
-                        </li>
-                        <li>
-                        <a href="javascript:void(0);"><img alt="" src="img/flags/es.png"> Spanish</a>
-                        </li>
-                        <li>
-                        <a href="javascript:void(0);"><img alt="" src="img/flags/de.png"> German</a>
-                        </li>
-                    </ul>
-                    </li>
-                </ul>
-                <!-- end multiple lang -->
 
             </div>
             <!-- end pulled right: nav area -->
