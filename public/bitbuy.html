@@ -44,17 +44,6 @@
 				document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
 			}
 		</script>
-		<!-- Modernizr -->
-		<script type="text/javascript" src="js/modernizr.custom.js"></script>
-		
-		<!--HTML5 Video Background JS-->
-		<script type="text/javascript" src="js/jquery.video-background.js"></script>
-		
-		<!-- Create HTML5 Video Background -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-			});		
-		</script>
 
 	</head>
 	<body class="smart-style-2 minified fixed-header fixed-navigation">
@@ -1006,6 +995,11 @@
 		<!-- PAGE RELATED PLUGIN(S) 
 		<script src="..."></script>-->
 
+		<!-- Modernizr -->
+		<script type="text/javascript" src="js/modernizr.custom.js"></script>
+		
+		<!--HTML5 Video Background JS-->
+		<script type="text/javascript" src="js/jquery.video-background.js"></script>
 		
 
 		<script type="text/javascript">
@@ -1016,6 +1010,7 @@
 			
 			pageSetUp();
 			
+            // Create HTML5 Video Background
             $("body").videoBG({
                 autoplay:true,
                 loop:true,

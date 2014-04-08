@@ -236,12 +236,10 @@
 		
 		//Video waiting
 		function videoWaiting(e) {
-			videoPreloader.fadeIn();
 		}
 		
 		//Video playing
 		function videoPlaying(e) {
-			videoPreloader.fadeOut();
 			videoMask.fadeIn(1000);
 		}
 		
