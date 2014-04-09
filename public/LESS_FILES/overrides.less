@@ -221,14 +221,13 @@ nav ul li {
     
 }
     
-.minified.hidden-menu #left-panel {
-    left: 0px !important;
+.minified.hidden-menu {
+    #left-panel {
+        left: -35px;
+    }
 }
 
 .hidden-menu {
-    #main {
-        left: 45px;
-    }
 
     .minifyme {
         display: block;
@@ -240,3 +239,80 @@ nav ul li {
 
 }
 
+.minified #hide-menu {
+    display: initial;
+}
+
+
+/*
+ * GENERAL MOBILE (Applies to all resolutions below 979px)
+ */
+	
+@media (max-width: 991px) {
+}
+
+
+/* MOBILE LAYOUT STARTS HERE */
+
+/*
+ * IPAD HORIZONTAL
+ */
+@media (min-width: 768px) and (max-width: 991px) {
+	/* responsive menu button */
+	#hide-menu > :first-child > a {
+		margin-top:9px;
+		width:40px;
+	}
+	.btn-header a {
+		margin-top:9px !important;
+		width:40px !important;
+	}
+	#hide-menu i {
+		color:#6D6A69;
+		font-size: 100%;
+	}
+	
+	.hidden-menu #hide-menu i {
+		color:@white;
+	}
+	
+	#hide-menu i::before {
+		content:"\f0c9"
+	}
+}
+
+
+/*
+ * OTHER DEVICES
+ */
+
+@media (max-width: 767px) {
+
+    .minified.hidden-menu #main {
+        // margin-left: 35px !important;
+        left: 35px;
+        margin-left: 10px;
+    }
+    .minified #main {
+        margin-left: 0px;
+    }
+	.minified #left-panel {
+		left: -45px !important;
+	}
+    .minified.hidden-menu #left-panel {
+        left: 0px !important;
+    }
+    
+}
+
+/*
+ * ANDROID
+ */
+@media only screen and (min-width: 0px) and (max-width: 679px) {
+}
+
+/*
+ * IPHONE
+ */
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+}
