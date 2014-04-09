@@ -7,6 +7,8 @@
 #left-panel {
 	border-left:1px solid @gray-mid-light;
 	// border-right:1px solid @gray-mid-light;
+    width: 135px;
+    transition: width 0.1s linear, left 0.1s ease-out 0s;
 }
 
 .minified #left-panel {
@@ -58,7 +60,7 @@
         li a {
             border-bottom: 1px solid #E6E6E6;
             border-top: 1px solid #FFFFFF;
-            padding: 9px 11px;
+            padding: 9px 0px;
             line-height: @line-height-base;
 
             font-size: 14px !important;
@@ -175,7 +177,7 @@ aside nav ul li a {
 
     text-align: left;
 
-    padding: 9px 11px !important;
+    padding: 9px 0px !important;
 
     i {
         display: block !important;
@@ -203,6 +205,7 @@ aside nav ul li a {
     background-color: #99cc00 !important;
     color: white !important;
     border-bottom: 1px solid #82ae00 !important;
+    transition: none;
 
     &:hover {
         background-color: #82ae00 !important;
@@ -222,6 +225,18 @@ nav ul li {
     left: 0px !important;
 }
 
-.hidden-menu #main {
-    left: 45px;
+.hidden-menu {
+    #main {
+        left: 45px;
+    }
+
+    .minifyme {
+        display: block;
+    }
+    
+    #left-panel:hover {
+        left: 0px !important;
+    }
+
 }
+

@@ -93,6 +93,8 @@ $(document).ready(function() {
 	// COLLAPSE LEFT NAV
 	$('.minifyme').click(function(e) {
 		$('body').toggleClass("minified");
+		$('.menu-item-parent').hide();
+		$('.menu-item-parent').not('.minified .menu-item-parent').fadeIn();
 		$(this).effect("highlight", {}, 500);
 		e.preventDefault();
 	});
