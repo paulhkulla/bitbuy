@@ -221,29 +221,13 @@ nav ul li {
     
 }
     
-.minified.hidden-menu {
-    #left-panel {
-        left: -35px;
-    }
+#hide-menu {
+    display: none;
 }
 
-.hidden-menu {
-
-    .minifyme {
-        display: block;
-    }
-    
-    #left-panel:hover {
-        left: 0px !important;
-    }
-
+#header-nav-mobile {
+    display: none;
 }
-
-.minified #hide-menu {
-    display: initial;
-}
-
-
 /*
  * GENERAL MOBILE (Applies to all resolutions below 979px)
  */
@@ -258,27 +242,6 @@ nav ul li {
  * IPAD HORIZONTAL
  */
 @media (min-width: 768px) and (max-width: 991px) {
-	/* responsive menu button */
-	#hide-menu > :first-child > a {
-		margin-top:9px;
-		width:40px;
-	}
-	.btn-header a {
-		margin-top:9px !important;
-		width:40px !important;
-	}
-	#hide-menu i {
-		color:#6D6A69;
-		font-size: 100%;
-	}
-	
-	.hidden-menu #hide-menu i {
-		color:@white;
-	}
-	
-	#hide-menu i::before {
-		content:"\f0c9"
-	}
 }
 
 
@@ -287,6 +250,21 @@ nav ul li {
  */
 
 @media (max-width: 767px) {
+
+    #hide-menu {
+        display: block;
+    }
+
+    #header-nav {
+        display: none;
+    }
+
+    #header-nav-mobile {
+        display: block;
+        font-size: 1.5em;
+        padding: 0px !important;
+        padding-left: 8px !important;
+    }
 
     .minified.hidden-menu #main {
         // margin-left: 35px !important;
