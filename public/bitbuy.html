@@ -28,7 +28,7 @@
 		<link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
 
 		<!-- GOOGLE FONT -->
-		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,600,700">
 
 		<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
@@ -103,11 +103,14 @@
         </div>
         <div id="header-large-container" class="container no-padding">
             <div id="logo-group">
-
-                <!-- PLACE YOUR LOGO HERE -->
                 <span id="logo"> <img src="img/logo.svg" alt="bitbuy"> </span>
-                <!-- END LOGO PLACEHOLDER -->
+            </div>
 
+            <div id="price-group" class="pull-left">
+                <div id="price-heading">1 BITCOINI MÜÜGIHIND</div>
+                <div id="euro-and-price">
+                    <span class="euro-theme"><span class="odometer-digit"><span class="odometer-digit-spacer">8</span><span class="odometer-digit-inner"><span class="odometer-ribbon"><span class="odometer-ribbon-inner"><span class="odometer-value">€</span></span></span></span></span></span><span class="odometer">29534</span>
+                </div>
             </div>
 
             <!-- pulled right: nav area -->
@@ -865,6 +868,7 @@
 
 		<!-- PAGE RELATED PLUGIN(S) 
 		<script src="..."></script>-->
+        <script src="js/plugin/odometer/odometer.js"></script>
 
 		<!-- Modernizr -->
 		<script type="text/javascript" src="js/modernizr.custom.js"></script>
@@ -876,9 +880,10 @@
 		<script type="text/javascript">
 		
 		// DO NOT REMOVE : GLOBAL FUNCTIONS!
-		
+
 		$(document).ready(function() {
 			
+
 			pageSetUp();
 			
             // Create HTML5 Video Background
@@ -890,6 +895,17 @@
                 webm:"videos/tallinn.webm",
                 mp4:"videos/tallinn.mp4"
             });
+
+
+            setTimeout(function() {
+                $('.odometer').html(29820);
+            }, 2000);
+            setTimeout(function() {
+                $('.odometer').html(29520);
+            }, 6000);
+            setTimeout(function() {
+                $('.odometer').html(29725);
+            }, 10000);
 		});
 
 		</script>
