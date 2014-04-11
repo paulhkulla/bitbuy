@@ -903,22 +903,45 @@
                 mp4:"videos/tallinn.mp4"
             });
 
+            function getRandomTime() {
+                var min = 1000;
+                var max = 15000;
+                var num;
+                return num = Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            
+            function timeout() {
+                var timer = getRandomTime();
+                setTimeout(function() {
+                    $('.odometer').html(29864);
+                    $('#price-labels').append('<span class="label label-increase animated fadeInUp"><i class="fa fa-caret-up"></i> 3.30</span>');
+                    $('#euro-and-price').removeClass('border-grey').removeClass('border-red').addClass('border-green');
+                    timeout();
+                }, timer);
+            }
 
-            setTimeout(function() {
-                $('.odometer').html(29864);
-                $('#price-labels').append('<span class="label label-increase animated fadeInUp"><i class="fa fa-caret-up"></i> 3.30</span>');
-                $('#euro-and-price').removeClass('border-grey').removeClass('border-red').addClass('border-green');
-            }, 2000);
-            setTimeout(function() {
-                $('.odometer').html(29659);
-                $('#price-labels').append('<span class="label label-decrease animated fadeInDown"><i class="fa fa-caret-down"></i> 2.25</span>');
-                $('#euro-and-price').removeClass('border-green').addClass('border-red');
-            }, 6000);
-            setTimeout(function() {
-                $('.odometer').html(30736);
-                $('#price-labels').append('<span class="label label-increase animated fadeInUp"><i class="fa fa-caret-up"></i> 10.77</span>');
-                $('#euro-and-price').removeClass('border-red').addClass('border-green');
-            }, 10000);
+            function timeout2() {
+                var timer = getRandomTime();
+                setTimeout(function() {
+                    $('.odometer').html(29659);
+                    $('#price-labels').append('<span class="label label-decrease animated fadeInDown"><i class="fa fa-caret-down"></i> 2.25</span>');
+                    $('#euro-and-price').removeClass('border-green').addClass('border-red');
+                    timeout2();
+                }, timer);
+            }
+
+            function timeout3() {
+                var timer = getRandomTime();
+                setTimeout(function() {
+                    $('.odometer').html(30736);
+                    $('#price-labels').append('<span class="label label-increase animated fadeInUp"><i class="fa fa-caret-up"></i> 10.77</span>');
+                    $('#euro-and-price').removeClass('border-red').addClass('border-green');
+                    timeout3();
+                }, timer);
+            }
+            timeout();
+            timeout2();
+            timeout3();
 		});
 
 		</script>
