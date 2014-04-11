@@ -1,0 +1,19 @@
+{ 
+    "type" : "object",
+    "additonalProperties" : false,
+    "properties" : {
+        "_id" : {
+            "type"       : "string",
+            "mingLength" : 25,
+            "maxLength"  : 25
+        },
+        "bitstamp_ask_amount"  : {
+            "type"     : "any",
+            "required" : true
+        },
+        "bitstamp_ask_price_USD"  : {
+            "type"     : "any",
+            "required" : true
+        }
+    }
+}

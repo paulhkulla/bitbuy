@@ -1,5 +1,5 @@
 /*
- * routes.js - module to provide routing
+ * app.js - module to provide routing
  */
 
 /*jslint browser : true, continue : true,
@@ -18,6 +18,7 @@ var
     http      = require('http'),
     express   = require('express'),
     watcher   = require('./lib/watcher'),
+    ticker    = require('./lib/ticker'),
 
     app       = express(),
     server    = http.createServer( app ),

@@ -9,7 +9,11 @@
         "grunt-contrib-watch": "*"
     },
     "dependencies": {
-        "express"   : "*",
-        "socket.io" : "*"
+        "express"       : "*",
+        "socket.io"     : "*",
+        "pusher-client" : "*",
+        "bitstamp"      : "*",
+        "mongodb"       : "*",
+        "JSV"           : "*"
     }
 }
