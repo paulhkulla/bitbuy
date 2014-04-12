@@ -8,11 +8,27 @@
             "maxLength"  : 25
         },
         "bitstamp_ask_amount"  : {
-            "type"     : "any",
+            "type"     : "number",
             "required" : true
         },
         "bitstamp_ask_price_USD"  : {
-            "type"     : "any",
+            "type"     : "number",
+            "required" : true
+        },
+        "bitbuy_ask_price_USD"  : {
+            "type"     : "number",
+            "required" : true
+        },
+        "bitbuy_ask_price_EUR"  : {
+            "type"     : "number",
+            "required" : true
+        },
+        "bitbuy_ask_EUR_rate"  : {
+            "type"     : "number",
+            "required" : true
+        },
+        "bitbuy_ask_fee"  : {
+            "type"     : "number",
             "required" : true
         }
     }

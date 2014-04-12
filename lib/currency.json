@@ -7,27 +7,15 @@
             "mingLength" : 25,
             "maxLength"  : 25
         },
-        "bitstamp_bid_amount"  : {
+        "deposit_amount"  : {
             "type"     : "number",
             "required" : true
         },
-        "bitstamp_bid_price_USD"  : {
+        "eur_sell_rate"  : {
             "type"     : "number",
             "required" : true
         },
-        "bitbuy_bid_price_USD"  : {
-            "type"     : "number",
-            "required" : true
-        },
-        "bitbuy_bid_price_EUR"  : {
-            "type"     : "number",
-            "required" : true
-        },
-        "bitbuy_bid_EUR_rate"  : {
-            "type"     : "number",
-            "required" : true
-        },
-        "bitbuy_bid_fee"  : {
+        "eur_buy_rate"  : {
             "type"     : "number",
             "required" : true
         }
