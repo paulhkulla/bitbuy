@@ -29,6 +29,7 @@ $(function () {
 
     //------------------- BEGIN EVENT LISTENERS ----------------------
 
+    socket.emit('subscribe', 'buyers');
     socket.on('price_change', function ( data ) {
         console.log( data );
     });
