@@ -147,7 +147,7 @@ bitbuy.ticker = (function () {
             label_class, icon_class, border_class,
             span_element,
             long_price        = price * 100,
-            diffFromLastPrice = ( lastPrice - long_price ) / 100;
+            diffFromLastPrice = ( long_price - lastPrice ) / 100;
 
         if ( diffFromLastPrice >= 0 ) {
             label_class  = 'label label-increase animated fast fadeInUp';
