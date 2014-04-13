@@ -22,7 +22,9 @@ var
 
     app       = express(),
     server    = http.createServer( app ),
-    publicDir = __dirname + '/public'
+    publicDir = __dirname + '/public',
+
+    io
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
@@ -35,11 +37,11 @@ app.get( '/', function ( request, response ) {
 //------------------ END SERVER CONFIGURATION --------------------
 
 //--------------------- BEGIN START SERVER -----------------------
-ticker.connect( server );
+io = ticker.connect( server );
 
 watcher( 
     { 
-        io : ticker,
+        io : io,
         publicDir : publicDir
     },
     [

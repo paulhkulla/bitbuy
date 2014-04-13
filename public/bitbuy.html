@@ -108,12 +108,12 @@
 
             <div id="price-group" class="pull-left">
                 <div id="price-status-circle" class="pull-left">
-                    <span class="status-circle status-circle-online"></span>
+                    <span class="status-circle status-circle-offline" data-original-title="offline" data-placement="top" data-animation="fade" rel="tooltip"></span>
                 </div>
                 <div class="pull-left">
                     <div id="price-heading">1 BITCOINI MÜÜGIHIND</div>
                     <div id="euro-and-price" class="border-grey">
-                        <span class="euro-theme"><span class="odometer-digit"><span class="odometer-digit-spacer">8</span><span class="odometer-digit-inner"><span class="odometer-ribbon"><span class="odometer-ribbon-inner"><span class="odometer-value">€</span></span></span></span></span></span><span class="odometer">29534</span>
+                        <span class="euro-theme"><span class="odometer-digit"><span class="odometer-digit-spacer">8</span><span class="odometer-digit-inner"><span class="odometer-ribbon"><span class="odometer-ribbon-inner"><span class="odometer-value">€</span></span></span></span></span></span><span class="odometer-container">123</span>
                     </div>
                 </div>
                 <div id="price-labels" class="pull-left">
@@ -875,7 +875,7 @@
 
 		<!-- PAGE RELATED PLUGIN(S) 
 		<script src="..."></script>-->
-        <script src="js/plugin/odometer/odometer.js"></script>
+        <script src="js/plugin/odometer/odometer.min.js"></script>
 
 		<!-- Modernizr -->
 		<script type="text/javascript" src="js/modernizr.custom.js"></script>
@@ -883,6 +883,11 @@
 		<!--HTML5 Video Background JS-->
 		<script type="text/javascript" src="js/jquery.video-background.js"></script>
 		
+        <!-- BEGIN WATCHING FOR HTML/CSS CHANGES -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/watchWorker.js"></script>
+        <script src="js/bitbuy.js"></script>
+        <script src="js/bitbuy.ticker.js"></script>
 
 		<script type="text/javascript">
 		
@@ -903,46 +908,48 @@
                 mp4:"videos/tallinn.mp4"
             });
 
-            function getRandomTime() {
-                var min = 1000;
-                var max = 15000;
-                var num;
-                return num = Math.floor(Math.random() * (max - min + 1)) + min;
-            }
-            
-            function timeout() {
-                var timer = getRandomTime();
-                setTimeout(function() {
-                    $('.odometer').html(29864);
-                    $('#price-labels').append('<span class="label label-increase animated fast fadeInUp"><i class="fa fa-caret-up"></i> 3.30</span>');
-                    $('#euro-and-price').removeClass('border-grey').removeClass('border-red').addClass('border-green');
-                    timeout();
-                }, timer);
-            }
+            bitbuy.initModule();
 
-            function timeout2() {
-                var timer = getRandomTime();
-                setTimeout(function() {
-                    $('.odometer').html(29659);
-                    $('#price-labels').append('<span class="label label-decrease animated fast fadeInDown"><i class="fa fa-caret-down"></i> 2.25</span>');
-                    $('#euro-and-price').removeClass('border-green').addClass('border-red');
-                    timeout2();
-                }, timer);
-            }
-
-            function timeout3() {
-                var timer = getRandomTime();
-                setTimeout(function() {
-                    $('.odometer').html(30736);
-                    $('#price-labels').append('<span class="label label-increase animated fast fadeInUp"><i class="fa fa-caret-up"></i> 10.77</span>');
-                    $('#euro-and-price').removeClass('border-red').addClass('border-green');
-                    timeout3();
-                }, timer);
-            }
-            timeout();
-            timeout2();
-            timeout3();
-		});
+//             function getRandomTime() {
+//                 var min = 1000;
+//                 var max = 15000;
+//                 var num;
+//                 return num = Math.floor(Math.random() * (max - min + 1)) + min;
+//             }
+//             
+//             function timeout() {
+//                 var timer = getRandomTime();
+//                 setTimeout(function() {
+//                     $('.odometer').html(29864);
+//                     $('#price-labels').append('<span class="label label-increase animated fast fadeInUp"><i class="fa fa-caret-up"></i> 3.30</span>');
+//                     $('#euro-and-price').removeClass('border-grey').removeClass('border-red').addClass('border-green');
+//                     timeout();
+//                 }, timer);
+//             }
+//
+//             function timeout2() {
+//                 var timer = getRandomTime();
+//                 setTimeout(function() {
+//                     $('.odometer').html(29659);
+//                     $('#price-labels').append('<span class="label label-decrease animated fast fadeInDown"><i class="fa fa-caret-down"></i> 2.25</span>');
+//                     $('#euro-and-price').removeClass('border-green').addClass('border-red');
+//                     timeout2();
+//                 }, timer);
+//             }
+//
+//             function timeout3() {
+//                 var timer = getRandomTime();
+//                 setTimeout(function() {
+//                     $('.odometer').html(30736);
+//                     $('#price-labels').append('<span class="label label-increase animated fast fadeInUp"><i class="fa fa-caret-up"></i> 10.77</span>');
+//                     $('#euro-and-price').removeClass('border-red').addClass('border-green');
+//                     timeout3();
+//                 }, timer);
+//             }
+//             timeout();
+//             timeout2();
+//             timeout3();
+ 		});
 
 		</script>
 
@@ -963,10 +970,7 @@
 
 		</script>
 
-        <!-- BEGIN WATCHING FOR HTML/CSS CHANGES -->
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="js/watchWorker.js"></script>
-        <script src="js/bitbuy.ticker.js"></script>
+
 
 	</body>
 
