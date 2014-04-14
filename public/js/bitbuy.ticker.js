@@ -30,7 +30,8 @@ bitbuy.ticker = (function () {
         disconnectedMsg = 'Otseühendus pole saadaval',
         lastPrice,
         changeStatusCircle,
-        doTooltipShow, doTooltipShow2
+        doTooltipShow = true,
+        doTooltipShow2 = true
         ;
     //----------------- END MODULE SCOPE VARIABLES -------------------
 
@@ -45,7 +46,7 @@ bitbuy.ticker = (function () {
         };
     };
     //---------------------- END DOM METHODS -------------------------
-    changeStatusCircle = function ( element, status, tooltip_msg, do_tooltip = false ) {
+    changeStatusCircle = function ( element, status, tooltip_msg, do_tooltip ) {
         element
         .removeClass('status-circle-connected')
         .removeClass('status-circle-connecting')
@@ -74,11 +75,11 @@ bitbuy.ticker = (function () {
         doTooltipShow = true;
     });
     socket.on('connecting', function() {
-        changeStatusCircle( jqueryMap.$status_circle, 'connecting', connectingMsg, doTooltipShow );
+        changeStatusCircle( jqueryMap.$status_circle, 'connecting', connectingMsg, true );
     });
     setInterval(function(){
         if ( !socket.socket.connected ) {
-            socket = io.connect('');
+            socket = io.connect();
             if ( doTooltipShow ) {
                 changeStatusCircle( jqueryMap.$status_circle, 'disconnected', disconnectedMsg, doTooltipShow );
                 doTooltipShow = false;

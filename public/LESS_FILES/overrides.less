@@ -1,3 +1,7 @@
+* {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
 /*
  * BOOTSTRAP TOOLTIP
  */
@@ -66,6 +70,10 @@
     aside nav ul {
         & li.open > a, .active > a {
             color: #007c9c !important;
+        }
+
+        li:first-child a {
+                border-top: none;
         }
 
         li a {
