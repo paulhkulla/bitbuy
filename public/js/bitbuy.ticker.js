@@ -27,8 +27,10 @@ bitbuy.ticker = (function () {
         initModule,
         connectedMsg    = 'Otseühendus',
         connectingMsg   = 'Otseühenduse loomine',
-        disconnectedMsg = 'Otseühenduse pole saadaval',
-        lastPrice
+        disconnectedMsg = 'Otseühendus pole saadaval',
+        lastPrice,
+        changeStatusCircle,
+        doTooltipShow, doTooltipShow2
         ;
     //----------------- END MODULE SCOPE VARIABLES -------------------
 
@@ -43,45 +45,64 @@ bitbuy.ticker = (function () {
         };
     };
     //---------------------- END DOM METHODS -------------------------
-
+    changeStatusCircle = function ( element, status, tooltip_msg, do_tooltip = false ) {
+        element
+        .removeClass('status-circle-connected')
+        .removeClass('status-circle-connecting')
+        .removeClass('status-circle-disconnected')
+        .addClass('status-circle-' + status)
+        .addClass('animated wobble')
+        .attr('data-original-title', tooltip_msg)
+        .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).removeClass('animated wobble');
+        });
+        if ( do_tooltip ) {
+            element
+                .tooltip('show')
+                .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                    $(this).removeClass('animated wobble');
+                });
+            setTimeout(function(){
+                element.tooltip('hide');
+            }, 1500);
+        }
+    };
     //------------------- BEGIN EVENT LISTENERS ----------------------
+
+    socket.on('connect', function() {
+        changeStatusCircle( jqueryMap.$status_circle, 'connected', connectedMsg, true );
+        doTooltipShow = true;
+    });
+    socket.on('connecting', function() {
+        changeStatusCircle( jqueryMap.$status_circle, 'connecting', connectingMsg, doTooltipShow );
+    });
+    setInterval(function(){
+        if ( !socket.socket.connected ) {
+            socket = io.connect('');
+            if ( doTooltipShow ) {
+                changeStatusCircle( jqueryMap.$status_circle, 'disconnected', disconnectedMsg, doTooltipShow );
+                doTooltipShow = false;
+            }
+        }
+    }, 10000);
+
 
     socket.emit('subscribe', 'buyers');
 
     socket.on('connection_status_change', function ( status ) {
 
         if ( status === 'connected' ) {
-            jqueryMap.$status_circle
-            .removeClass('status-circle-offline')
-            .removeClass('status-circle-connecting')
-            .addClass('status-circle-online')
-            .addClass('animated wobble')
-            .attr('data-original-title', connectedMsg)
-            .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                $(this).removeClass('animated wobble');
-            });
+            changeStatusCircle( jqueryMap.$status_circle, 'connected', connectedMsg, true );
+            doTooltipShow = true;
+            doTooltipShow2 = false;
         }
         else if ( status === 'connecting' ) {
-            jqueryMap.$status_circle
-            .removeClass('status-circle-online')
-            .removeClass('status-circle-offline')
-            .addClass('status-circle-connecting')
-            .addClass('animated wobble')
-            .attr('data-original-title', connectingMsg)
-            .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                $(this).removeClass('animated wobble');
-            });
+            changeStatusCircle( jqueryMap.$status_circle, 'connecting', connectingMsg, doTooltipShow2 );
+            doTooltipShow2 = false;
         }
         else {
-            jqueryMap.$status_circle
-            .removeClass('status-circle-online')
-            .removeClass('status-circle-connecting')
-            .addClass('status-circle-offline')
-            .addClass('animated wobble')
-            .attr('data-original-title', disconnectedMsg)
-            .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                $(this).removeClass('animated wobble');
-            });
+            changeStatusCircle( jqueryMap.$status_circle, 'disconnected', disconnectedMsg, doTooltipShow );
+            doTooltipShow = false;
         }
     });
 
@@ -94,51 +115,13 @@ bitbuy.ticker = (function () {
         odometerObject.update( long_price );
 
         if ( data.pusherState === 'connected' ) {
-            jqueryMap.$status_circle
-                .removeClass('status-circle-offline')
-                .removeClass('status-circle-connecting')
-                .addClass('status-circle-online')
-                .addClass('animated wobble')
-                .attr('data-original-title', connectedMsg)
-                .tooltip('show')
-                .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                    $(this).removeClass('animated wobble');
-                });
-            setTimeout(function(){
-                jqueryMap.$status_circle.tooltip('hide');
-            }, 1500);
+            changeStatusCircle( jqueryMap.$status_circle, 'connected', connectedMsg, true );
         }
         else if ( data.pusherState === 'connecting' ) {
-            jqueryMap.$status_circle
-                .removeClass('status-circle-online')
-                .removeClass('status-circle-offline')
-                .addClass('status-circle-connecting')
-                .removeClass('animated wobble')
-                .addClass('animated wobble')
-                .attr('data-original-title', connectingMsg)
-                .tooltip('show')
-                .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                    $(this).removeClass('animated wobble');
-                });
-            setTimeout(function(){
-                jqueryMap.$status_circle.tooltip('hide');
-            }, 1500);
+            changeStatusCircle( jqueryMap.$status_circle, 'connecting', connectingMsg, true );
         }
         else {
-            jqueryMap.$status_circle
-                .removeClass('status-circle-online')
-                .removeClass('status-circle-connecting')
-                .addClass('status-circle-offline')
-                .removeClass('animated wobble')
-                .addClass('animated wobble')
-                .attr('data-original-title', disconnectedMsg)
-                .tooltip('show')
-                .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                    $(this).removeClass('animated wobble');
-                });
-            setTimeout(function(){
-                jqueryMap.$status_circle.tooltip('hide');
-            }, 1500);
+            changeStatusCircle( jqueryMap.$status_circle, 'disconnected', disconnectedMsg, true );
         }
     });
 
