@@ -154,22 +154,20 @@ bitbuy.ticker = (function () {
         span_element = $('<span class="' + label_class + '"><i class="' + icon_class + '"></i> ' + diffFromLastPrice + '</span>');
         jqueryMap.$price_labels_container.append(span_element);
         visibleLabelsCount = visibleLabelsCount + 1;
+        console.log('Visible labels:', visibleLabelsCount);
 
         span_element.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            visibleLabelsCount = visibleLabelsCount - 1;
+            if ( visibleLabelsCount < 1 ) {
+                jqueryMap.$border_container
+                .removeClass('border-red border-green')
+                .addClass('border-grey');
+            }
             $(this)
                 .removeClass('animated fast fadeInUp fadeInDown')
                 .delay(2000)
                 .queue( function() {
-                    $(this)
-                        .addClass('animated fadeOut')
-                        .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                            visibleLabelsCount = visibleLabelsCount - 1;
-                            if ( visibleLabelsCount < 1 ) {
-                                jqueryMap.$border_container
-                                    .removeClass('border-red border-green')
-                                    .addClass('border-grey');
-                            }
-                        });
+                    $(this).addClass('animated fadeOut');
                 });
         });
 
