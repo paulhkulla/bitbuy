@@ -154,7 +154,6 @@ bitbuy.ticker = (function () {
         span_element = $('<span class="' + label_class + '"><i class="' + icon_class + '"></i> ' + diffFromLastPrice + '</span>');
         jqueryMap.$price_labels_container.append(span_element);
         visibleLabelsCount = visibleLabelsCount + 1;
-        console.log('Visible labels:', visibleLabelsCount);
 
         span_element.one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
             visibleLabelsCount = visibleLabelsCount - 1;

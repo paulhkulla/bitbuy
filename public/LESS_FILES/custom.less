@@ -1,11 +1,45 @@
-#user-container {
-    margin-top: 40px;
+// Custom buttons
+.btn-green {
+	background-color: #99cc00;
+	border-color: #84A83E;
 }
+
+.btn-green:hover, 
+.btn-green:focus, 
+.btn-green:active, 
+.btn-green.active, 
+.open .dropdown-toggle.btn-green {
+	background-color: #89AD45;
+	border-color: #78973B;
+}
+
+.btn-blue {
+  .button-variant(#FFFFFF; #33b5e5; darken(#0092b7, 5%));
+}
+.btn-green {
+  .button-variant(#FFFFFF; #99cc00; darken(#99cc00, 5%));
+}
+
+#user-container {
+    a:last-child {
+        margin-top: 4px;
+    }
+}
+
 .icon-user {
     fill: #333333;
     display: inline-block;
     width: 32px;
     height: 32px;
+}
+
+.icon-user-header {
+    margin-top: 35px;
+    margin-right: 10px;
+}
+
+.user-login-buttons {
+    margin-top: 20px;
 }
 
 #euro-and-price.border-green .odometer-digit {
