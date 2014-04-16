@@ -54,10 +54,10 @@
             <div class="container no-padding">
                 <nav>
                     <ul id="header-nav" class="nav list-inline pull-left txt-color-white">
-                        <li><a href="#">MIS ON BITCOIN?</a></li>
-                        <span class="header-nav-separator">|</span><li><a href="#">KUIDAS OSTA?</a></li>
-                        <span class="header-nav-separator">|</span><li><a href="#">KUIDAS MÜÜA?</a></li>
-                        <span class="header-nav-separator">|</span><li><a href="#">KKK</a></li>
+                        <li><a href="#" title="Mis on Bitcoin?">MIS ON BITCOIN?</a></li>
+                        <span class="header-nav-separator">|</span><li><a href="#" title="Kuidas osta?">KUIDAS OSTA?</a></li>
+                        <span class="header-nav-separator">|</span><li><a href="#" title="Kuidas müüa?">KUIDAS MÜÜA?</a></li>
+                        <span class="header-nav-separator">|</span><li><a href="#" title="KKK">KKK</a></li>
                     </ul>
                 </nav>
                     <ul id="header-nav-mobile" class="header-dropdown-list pull-left">
@@ -65,16 +65,16 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-info"></i> <i class="fa fa-caret-down"></i> </a>
                         <ul class="dropdown-menu">
                             <li>
-                            <a href="javascript:void(0);">Mis on Bitcoin?</a>
+                            <a href="javascript:void(0);" title="Mis on Bitcoin?">Mis on Bitcoin?</a>
                             </li>
                             <li>
-                            <a href="javascript:void(0);">Kuidas osta?</a>
+                            <a href="javascript:void(0);" title="Kuidas osta?">Kuidas osta?</a>
                             </li>
                             <li>
-                            <a href="javascript:void(0);">Kuidas müüa?</a>
+                            <a href="javascript:void(0);" title="Kuidas müüa?">Kuidas müüa?</a>
                             </li>
                             <li>
-                            <a href="javascript:void(0);">KKK</a>
+                            <a href="javascript:void(0);" title="KKK">KKK</a>
                             </li>
                         </ul>
                         </li>
@@ -83,22 +83,27 @@
                     <!-- multiple lang dropdown : find all flags in the image folder -->
                     <ul id="header-nav-lang" class="header-dropdown-list">
                         <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">  <span><img alt="" src="img/flags/ee.png"> EE </span> <i class="fa fa-caret-down"></i> </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="Keel">  <span><img alt="" src="img/flags/ee.png"> EE </span> <i class="fa fa-caret-down"></i> </a>
                         <ul class="dropdown-menu pull-right">
                             <li class="active">
-                            <a href="javascript:void(0);"><img alt="" src="img/flags/ee.png"> Eesti</a>
+                            <a href="javascript:void(0);" title="Eesti"><img alt="" src="img/flags/ee.png"> Eesti</a>
                             </li>
                             <li>
-                            <a href="javascript:void(0);"><img alt="" src="img/flags/gb.png"> English</a>
+                            <a href="javascript:void(0);" title="English"><img alt="" src="img/flags/gb.png"> English</a>
                             </li>
                             <li>
-                            <a href="javascript:void(0);"><img alt="" src="img/flags/ru.png"> Русский</a>
+                            <a href="javascript:void(0);" title="Русский"><img alt="" src="img/flags/ru.png"> Русский</a>
                             </li>
                         </ul>
                         </li>
                     </ul>
                     <!-- end multiple lang -->
                 </div>
+                <!-- collapse menu button -->
+                <div id="hide-menu-mobile" class="btn-header pull-right">
+                    <span> <a href="javascript:void(0);" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+                </div>
+                <!-- end collapse menu -->
             </div>
         </div>
         <div id="header-large-container" class="container no-padding">
@@ -137,11 +142,6 @@
                         Registreeru
                     </a>
                 </div>
-                <!-- collapse menu button -->
-                <div id="hide-menu" class="btn-header pull-right">
-                    <span> <a href="javascript:void(0);" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
-                </div>
-                <!-- end collapse menu -->
 
             </div>
             <!-- end pulled right: nav area -->
@@ -220,18 +220,25 @@
             <div class="container no-padding">
                 <nav>
                     <ul id="footer-nav" class="nav list-inline pull-left">
-                        <li><a href="#">MEIST</a></li>
-                        <span class="footer-nav-separator">|</span><li><a href="#">PRIVAATSUS</a></li>
-                        <span class="footer-nav-separator">|</span><li><a href="#">KASUTAJALEPING</a></li>
-                        <span class="footer-nav-separator">|</span><li><a href="#">KONTAKT</a></li>
+                        <li title="Meist"><a href="#">MEIST</a></li>
+                        <span class="footer-nav-separator">|</span><li title="Privaatsus & turvalisus"><a href="#">PRIVAATSUS & TURVALISUS</a></li>
+                        <span class="footer-nav-separator">|</span><li title="Kasutajaleping"><a href="#">KASUTAJALEPING</a></li>
+                        <span class="footer-nav-separator">|</span><li title="Kontakt"><a href="#">KONTAKT</a></li>
+                    </ul>
+                    <ul id="footer-nav-mobile" class="nav list-inline pull-left">
+                        <li title="Meist"><a href="#"><i class="fa fa-suitcase fa-fw"></i></a></li>
+                        <span class="footer-nav-separator">|</span><li title="Privaatsus & turvalisus"><a href="#"><i class="fa fa-shield fa-fw"></i></a></li>
+                        <span class="footer-nav-separator">|</span><li title="Kasutajaleping"><a href="#"><i class="fa fa-gavel fa-fw"></i></a></li>
+                        <span class="footer-nav-separator">|</span><li title="Kontakt"><a href="#"><i class="fa fa-envelope fa-fw"></i></a></li>
+
                     </ul>
                 </nav>
                 <div class="pull-right">
                     <span id="footer-logo-wrapper" class="pull-left">
                         <span id="logo"> <img src="img/logo.svg" alt="bitbuy"></span> &copy; 2014
                     </span>
-                    <a href="javascript:void(0);"><span class="icon_facebook pull-right"></span></a>
-                    <a href="javascript:void(0);"><span class="icon_twitter pull-right"></span></a> 
+                    <a href="javascript:void(0);" title="Facebook"><span class="icon_facebook pull-right"></span></a>
+                    <a href="javascript:void(0);" title="Twitter"><span class="icon_twitter pull-right"></span></a> 
                 </div>
             </div>
         </div>

@@ -187,7 +187,7 @@
 
     #footer-logo-wrapper {
         margin-top: 2px;
-        padding-right: 25px !important;
+        padding-right: 25px;
     }
     #logo {
         width: 91px;
@@ -225,6 +225,15 @@
     .footer-nav-separator {
         font-size: 13px;
     }
+    #footer-nav-mobile {
+        display: none;
+
+        .footer-nav-separator {
+            display: none;
+            font-size: 15px !important;
+        }
+    }
+                    
     nav ul {
         margin-top: 5px;
         margin-left: 0;
@@ -247,6 +256,10 @@
             &:active {
                 color: #0092b7 !important;
                 background: none !important;
+            }
+
+            i {
+                font-size: 22px !important;
             }
         }
 
@@ -370,6 +383,36 @@ nav ul li {
 #header-nav-mobile {
     display: none;
 }
+
+#hide-menu-mobile {
+    display: none;
+    font-size: 1.5em;
+    a {
+        margin-top: 10px !important;
+        color: #FFF !important;
+
+        &:hover, &:focus {
+            color: #33b5e5 !important;
+        }
+        &:active {
+            color: #0092b7 !important;
+        }
+    }
+}
+.hidden-menu {
+    #hide-menu-mobile {
+        a {
+            color: #69737A !important;
+
+            &:hover, &:focus {
+                color: #33b5e5 !important;
+            }
+            &:active {
+                color: #0092b7 !important;
+            }
+        }
+    }
+}
 /*
  * GENERAL MOBILE (Applies to all resolutions below 979px)
  */
@@ -393,12 +436,50 @@ nav ul li {
 
 @media (max-width: 767px) {
 
+    .btn-header > :first-child > a:active {
+        background-color: #EEE !important;
+        color: #0092b7 !important;
+    }
+
+    .hidden-menu #hide-menu-mobile > :first-child > a {
+        background: none;
+        background-color: #EEE;
+    }
+
+	/* responsive menu button */
+	#hide-menu > :first-child > a, .btn-header a {
+		margin-top: 5px !important;
+		width:20px !important;
+		height: 22px !important;
+		line-height: 17px !important;
+	}
+
+    #hide-menu-mobile {
+        display: block;
+        margin-right: 10px;
+    }
     #hide-menu {
         display: block;
     }
 
     #header-nav {
         display: none;
+    }
+
+    #footer-nav {
+        display: none;
+    }
+
+    #footer-nav-mobile {
+        display: block !important;
+    }
+
+    #footer-logo-wrapper {
+        margin-top: 7px !important;
+        padding-right: 12px !important;
+        #logo {
+            display: none;
+        }
     }
 
     #header-nav-mobile {

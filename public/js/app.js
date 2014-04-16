@@ -100,7 +100,7 @@ $(document).ready(function() {
 	});
 
 	// HIDE MENU
-	$('#hide-menu >:first-child > a').click(function(e) {
+	$('#hide-menu-mobile >:first-child > a').click(function(e) {
 		$('body').toggleClass("hidden-menu");
 		e.preventDefault();
 	});
