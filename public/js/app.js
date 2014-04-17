@@ -115,6 +115,14 @@ $(document).ready(function() {
         $("html, body").animate({ scrollTop: 0  }, "slow");
 		e.preventDefault();
 	});
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('.scroll-up i').fadeIn();
+        } else {
+            $('.scroll-up i').fadeOut();
+        }
+    });
 	
 	$('#show-shortcut').click(function(e) {
 		if ($.shortcut_dropdown.is(":visible")) {

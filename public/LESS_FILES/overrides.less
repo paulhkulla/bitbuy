@@ -1,3 +1,46 @@
+h2 small {
+    color: #FFF !important;
+}
+.button-variant(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+      color: @color;
+      background-color: lighten(@background, 8%);
+      border-color: darken(@border, 12%);
+  }
+  &:active,
+  &.active,
+  .open .dropdown-toggle& {
+    background-image: none;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @background;
+          border-color: @border;
+    }
+  }
+
+  .badge {
+    color: @background;
+    background-color: @color;
+  }
+}.scroll-up i {
+    display: none;
+}
+
 #main {
     -moz-transition: all .1s ease-out;
     -ms-transition: all .1s ease-out;
@@ -92,11 +135,11 @@
         color: #FFFFFF;
 
         &:hover, &:focus {
-            color: #33b5e5;
+            color: lighten(#33b5e5, 15%);
             text-decoration: none;
         }
         &:active {
-            color: #0092b7;
+            color: #33b5e5;
             text-decoration: none;
         }
     }
@@ -171,7 +214,7 @@
             color: #FFFFFF !important;
 
             &:hover {
-                color: #33b5e5 !important;
+            color: lighten(#33b5e5, 15%) !important;
             }
 
             &:focus {
@@ -179,7 +222,7 @@
                 background: none !important;
             }
             &:active {
-                color: #0092b7 !important;
+                color: #33b5e5 !important;
                 background: none !important;
             }
         }
@@ -345,8 +388,36 @@ html {
     }
 }
 
+/* default theme */
+.jarviswidget-color-default > header {
+    background: rgba(156, 206, 0, 0.7) !important;
+    color: #FFF;
+}
+
+.jarviswidget-color-default > header > .jarviswidget-ctrls a, .jarviswidget-color-default .nav-tabs li:not(.active) a  {
+    color:#fff !important;
+}
+
+.jarviswidget-color-default .nav-tabs li a:hover {
+    color:#333 !important;
+}
+
+.jarviswidget-color-default > header {
+    border: 0;
+}
+.jarviswidget-color-default > div {
+    color: #FFF;
+    background-color: rgba(41, 69, 87, 0.7) !important;
+    border: 0;
+}
+
 .jarviswidget {
     margin: 0 0 10px;
+}
+.jarviswidget-placeholder {
+    margin: 0 0 10px;
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.25) !important;
 }
 
 aside nav ul li a {
@@ -492,7 +563,7 @@ nav ul li {
         margin-right: 28px;
         margin-left: 0.5em;
         font-size: 20px;
-        margin-top: 13px;
+        margin-top: 12px;
 
         #price-labels {
             margin-top: 24px;
@@ -527,10 +598,6 @@ nav ul li {
         img {
             width: 120px;
         }
-    }
-    #header-small-container {
-    }
-    #header-large-container {
     }
     #header {
         height: 120px;
