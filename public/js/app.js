@@ -101,7 +101,18 @@ $(document).ready(function() {
 
 	// HIDE MENU
 	$('#hide-menu-mobile >:first-child > a').click(function(e) {
+        if ( !$(".hidden-menu")[0] ) {
+            $('html, body').animate({
+                scrollTop: $("#left-panel").offset().top - 40
+            }, "slow");
+        }
 		$('body').toggleClass("hidden-menu");
+		e.preventDefault();
+	});
+
+	// SCROLL UP
+	$('.scroll-up').click(function(e) {
+        $("html, body").animate({ scrollTop: 0  }, "slow");
 		e.preventDefault();
 	});
 	

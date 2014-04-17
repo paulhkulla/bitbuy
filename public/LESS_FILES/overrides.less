@@ -1,3 +1,10 @@
+#main {
+    -moz-transition: all .1s ease-out;
+    -ms-transition: all .1s ease-out;
+    -o-transition: all .1s ease-out;
+    -webkit-transition: all .1s ease-out;
+    transition: all .1s ease-out;
+}
 .well.well-glass {
 	-webkit-box-shadow:none;
 	-moz-box-shadow:none;
@@ -41,7 +48,11 @@
 	border-left:1px solid #EEE;
 	border-right:1px solid #EEE;
     width: 135px;
-    transition: width 0.1s linear, left 0.1s ease-out 0s;
+    -moz-transition: all .1s ease-out;
+    -ms-transition: all .1s ease-out;
+    -o-transition: all .1s ease-out;
+    -webkit-transition: all .1s ease-out;
+    transition: all .1s ease-out;
 }
 
 .minified #left-panel {
@@ -50,6 +61,12 @@
 #header {
     padding: 0;
    -webkit-transform: translateZ(0); 
+
+   -moz-transition: all .1s ease-out;
+   -ms-transition: all .1s ease-out;
+   -o-transition: all .1s ease-out;
+   -webkit-transition: all .1s ease-out;
+   transition: all .1s ease-out;
 
     & > div {
         display: block;
@@ -130,7 +147,18 @@
     }
 }
 
+#header-large-container {
+    padding-top: 40px !important;
+}
+
 #header-small-container {
+    position: fixed !important;
+    top: 0px;
+    width: 100%;
+    border-bottom: 1px solid white;
+    z-index: @left-panel-zindex+2;
+    -webkit-transform: translateZ(0); 
+
     nav ul {
         margin-top: 11px;
         margin-left: 0;
@@ -187,7 +215,7 @@
 
     #footer-logo-wrapper {
         margin-top: 2px;
-        padding-right: 25px;
+        padding-right: 12px;
     }
     #logo {
         width: 91px;
@@ -235,7 +263,7 @@
     }
                     
     nav ul {
-        margin-top: 5px;
+        margin-top: 7px;
         margin-left: 0;
         width: auto;
         line-height: @line-height-base;
@@ -258,8 +286,11 @@
                 background: none !important;
             }
 
+
             i {
-                font-size: 22px !important;
+                font-size: 14px !important;
+                margin: 0px;
+                width: (18em / 14);
             }
         }
 
@@ -384,11 +415,26 @@ nav ul li {
     display: none;
 }
 
+#user-login-mobile {
+    display: none;
+    font-size: 1.5em;
+    a {
+        margin-top: 9px !important;
+        color: #FFF !important;
+
+        &:hover, &:focus {
+            color: #33b5e5 !important;
+        }
+        &:active {
+            color: #0092b7 !important;
+        }
+    }
+}
 #hide-menu-mobile {
     display: none;
     font-size: 1.5em;
     a {
-        margin-top: 10px !important;
+        margin-top: 9px !important;
         color: #FFF !important;
 
         &:hover, &:focus {
@@ -427,6 +473,11 @@ nav ul li {
  * IPAD HORIZONTAL
  */
 @media (min-width: 768px) and (max-width: 991px) {
+
+    #price-group {
+        margin-left: 0.9em;
+    }
+
 }
 
 
@@ -436,6 +487,64 @@ nav ul li {
 
 @media (max-width: 767px) {
 
+    #price-group {
+        float: right !important;
+        margin-right: 28px;
+        margin-left: 0.5em;
+        font-size: 20px;
+        margin-top: 13px;
+
+        #price-labels {
+            margin-top: 24px;
+            margin-left: 2px;
+
+            .label {
+                font-size: 9px;
+                font-weight: 600;
+                width: 34px;
+            }
+        }
+        
+        #price-heading {
+            font-size: 9px;
+        }
+        
+        #price-status-circle {
+            margin-top: 27px;
+            margin-right: 3px;
+
+            .status-circle {
+                height: 8px;
+                width: 8px;
+            }
+        }
+    }
+    #logo {
+        width: 120px;
+        height: 60px !important;
+        margin-top: 23px;
+
+        img {
+            width: 120px;
+        }
+    }
+    #header-small-container {
+    }
+    #header-large-container {
+    }
+    #header {
+        height: 120px;
+        position: relative !important;
+    }
+    #main {
+        margin-top: 0px !important;
+    }
+    #left-panel {
+        top: 0px;
+    }
+    #user-container {
+        display: none;
+    }
     .btn-header > :first-child > a:active {
         background-color: #EEE !important;
         color: #0092b7 !important;
@@ -449,14 +558,18 @@ nav ul li {
 	/* responsive menu button */
 	#hide-menu > :first-child > a, .btn-header a {
 		margin-top: 5px !important;
-		width:20px !important;
+		width:22px !important;
 		height: 22px !important;
 		line-height: 17px !important;
 	}
 
+    #user-login-mobile {
+        display: block;
+        margin-right: 8px;
+    }
     #hide-menu-mobile {
         display: block;
-        margin-right: 10px;
+        margin-left: 10px;
     }
     #hide-menu {
         display: block;
@@ -474,9 +587,12 @@ nav ul li {
         display: block !important;
     }
 
+    #footer nav ul li a i {
+        font-size: 18px !important;
+    }
+
     #footer-logo-wrapper {
         margin-top: 7px !important;
-        padding-right: 12px !important;
         #logo {
             display: none;
         }
@@ -487,7 +603,7 @@ nav ul li {
         font-size: 1.5em;
         line-height: 1em;
         padding: 0px !important;
-        margin-top: 12px !important;
+        margin-top: 10px !important;
         padding-left: 10px !important;
         ul {
             margin: 0px !important;
@@ -505,7 +621,7 @@ nav ul li {
         font-size: 1.5em;
         line-height: 1em;
         padding: 0px !important;
-        margin-top: 12px !important;
+        margin-top: 10px !important;
         img {
             display: none;
         }
