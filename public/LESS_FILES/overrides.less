@@ -1,3 +1,6 @@
+.xAxis, .yAxis {
+    color: #FFF !important;
+}
 .form-control-focus() {
   &:focus {
       background-color: rgba(255, 255, 255, 0.4);
@@ -169,6 +172,22 @@ h2 small {
 /*
  * BOOTSTRAP TOOLTIP
  */
+
+#flotTip {
+    padding: 8px 10px;
+    font-family:@font-family-sans-serif;
+    font-weight:300;
+    font-size: 1.2em;
+    border-radius: 3px;
+    background-color: @tooltip-bg;
+    border: 0;
+    color: @tooltip-color;
+    span {
+        color: #99CC00;
+    }
+    z-index: 2005;
+}
+
 .tooltip-inner {
     padding: 8px 10px;
     font-family:@font-family-sans-serif;

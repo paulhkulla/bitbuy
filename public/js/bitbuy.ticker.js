@@ -45,7 +45,74 @@ bitbuy.ticker = (function () {
             $border_container       : stateMap.$container.find('#euro-and-price')
         };
     };
+
+
+    socket.on('graph_data', function ( data ) {
+
+        /* sales chart */
+
+        var $chrt_border_color = "rgba(255, 255, 255, 0.25)";
+        var $chrt_second = "#99CC00";
+
+        if ($("#saleschart").length) {
+            var d = data;
+
+            for (var i = 0; i < d.length; ++i)
+                d[i][0] += 60 * 60 * 1000;
+
+            var options = {
+                xaxis : {
+                    mode : "time",
+                    // tickLength : 5
+                },
+                yaxis : {
+                    min: 300
+                },
+                series : {
+                    lines : {
+                        show : true,
+                        lineWidth : 1,
+                        fill : true,
+                        fillColor : {
+                            colors : [{
+                                opacity : 0.1
+                            }, {
+                                opacity : 0.6
+                            }]
+                        }
+                    },
+                    //points: { show: true },
+                    shadowSize : 0
+                },
+                selection : {
+                    mode : "x"
+                },
+                grid : {
+                    hoverable : true,
+                    clickable : true,
+
+                    tickColor : $chrt_border_color,
+                    borderWidth : 1,
+                    borderColor : $chrt_border_color,
+                },
+                tooltip : true,
+                tooltipOpts : {
+                    content : "Bitcoini hind <b>%x</b> oli <span>€%y</span>",
+                    dateFormat : "%0d/%0m %H:%M:%S",
+                    defaultTheme : false
+                },
+                colors : [$chrt_second],
+
+            };
+
+            var plot = $.plot($("#saleschart"), [d], options);
+        };
+
+        /* end sales chart */
+    });
+
     //---------------------- END DOM METHODS -------------------------
+
     changeStatusCircle = function ( element, status, tooltip_msg, do_tooltip ) {
         element
         .removeClass('status-circle-connected')
@@ -106,6 +173,7 @@ bitbuy.ticker = (function () {
             doTooltipShow = false;
         }
     });
+
 
     socket.on('initial_price', function ( data ) {
         var long_price = data.lastAskEur * 100;
