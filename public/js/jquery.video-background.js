@@ -91,11 +91,7 @@
 			//HTML5 video
 			createHTML5();
 		} else {
-			//Flash
-			var playerVersion = swfobject.getFlashPlayerVersion();
-			if(playerVersion.major>9) {
-				createFlash();
-			}
+			createHTML5();
 		}		
 		
 		//Create HTML5 video tag
