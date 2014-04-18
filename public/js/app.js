@@ -116,6 +116,21 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
+	$('.btn-next').click(function(e) {
+        $('#myWizard').wizard('next');
+		e.preventDefault();
+	});
+
+	$('.btn-prev').click(function(e) {
+        $('#myWizard').wizard('previous');
+		e.preventDefault();
+	});
+
+	$('.estimated-popover').click(function(e) {
+        $('.estimated-popover').popover('toggle');
+		e.preventDefault();
+	});
+
     $(window).scroll(function () {
         if ($(this).scrollTop() > 50) {
             $('.scroll-up i').fadeIn();
