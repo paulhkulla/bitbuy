@@ -47,26 +47,57 @@ bitbuy.ticker = (function () {
     };
 
 
-    socket.on('graph_data', function ( data ) {
+    socket.on('graph_asks_data', function ( asks_data ) {
 
         /* sales chart */
 
-        var $chrt_border_color = "rgba(255, 255, 255, 0.25)";
-        var $chrt_second = "#99CC00";
+        var 
+            $chrt_border_color = "rgba(255, 255, 255, 0.25)",
+            $chrt_second = "#99CC00",
+            options,
+            current_timestamp = new Date().getTime(),
+            max, min,
+            d = asks_data.d,
+            i,
+            plot,
+            last_24_hours,
+            dataMin = asks_data.min,
+            dataMax = asks_data.max,
+            calcMax = -Infinity,
+            calcMin = +Infinity,
+            min, max
+            ;
 
-        if ($("#saleschart").length) {
-            var d = data;
 
-            for (var i = 0; i < d.length; ++i)
-                d[i][0] += 60 * 60 * 1000;
+        last_24_hours = current_timestamp - ( 24 * 3600 * 1000 );
 
-            var options = {
+        if ($("#bitcoin-price-graph").length) {
+
+            console.log( max, min );
+            for (i = 0; i < d.length; ++i) {
+                if ( d[i][0] > last_24_hours ) {
+                    
+                    if ( d[i][1] > calcMax ) {
+                        calcMax = d[i][1];
+                    }
+                    if ( d[i][1] < calcMin ) {
+                        calcMin = d[i][1];
+                    }
+                }
+            }
+            console.log( max, min );
+            max = calcMax * 1.005;
+            min = calcMin * 0.995;
+
+            options = {
                 xaxis : {
                     mode : "time",
+                    min: last_24_hours
                     // tickLength : 5
                 },
                 yaxis : {
-                    min: 300
+                    min: min,
+                    max: max
                 },
                 series : {
                     lines : {
@@ -105,8 +136,8 @@ bitbuy.ticker = (function () {
 
             };
 
-            var plot = $.plot($("#saleschart"), [d], options);
-        };
+            plot = $.plot($("#bitcoin-price-graph"), [d], options);
+        }
 
         /* end sales chart */
     });
