@@ -204,8 +204,7 @@ h2 small {
 }
 
 #left-panel {
-	border-left:1px solid #EEE;
-	border-right:1px solid #EEE;
+    border: 0;
     width: 135px;
     -moz-transition: all .1s ease-out;
     -ms-transition: all .1s ease-out;
@@ -244,7 +243,7 @@ h2 small {
 
     aside {
         background: none !important;
-        background-color: #FFF !important;
+        background-color: rgba(41, 69, 87, 0.7) !important;
     }
 
     .header-dropdown-list a.dropdown-toggle {
@@ -271,8 +270,11 @@ h2 small {
     }
 
     aside nav ul {
+        li a {
+            color: #FFF !important;
+        }
         & li.open > a, .active > a {
-            color: #007c9c !important;
+            color: #99CC00 !important;
         }
 
         li:first-child a {
@@ -280,7 +282,7 @@ h2 small {
         }
 
         li a {
-            border-bottom: 1px solid #EEE;
+            border-bottom: 0px solid #EEE;
             padding: 9px 0px;
             line-height: @line-height-base;
 
@@ -291,7 +293,8 @@ h2 small {
             }
 
             &:hover {
-                color: #0092b7 !important;
+                background-color: darken(rgba(41, 69, 87, 1), 5%) !important;
+                color: #FFF !important;
             }
             &:active {
                 color: #007c9c !important;
