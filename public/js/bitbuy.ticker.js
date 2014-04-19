@@ -69,6 +69,9 @@ bitbuy.ticker = (function () {
 
         if ( time_span ) {
 
+            if ( time_span === '30min' ) {
+                x_min = current_timestamp - ( 30 * 60 * 1000 );
+            }
             if ( time_span === '1H' ) {
                 x_min = current_timestamp - ( 1 * 3600 * 1000 );
             }
@@ -147,7 +150,7 @@ bitbuy.ticker = (function () {
                 },
                 tooltip : true,
                 tooltipOpts : {
-                    content : "Bitcoini hind <b>%x</b> oli <span>€%y</span>",
+                    content : "Bitcoini hind <b>%x</b> oli <span>%y</span>",
                     dateFormat : "%0d/%0m %H:%M:%S",
                     defaultTheme : false
                 },
@@ -166,8 +169,8 @@ bitbuy.ticker = (function () {
             dataCache = data;
         }
 
-        plotGraph( dataCache, '1H' );
-        timeSpan = '1H';
+        plotGraph( dataCache, '30min' );
+        timeSpan = '30min';
 
         $('#graph-all').click(function(e) {
             plotGraph( dataCache, '' );
@@ -186,6 +189,11 @@ bitbuy.ticker = (function () {
         $('#graph-1h').click(function(e) {
             plotGraph( dataCache, '1H' );
             timeSpan = '1H';
+            e.preventDefault();
+        });
+        $('#graph-30min').click(function(e) {
+            plotGraph( dataCache, '30min' );
+            timeSpan = '30min';
             e.preventDefault();
         });
     });
