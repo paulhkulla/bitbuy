@@ -31,7 +31,8 @@ bitbuy.ticker = (function () {
         lastPrice,
         changeStatusCircle,
         doTooltipShow = true, doTooltipShow2 = true,
-        visibleLabelsCount = 0
+        visibleLabelsCount = 0,
+        plotGraph
         ;
     //----------------- END MODULE SCOPE VARIABLES -------------------
 
@@ -46,37 +47,36 @@ bitbuy.ticker = (function () {
         };
     };
 
-
-    socket.on('graph_asks_data', function ( asks_data ) {
-
-        /* sales chart */
-
+    plotGraph = function ( data, time_span ) {
         var 
             $chrt_border_color = "rgba(255, 255, 255, 0.25)",
             $chrt_second = "#99CC00",
             options,
             current_timestamp = new Date().getTime(),
             max, min,
-            d = asks_data.d,
+            d = data.d,
             i,
             plot,
-            last_24_hours,
-            dataMin = asks_data.min,
-            dataMax = asks_data.max,
+            x_min,
+            dataMin = data.min,
+            dataMax = data.max,
             calcMax = -Infinity,
             calcMin = +Infinity,
-            min, max
+            format_as_euro
             ;
 
+        if ( time_span ) {
 
-        last_24_hours = current_timestamp - ( 24 * 3600 * 1000 );
+            if ( time_span === '24H' ) {
+                x_min = current_timestamp - ( 24 * 3600 * 1000 );
+            }
+            else if ( time_span === 'week' ) {
+                x_min = current_timestamp - ( 7 * 24 * 3600 * 1000 );
+            }
 
-        if ($("#bitcoin-price-graph").length) {
-
-            console.log( max, min );
             for (i = 0; i < d.length; ++i) {
-                if ( d[i][0] > last_24_hours ) {
-                    
+                if ( d[i][0] > x_min ) {
+
                     if ( d[i][1] > calcMax ) {
                         calcMax = d[i][1];
                     }
@@ -85,19 +85,31 @@ bitbuy.ticker = (function () {
                     }
                 }
             }
-            console.log( max, min );
+
             max = calcMax * 1.005;
             min = calcMin * 0.995;
+        }
+        else {
+            max = dataMax * 1.005;
+            min = dataMin * 0.995;
+        }
+
+        if ($("#bitcoin-price-graph").length) {
+
+            format_as_euro = function ( val ) {
+                return '€' + val;
+            };
 
             options = {
                 xaxis : {
                     mode : "time",
-                    min: last_24_hours
+                    min: x_min
                     // tickLength : 5
                 },
                 yaxis : {
                     min: min,
-                    max: max
+                    max: max,
+                    tickFormatter: format_as_euro
                 },
                 series : {
                     lines : {
@@ -139,7 +151,23 @@ bitbuy.ticker = (function () {
             plot = $.plot($("#bitcoin-price-graph"), [d], options);
         }
 
-        /* end sales chart */
+    };
+
+    socket.on('graph_asks_data', function ( asks_data )  {
+        plotGraph( asks_data, '' );
+
+        $('#graph-all').click(function(e) {
+            plotGraph( asks_data, '' );
+            e.preventDefault();
+        });
+        $('#graph-week').click(function(e) {
+            plotGraph( asks_data, 'week' );
+            e.preventDefault();
+        });
+        $('#graph-24h').click(function(e) {
+            plotGraph( asks_data, '24H' );
+            e.preventDefault();
+        });
     });
 
     //---------------------- END DOM METHODS -------------------------
