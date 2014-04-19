@@ -32,7 +32,9 @@ bitbuy.ticker = (function () {
         changeStatusCircle,
         doTooltipShow = true, doTooltipShow2 = true,
         visibleLabelsCount = 0,
-        plotGraph
+        plotGraph,
+        dataCache = [],
+        timeSpan
         ;
     //----------------- END MODULE SCOPE VARIABLES -------------------
 
@@ -67,6 +69,9 @@ bitbuy.ticker = (function () {
 
         if ( time_span ) {
 
+            if ( time_span === '1H' ) {
+                x_min = current_timestamp - ( 1 * 3600 * 1000 );
+            }
             if ( time_span === '24H' ) {
                 x_min = current_timestamp - ( 24 * 3600 * 1000 );
             }
@@ -88,6 +93,7 @@ bitbuy.ticker = (function () {
 
             max = calcMax * 1.005;
             min = calcMin * 0.995;
+
         }
         else {
             max = dataMax * 1.005;
@@ -103,8 +109,9 @@ bitbuy.ticker = (function () {
             options = {
                 xaxis : {
                     mode : "time",
-                    min: x_min
-                    // tickLength : 5
+                    timezone: "browser",
+                    min: x_min,
+                    tickLength : 5
                 },
                 yaxis : {
                     min: min,
@@ -118,9 +125,9 @@ bitbuy.ticker = (function () {
                         fill : true,
                         fillColor : {
                             colors : [{
-                                opacity : 0.1
+                                opacity : 0
                             }, {
-                                opacity : 0.6
+                                opacity : 0.5
                             }]
                         }
                     },
@@ -135,7 +142,7 @@ bitbuy.ticker = (function () {
                     clickable : true,
 
                     tickColor : $chrt_border_color,
-                    borderWidth : 1,
+                    borderWidth : 0,
                     borderColor : $chrt_border_color,
                 },
                 tooltip : true,
@@ -153,21 +160,44 @@ bitbuy.ticker = (function () {
 
     };
 
-    socket.on('graph_asks_data', function ( asks_data )  {
-        plotGraph( asks_data, '' );
+    socket.on('graph_initial_data', function ( data )  {
+
+        if ( dataCache.length < 1 ) {
+            dataCache = data;
+        }
+
+        plotGraph( dataCache, '1H' );
+        timeSpan = '1H';
 
         $('#graph-all').click(function(e) {
-            plotGraph( asks_data, '' );
+            plotGraph( dataCache, '' );
             e.preventDefault();
         });
         $('#graph-week').click(function(e) {
-            plotGraph( asks_data, 'week' );
+            plotGraph( dataCache, 'week' );
+            timeSpan = 'week';
             e.preventDefault();
         });
         $('#graph-24h').click(function(e) {
-            plotGraph( asks_data, '24H' );
+            plotGraph( dataCache, '24H' );
+            timeSpan = '24H';
             e.preventDefault();
         });
+        $('#graph-1h').click(function(e) {
+            plotGraph( dataCache, '1H' );
+            timeSpan = '1H';
+            e.preventDefault();
+        });
+    });
+
+    socket.on('graph_update', function ( data )  {
+
+        dataCache.d.push( data.d );
+        dataCache.max = data.max;
+        dataCache.min = data.min;
+
+        plotGraph( dataCache, timeSpan );
+
     });
 
     //---------------------- END DOM METHODS -------------------------
