@@ -174,6 +174,7 @@ bitbuy.ticker = (function () {
 
         $('#graph-all').click(function(e) {
             plotGraph( dataCache, '' );
+            timeSpan = '';
             e.preventDefault();
         });
         $('#graph-week').click(function(e) {

@@ -274,7 +274,8 @@ h2 small {
             color: #FFF !important;
         }
         & li.open > a, .active > a {
-            color: #99CC00 !important;
+            background: none repeat scroll 0 0 rgba(156, 206, 0, 0.7) !important;
+            color: #FFF !important;
         }
 
         li:first-child a {
@@ -297,7 +298,7 @@ h2 small {
                 color: #FFF !important;
             }
             &:active {
-                color: #007c9c !important;
+                background-color: rgba(41, 69, 87, 1) !important;
             }
 
         }
@@ -602,11 +603,11 @@ aside nav ul li a {
     }
 
     .menu-item-parent {
-        background-color: #FFF;
+        background-color: darken(rgba(41, 69, 87, 1), 5%) !important;
         color: inherit !important;
         padding-right: 12px;
-        border-bottom: 1px solid #BFBFBF;
-        border-top: 1px solid #BFBFBF;
+        border: none;
+        top: 0px;
     }
 }
 
@@ -719,6 +720,16 @@ nav ul li {
 
 @media (max-width: 767px) {
 
+    .jarviswidget-loader {
+        float: none;
+        margin-left: 8px;
+    }
+    .widget-toolbar {
+        background: none repeat scroll 0 0 rgba(156, 206, 0, 0.7) !important;
+        box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.05) inset;
+        border-left: 0;
+        width: 100%;
+    }
     #content {
         padding-bottom: 10px;
     }
@@ -773,6 +784,7 @@ nav ul li {
     }
     #left-panel {
         top: 0px;
+        border-right: 1px solid #99CC00 !important;
     }
     #user-container {
         display: none;
