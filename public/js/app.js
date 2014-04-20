@@ -168,15 +168,15 @@ $(document).ready(function() {
 			// console.log("Ajax call for activity")
 		}
 
-		if (!$this.next('.ajax-dropdown').is(':visible')) {
-			$this.next('.ajax-dropdown').fadeIn(150);
+		if (!$this.next('.login-dropdown').is(':visible')) {
+			$this.next('.login-dropdown').fadeIn(150);
 			$this.addClass('active');
 		} else {
-			$this.next('.ajax-dropdown').fadeOut(150);
+			$this.next('.login-dropdown').fadeOut(150);
 			$this.removeClass('active')
 		}
 
-		var mytest = $this.next('.ajax-dropdown').find('.btn-group > .active > input').attr('id');
+		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');
 		//console.log(mytest)
 
 		e.preventDefault();
@@ -194,10 +194,10 @@ $(document).ready(function() {
 	});
 
 	$(document).mouseup(function(e) {
-		if (!$('.ajax-dropdown').is(e.target)// if the target of the click isn't the container...
-		&& $('.ajax-dropdown').has(e.target).length === 0) {
-			$('.ajax-dropdown').fadeOut(150);
-			$('.ajax-dropdown').prev().removeClass("active")
+		if (!$('.login-dropdown').is(e.target)// if the target of the click isn't the container...
+		&& $('.login-dropdown').has(e.target).length === 0) {
+			$('.login-dropdown').fadeOut(150);
+			$('.login-dropdown').prev().removeClass("active")
 		}
 	});
 

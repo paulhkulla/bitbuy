@@ -132,15 +132,90 @@
 
             <!-- pulled right: nav area -->
             <div id="user-container" class="pull-right">
-                <svg class="icon icon-user icon-user-header pull-left" viewBox="0 0 32 32"><use xlink:href="img/sprites.svg#icon-user"></use></svg>
+                <span class="icon-user-header relative pull-left">
+                    <span id="activity" class="activity-dropdown">
+                        <svg class="icon icon-user" viewBox="0 0 32 32"><use xlink:href="img/sprites.svg#icon-user"></use></svg>
+                    </span>
+                    
+                    <!-- LOGIN-DROPDOWN : control this dropdown height, look and feel from the LESS variable file -->
+                    <div class="login-dropdown">
+                    
+                        <div data-toggle="buttons" class="btn-group btn-group-justified">
+                            <a href="#login-tab" class="btn btn-success active" data-toggle="tab">
+                                <input type="radio">
+                                <i class="fa fa-sign-in"></i> </a>
+                            <a href="#register-tab" class="btn btn-success" data-toggle="tab">
+                                <input type="radio">
+                            <i class="fa fa-pencil"></i> </a>
+                            <a href="#forgot-tab" class="btn btn-success" data-toggle="tab">
+                                <input type="radio">
+                            <i class="fa fa-question-circle"></i> </a>
+                        </div>
+                    
+                        <!-- notification content -->
+                        <div class="login-dropdown-content custom-scroll tab-content">
+                    
+                            <div id="login-tab" class="alert alert-transparent tab-pane fade in active">
+                                <h4>Logi sisse</h4>
+                                <form class="smart-form" id="login-form" action="index.html" novalidate="novalidate">
+
+                                        <fieldset>
+                                            <section>
+                                            <label class="label">E-mail</label>
+                                            <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                                                <input type="email" name="email">
+                                                <b class="tooltip tooltip-top-right"><i class="fa fa-envelope"></i> Palun sisestage enda e-mail</b></label>
+                                            </section>
+                                            
+                                            <section>
+                                            <label class="label">Parool</label>
+                                            <label class="input"> <i class="icon-append fa fa-key"></i>
+                                                <input type="password" name="password">
+                                                <b class="tooltip tooltip-top-right"><i class="fa fa-key"></i> Palun sisestage enda parool</b> </label>
+                                            <div class="note">
+                                                Ärge kunagi sisestage enda parooli seadmesse, mida te täielikult ei usalda. Ärge logige enda kasutajasse jagatud või avalikust arvutist.<br>
+                                            </div>
+                                            </section>
+                                        </fieldset>
+
+                                    <footer>
+                                    <button class="btn btn-labeled btn-success" type="submit">
+                                        <span class="btn-label">
+                                            <i class="fa fa-sign-in"></i>
+                                        </span>
+                                        Logi sisse
+                                    </button>
+                                    </footer>
+                                </form>
+
+                            </div>
+                            <div id="register-tab" class="alert alert-transparent tab-pane fade">
+                                <h4>Registreeru</h4>
+                                This blank page message helps protect your privacy, or you can show the first message here automatically.
+                                This blank page message helps protect your privacy, or you can show the first message here automatically.
+                                This blank page message helps protect your privacy, or you can show the first message here automatically.
+                                This blank page message helps protect your privacy, or you can show the first message here automatically.
+                            </div>
+                            <div id="forgot-tab" class="alert alert-transparent tab-pane fade">
+                                <h4>Unustasid salasõna?</h4>
+                                This blank page message helps protect your privacy, or you can show the first message here automatically.
+                                This blank page message helps protect your privacy, or you can show the first message here automatically.
+                            </div>
+                    
+                        </div>
+                        <!-- end notification content -->
+                    
+                    
+                    </div>
+                    <!-- END AJAX-DROPDOWN --></span>
                 <div class="user-login-buttons pull-right">
-                    <a class="btn btn-labeled btn-blue" href="javascript:void(0);">
+                    <a class="btn btn-labeled btn-blue" href="#login-tab" data-toggle="tab">
                         <span class="btn-label">
                             <i class="fa fa-sign-in"></i>
                         </span>
                         Logi sisse
                     </a><br />
-                    <a class="btn btn-labeled btn-blue" href="javascript:void(0);">
+                    <a class="btn btn-labeled btn-blue" href="#register-tab" data-toggle="tab">
                         <span class="btn-label">
                             <i class="fa fa-pencil"></i>
                         </span>

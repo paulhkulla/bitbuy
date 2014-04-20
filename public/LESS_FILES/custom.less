@@ -1,3 +1,123 @@
+.relative {
+    position: relative;
+}
+/*
+ * Login DROPDOWN
+ */
+.active + .login-dropdown {
+	-webkit-animation-name: flipInY;
+	-moz-animation-name: flipInY;
+	-o-animation-name: flipInY;
+	animation-name: flipInY;
+	-webkit-animation-duration: .7s;
+	-moz-animation-duration: .7s;
+	-o-animation-duration: .7s;
+	animation-duration: .7s;
+	-webkit-animation-fill-mode: both;
+	-moz-animation-fill-mode: both;
+	-o-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+.login-dropdown >:first-child {
+	margin:0 0 3px 0;
+	padding:0 0 9px 0;
+}
+
+.login-dropdown {
+	position: absolute;
+	display: none;
+	z-index: @ajax-dropdown-zindex;
+    background: rgba(41, 69, 87, 0.9) !important;
+	top: 45px;
+	width: 344px;
+	left: -1 * (344px/2 - 32/2); 
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	-webkit-box-shadow: 0 2px 4px rgba(30, 30, 100, 0.25);
+	-moz-box-shadow: 0 2px 4px rgba(30,30,100,0.25);
+	box-shadow: 0 2px 4px rgba(30, 30, 100, 0.25);
+	padding:10px;
+	background: @white;
+	padding-bottom: 0px;
+}
+
+.login-dropdown:after, .login-dropdown:before {
+	bottom: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.login-dropdown:after {
+	border-color: rgba(red(@white), green(@white), blue(@white), 0);
+	border-bottom-color: rgba(41, 69, 87, 0.9);
+	border-width: @ajaxdropdown-arrow-size;
+	left: 50%;
+	margin-left: -@ajaxdropdown-arrow-size;
+}
+
+.login-dropdown .btn-group .btn {
+	font-weight:bold;
+	text-transform:capitalize;
+}
+
+.login-dropdown .btn-group >:nth-child(2) {
+	border-right-width:0px;
+	border-left-width:0px;
+}	
+
+.login-dropdown .btn-group .btn:active {
+	top:0px;
+	left:0px;
+}
+
+.login-dropdown-content {
+	display:block;
+	overflow: auto;
+	margin-right: -10px;
+	margin-left: -10px;
+	background: #EEE;
+}
+
+.login-dropdown-content > .alert.alert-transparent {
+	background-color: transparent;
+	border-color: transparent;
+	color: #757575;
+	margin:13px 10px;
+}
+
+.login-dropdown-content > .alert>:first-child {
+	margin-bottom:10px;
+	font-weight:400;
+}
+
+.login-dropdown >:last-child {
+	font-size:13px;
+	display: block;
+	padding: 5px 0;
+	line-height: 22px;
+	font-weight: 400;
+	color: #FFF;
+}
+
+.login-dropdown .fa-4x.fa-border {
+	border-width:3px;
+	border-radius:50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	display:block;
+	margin:0 auto;
+	width:46px;
+	text-align:center;
+	color: #D1D1D1;
+	border-color:#D1D1D1;
+}
+// Finish login dropdown
+
 .estimated-popover {
     cursor: pointer;
 }
@@ -12,12 +132,15 @@
 }
 
 #user-container {
+    position: relative;
+
     a:last-child {
         margin-top: 4px;
     }
 }
 
 .icon-user {
+    cursor: pointer;
     fill: #333333;
     display: inline-block;
     width: 32px;
@@ -25,6 +148,9 @@
 }
 
 .icon-user-header {
+    height: 32px;
+    width: 32px;
+    display: inline-block;
     margin-top: 35px;
     margin-right: 10px;
 }
