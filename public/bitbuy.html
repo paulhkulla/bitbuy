@@ -30,20 +30,6 @@
 		<!-- GOOGLE FONT -->
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,600,700">
 
-		<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-		<script>
-			if (!window.jQuery) {
-				document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
-			}
-		</script>
-
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-		<script>
-			if (!window.jQuery.ui) {
-				document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
-			}
-		</script>
 
 	</head>
 	<body class="smart-style-2 fixed-header fixed-navigation">
@@ -155,8 +141,10 @@
                         <!-- notification content -->
                         <div class="login-dropdown-content custom-scroll tab-content">
                     
-                            <div id="login-tab" class="alert alert-transparent tab-pane fade in active">
-                                <h4>Logi sisse</h4>
+                            <div id="login-tab" class="tab-pane fade in active">
+                                <header>
+                                    <h4>Logi sisse</h4>
+                                </header>
                                 <form class="smart-form" id="login-form" action="index.html" novalidate="novalidate">
 
                                         <fieldset>
@@ -189,17 +177,93 @@
                                 </form>
 
                             </div>
-                            <div id="register-tab" class="alert alert-transparent tab-pane fade">
-                                <h4>Registreeru</h4>
-                                This blank page message helps protect your privacy, or you can show the first message here automatically.
-                                This blank page message helps protect your privacy, or you can show the first message here automatically.
-                                This blank page message helps protect your privacy, or you can show the first message here automatically.
-                                This blank page message helps protect your privacy, or you can show the first message here automatically.
+                            <div id="register-tab" class="tab-pane fade">
+
+                                <header>
+                                    <h4>Registreeru</h4>
+                                </header>
+
+                                <form class="smart-form client-form" id="smart-form-register" action="php/demo-register.php" novalidate="novalidate">
+
+                                    <fieldset>
+
+                                        <section>
+                                        <label class="input"> <i class="icon-append fa fa-envelope"></i>
+                                            <input type="email" placeholder="E-mail" name="email">
+                                            <b class="tooltip tooltip-bottom-right">Kasutatakse kinnitusteks ja autentimiseks</b> </label>
+                                        </section>
+
+                                        <section>
+                                        <label class="input"> <i class="icon-append fa fa-key"></i>
+                                            <input type="password" id="password" placeholder="Parool" name="password">
+                                            <b class="tooltip tooltip-bottom-right">Valige turvaline parool</b> </label>
+                                        </section>
+
+                                        <section>
+                                        <label class="input"> <i class="icon-append fa fa-key"></i>
+                                            <input type="password" placeholder="Kinnitage parool" name="passwordConfirm">
+                                            <b class="tooltip tooltip-bottom-right">Sisestage parool uuesti</b> </label>
+                                        </section>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <div class="row">
+                                            <section class="col col-6">
+                                            <label class="input">
+                                                <input type="text" placeholder="Eesnimi" name="firstname">
+                                            </label>
+                                            </section>
+                                            <section class="col col-6">
+                                            <label class="input">
+                                                <input type="text" placeholder="Perekonnanimi" name="lastname">
+                                            </label>
+                                            </section>
+                                        </div>
+
+                                        <div class="row">
+                                            <section class="col col-6">
+                                            <label class="select">
+                                                <select name="gender">
+                                                    <option disabled="" selected="" value="0">Gender</option>
+                                                    <option value="1">Male</option>
+                                                    <option value="2">Female</option>
+                                                    <option value="3">Prefer not to answer</option>
+                                            </select> <i></i> </label>
+                                            </section>
+                                            <section class="col col-6">
+                                            <label class="input"> <i class="icon-append fa fa-calendar"></i>
+                                                <input type="text" data-dateformat="dd/mm/yy" class="datepicker hasDatepicker" placeholder="Request activation on" name="request" id="dp1398011063542">
+                                            </label>
+                                            </section>
+                                        </div>
+
+                                        <section>
+                                        <label class="checkbox">
+                                            <input type="checkbox" id="terms" name="terms">
+                                            <i></i>I agree with the <a data-target="#myModal" data-toggle="modal" href="#"> Terms and Conditions </a></label>
+                                        </section>
+                                    </fieldset>
+                                    <footer>
+                                    <button class="btn btn-labeled btn-success" type="submit">
+                                        <span class="btn-label">
+                                            <i class="fa fa-pencil"></i>
+                                        </span>
+                                        Registreeru
+                                    </button>
+                                    </footer>
+
+                                    <div class="message">
+                                        <i class="fa fa-check"></i>
+                                        <p>
+                                        Thank you for your registration!
+                                        </p>
+                                    </div>
+                                </form>
+                                
+
                             </div>
                             <div id="forgot-tab" class="alert alert-transparent tab-pane fade">
                                 <h4>Unustasid salasõna?</h4>
-                                This blank page message helps protect your privacy, or you can show the first message here automatically.
-                                This blank page message helps protect your privacy, or you can show the first message here automatically.
                             </div>
                     
                         </div>
@@ -484,8 +548,8 @@
                 </div><!-- end row -->
                 </section>
 
-                <!-- <div class="well well&#45;sm well&#45;clean well&#45;glass"> -->
-                <!--     <header class="clearfix"><h1>How to Buy Bitcoins?</h1></header><p>First thing you need to do is transfer some money into your Bitbuy account. In order to do this you must be logged in to your Bitbuy account, go to deposit section and select preferred method of transferring funds. You will be given a unique 11 digit reference code and our account information where your funds must go. Once we receive your deposit we will credit your account and then you can start purchasing bitcoins right away. Buying bitcoins is easy. You must go to trade section and place instant buy order which will automatically buy bitcoins at lowest price offered on the market. You can also place limit order, where you will need to set price on which you are willing to buy bitcoins.</p><h2>Buying bitcoins is easy</h2><ul><li><a href="#">Create an account</a></li><li>Make a deposit via SEPA, wire transfer or some other deposit method</li><li>Once your funds arrive, go to buy/sell page and click buy bitcoins</li></ul><p>Once you have successfully purchased bitcoins you can withdraw them to your PC or send them to someone else.</p> -->
+<!--                 <div class="well well&#45;sm well&#45;clean well&#45;glass"> -->
+<!--                     <header class="clearfix"><h1>How to Buy Bitcoins?</h1></header><p>First thing you need to do is transfer some money into your Bitbuy account. In order to do this you must be logged in to your Bitbuy account, go to deposit section and select preferred method of transferring funds. You will be given a unique 11 digit reference code and our account information where your funds must go. Once we receive your deposit we will credit your account and then you can start purchasing bitcoins right away. Buying bitcoins is easy. You must go to trade section and place instant buy order which will automatically buy bitcoins at lowest price offered on the market. You can also place limit order, where you will need to set price on which you are willing to buy bitcoins.</p><h2>Buying bitcoins is easy</h2><ul><li><a href="#">Create an account</a></li><li>Make a deposit via SEPA, wire transfer or some other deposit method</li><li>Once your funds arrive, go to buy/sell page and click buy bitcoins</li></ul><p>Once you have successfully purchased bitcoins you can withdraw them to your PC or send them to someone else.</p> -->
                 <!-- </div> -->
                 <!-- <div class="well well&#45;sm well&#45;clean well&#45;glass"> -->
                 <!--     <header class="clearfix"><h1>How to Sell Bitcoins?</h1></header><p>If you own some bitcoins and would like to sell them and get money, this is what you need to do. First thing is to load your Bitbuy account with bitcoins. To do this you must be logged in to your account, click deposit button and select method bitcoin. You will be given a unique approximately 34 alphanumeric characters long deposit address that will serve you as an address for receiving bitcoins to your account. Once you have your account loaded with bitcoins you will need to go to buy/sell page and place sell order. You can easily do that by placing instant sell order which will automatically sell your bitcoins at highest price offered on the market. You can also place limit order, where you will need to set the price at which you are willing to sell your coins. Once you successfully sold you bitcoins you can now withdraw your funds in USD or EUR currency.</p><h2>Selling bitcoins is easy</h2><ul><li>Create an account</li><li>Go to deposit page, choose bitcoins and send them to the address displayed on the page</li><li>Once your bitcoins arrive, go to buy/sell page and click sell bitcoins</li></ul><p>Once you have successfully sold you bitcoins you can withdraw your funds in USD or EUR currency.</p> -->
@@ -560,6 +624,10 @@
 
 		<!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
 		<script data-pace-options='{ "restartOnRequestAfter": true }' src="js/plugin/pace/pace.min.js"></script>
+
+		<!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+		<script src="js/libs/jquery-2.1.0.min.js"></script>
+		<script src="js/libs/jquery-ui-1.10.4.min.js"></script>
 
 
 		<!-- JS TOUCH : include this plugin for mobile drag / drop touch events
@@ -639,7 +707,6 @@
 			localStorage.clear();
 
 			pageSetUp();
-			
 
             // Create HTML5 Video Background
             $("body").videoBG({

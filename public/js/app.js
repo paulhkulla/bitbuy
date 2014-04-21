@@ -173,7 +173,7 @@ $(document).ready(function() {
 			$this.addClass('active');
 		} else {
 			$this.next('.login-dropdown').fadeOut(150);
-			$this.removeClass('active')
+			$this.removeClass('active');
 		}
 
 		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');

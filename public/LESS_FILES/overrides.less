@@ -1,3 +1,12 @@
+#ui-datepicker-div {
+    z-index: 2000;
+}
+.fixed-header #header {
+	z-index: @left-panel-zindex+4;
+} 
+.smart-form fieldset + fieldset {
+    border-top: none;
+}
 .smart-form .btn {
     padding: 6px 12px;
     float: right;
@@ -373,7 +382,7 @@ h2 small {
     top: 0px;
     width: 100%;
     border-bottom: 1px solid white;
-    z-index: @left-panel-zindex+2;
+    z-index: @left-panel-zindex+5;
     -webkit-transform: translateZ(0); 
 
     nav ul {
@@ -427,7 +436,7 @@ h2 small {
     height: 40px;
     position:fixed;
     width:100%;
-    z-index: @left-panel-zindex+1;
+    z-index: @left-panel-zindex+2;
     bottom:0px;
 
     #footer-logo-wrapper {
@@ -565,19 +574,20 @@ html {
 .jarviswidget header .nav-tabs>li.active>a, .jarviswidget header .nav-tabs>li.active>a:hover, .jarviswidget header .nav-tabs>li.active>a:focus {
     color: #FFF !important;
     background-color: rgba(41, 69, 87, 0.9) !important;
-    box-shadow: 0 -2px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.5);
     border: 0px;
     border-bottom-color: transparent;
     border-top:none;
     cursor: default;
-    margin-top: 2px !important;
+    margin-top: 1px !important;
+    height: 33px;
 }
 .jarviswidget header .nav-tabs>li>a {
     color: #FFF !important;
     border: 0px;
     border-bottom-color: transparent;
     border-top:none;
-    margin-top: 2px !important;
+    margin-top: 1px !important;
     margin-right: 0px;
 }
 
@@ -585,11 +595,12 @@ html {
 .jarviswidget header .nav-tabs>li>a:hover, .jarviswidget header .nav-tabs>li>a:focus {
     color: #FFF !important;
     background-color: rgba(41, 69, 87, 0.5) !important;
-    box-shadow: 0 -2px 0 rgba(41, 69, 87, 0,5);
+    box-shadow: 0 -1px 0 rgba(41, 69, 87, 0,5);
     border: 0px;
     border-bottom-color: transparent;
     border-top:none;
-    margin-top: 2px !important;
+    margin-top: 1px !important;
+    height: 33px;
 }
 
 .widget-footer {
@@ -777,6 +788,9 @@ nav ul li {
 
 @media (max-width: 767px) {
 
+    #header-large-container {
+        height: 110px !important;
+    }
     .jarviswidget-loader {
         float: none;
         margin-left: 8px;
