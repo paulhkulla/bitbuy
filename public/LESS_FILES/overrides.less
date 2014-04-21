@@ -1,6 +1,46 @@
 .fixed-header #header {
 	z-index: @left-panel-zindex+4;
 } 
+.smart-form .checkbox input + i:after {
+    content: '\f00c';
+    color: #82AE00;
+}
+.smart-form .radio input:checked + i, .smart-form .checkbox input:checked + i, .smart-form .toggle input:checked + i {
+    border-color: #82AE00 !important;
+}
+
+.smart-form .checkbox input:checked:hover + i:after {
+    content: '\f00c';
+    color: #82AE00;
+}
+
+.smart-form .checkbox input:checked:disabled:hover + i:after {
+    content: '\f00c';
+    color: #82AE00;
+}
+.smart-form .checkbox {
+    color: #757575;
+}
+.smart-form .row {
+    margin: 0;
+}
+.smart-form .col {
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.smart-form .col-2sbs {
+    width: 49%;
+}
+.smart-form .col-2spacer {
+    width: 2%;
+}
+.smart-form .col-3sbs {
+    width: 32%;
+}
+.smart-form .col-3spacer {
+    width: 2%;
+}
 .smart-form fieldset + fieldset {
     border-top: none;
 }

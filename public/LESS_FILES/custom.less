@@ -4,6 +4,25 @@
 /*
  * Login DROPDOWN
  */
+.birth-year, .birth-month, .birth-day {
+    width: 100%;
+    text-align: center;
+    font-size: 13px !important;
+    font-family: "Open Sans",Arial,Helvetica,Sans-Serif !important;
+    display: block;
+    color: #757575;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #BDBDBD;
+    transition: border-color 0.3s ease 0s;
+
+    &:hover {
+        border-color: #82AE00;
+    }
+    &:focus {
+        border-color: #99CC00;
+    }
+
+}
 .active + .login-dropdown {
 	-webkit-animation-name: flipInY;
 	-moz-animation-name: flipInY;
@@ -20,8 +39,7 @@
 }
 
 .login-dropdown >:first-child {
-	margin:0 0 3px 0;
-	padding:0 0 9px 0;
+	padding:10px;
 }
 
 .login-dropdown-content>div {
@@ -48,7 +66,6 @@
 	-webkit-box-shadow: 0 2px 4px rgba(30, 30, 100, 0.25);
 	-moz-box-shadow: 0 2px 4px rgba(30,30,100,0.25);
 	box-shadow: 0 2px 4px rgba(30, 30, 100, 0.25);
-	padding:10px;
 	background: @white;
 	padding-bottom: 0px;
 }
@@ -89,9 +106,17 @@
 .login-dropdown-content {
 	display:block;
 	overflow: auto;
-	margin-right: -10px;
-	margin-left: -10px;
 	background: #EEE;
+
+    a {
+        color: #757575;
+        text-decoration: underline;
+
+        &:hover, &:focus, &:active {
+            color: #999999;
+            text-decoration: none;
+        }
+    }
 }
 
 .login-dropdown-content > .alert.alert-transparent {

@@ -195,7 +195,7 @@ $(document).ready(function() {
 
 	$(document).mouseup(function(e) {
 		if (!$('.login-dropdown').is(e.target)// if the target of the click isn't the container...
-		&& $('.login-dropdown').has(e.target).length === 0) {
+		&& $('.login-dropdown').has(e.target).length === 0 && !($('#myModal').hasClass('in'))) {
 			$('.login-dropdown').fadeOut(150);
 			$('.login-dropdown').prev().removeClass("active")
 		}
