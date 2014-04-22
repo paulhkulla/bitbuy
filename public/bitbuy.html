@@ -145,21 +145,23 @@
                                 <header>
                                     <h4>Logi sisse</h4>
                                 </header>
-                                <form class="smart-form" id="login-form" action="index.html" novalidate="novalidate">
+                                <form class="smart-form" id="login-form" action="" novalidate="novalidate">
 
                                         <fieldset>
                                             <section>
                                             <label class="label">E-mail</label>
                                             <label class="input"> <i class="icon-append fa fa-envelope"></i>
                                                 <input type="email" name="email">
-                                                <b class="tooltip tooltip-top-right"><i class="fa fa-envelope"></i> Palun sisestage enda e-mail</b></label>
+                                                <b class="tooltip tooltip-top-right"><i class="fa fa-envelope"></i> Palun sisestage enda e-mail</b>
+                                            </label>
                                             </section>
                                             
                                             <section>
                                             <label class="label">Parool</label>
                                             <label class="input"> <i class="icon-append fa fa-key"></i>
                                                 <input type="password" name="password">
-                                                <b class="tooltip tooltip-top-right"><i class="fa fa-key"></i> Palun sisestage enda parool</b> </label>
+                                                <b class="tooltip tooltip-top-right"><i class="fa fa-key"></i> Palun sisestage enda parool</b>
+                                            </label>
                                             <div class="note">
                                                 Ärge kunagi sisestage enda parooli seadmesse, mida te täielikult ei usalda. Ärge logige enda kasutajasse jagatud või avalikust arvutist.
                                             </div>
@@ -183,7 +185,7 @@
                                     <h4>Registreeru</h4>
                                 </header>
 
-                                <form class="smart-form client-form" id="smart-form-register" action="php/demo-register.php" novalidate="novalidate">
+                                <form class="smart-form" id="register-form" action="" novalidate="novalidate">
 
                                     <fieldset>
 
@@ -258,8 +260,34 @@
 
                             </div>
                             <div id="forgot-tab" class="alert alert-transparent tab-pane fade">
-                                <h4>Unustasid salasõna?</h4>
-                            </div>
+                           
+                                <header>
+                                <h4>Unustasid parooli?</h4>
+                                </header>
+                                <form class="smart-form" id="reset-form" action="" novalidate="novalidate">
+
+                                        <fieldset>
+                                            <section>
+                                            <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
+                                                <input type="email" name="email" placeholder="Registreeritud e-mail">
+                                            </label>
+                                                <div class="note">
+                                                    Teile saadetakse link, mis lubab sätestada uue parooli.
+                                                </div>
+                                            </section>
+                                        </fieldset>
+
+                                    <footer>
+                                    <button class="btn btn-labeled btn-success" type="submit">
+                                        <span class="btn-label">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                        Saada link
+                                    </button>
+                                    </footer>
+                                </form>
+
+                             </div>
                     
                         </div>
                         <!-- end notification content -->
