@@ -1,3 +1,15 @@
+.modal {
+    a {
+        color: #757575;
+        text-decoration: underline;
+
+
+        &:hover, &:focus, &:active {
+            color: #999999;
+            text-decoration: none;
+        }
+    }
+}
 .fixed-header #header {
 	z-index: @left-panel-zindex+4;
 } 
@@ -825,6 +837,33 @@ nav ul li {
 
 @media (max-width: 767px) {
 
+    .smart-form .col {
+        float: left;
+    }
+    .icon-user-header {
+        margin-top: 0;
+        margin-right: 0px;
+        width: 0;
+    }
+    .login-dropdown {
+        width: 300px;
+        left: -300px;
+        top: 10px;
+
+        &:after {
+            left: 233px;
+        }
+    }
+    #user-container {
+        position: absolute;
+        right: 10px;
+    }
+    #activity-large {
+        display: none;
+    }
+    .user-login-buttons {
+        display: none;
+    }
     #you-need {
         text-align: left !important;
     }
@@ -902,9 +941,6 @@ nav ul li {
     #left-panel {
         top: 0px;
         border-right: 1px solid #99CC00 !important;
-    }
-    #user-container {
-        display: none;
     }
     .btn-header > :first-child > a:active {
         background-color: #EEE !important;

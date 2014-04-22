@@ -86,7 +86,7 @@
                 </div>
                 <!-- collapse menu button -->
                 <div id="user-login-mobile" class="btn-header pull-right">
-                <a href="#" title="Logi sisse / Registreeru"><svg class="icon icon-user icon-user-header-mobile pull-left" viewBox="0 0 32 32"><use xlink:href="img/sprites.svg#icon-user"></use></svg></a>
+                <a href="#" class="scroll-up activity" title="Logi sisse / Registreeru"><svg class="icon icon-user icon-user-header-mobile pull-left" viewBox="0 0 32 32"><use xlink:href="img/sprites.svg#icon-user"></use></svg></a>
                 </div>
                 <!-- end collapse menu -->
                 <!-- collapse menu button -->
@@ -119,7 +119,7 @@
             <!-- pulled right: nav area -->
             <div id="user-container" class="pull-right">
                 <div class="icon-user-header relative pull-left">
-                    <span id="activity" class="activity-dropdown">
+                    <span id="activity-large" class="activity">
                         <svg class="icon icon-user" viewBox="0 0 32 32"><use xlink:href="img/sprites.svg#icon-user"></use></svg>
                     </span>
                     
@@ -836,14 +836,14 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            Katkesta
+                            <span class="visible-xs"><i class="fa fa-times"></i></span> <span class="hidden-xs">Katkesta</span>
                         </button>
                         <button type="button" class="btn btn-success" id="i-agree">
-                            <i class="fa fa-check"></i> Ma nõustun
+                            <i class="fa fa-check"></i> <span class="hidden-xs">Ma nõustun</span>
                         </button>
 
                         <button type="button" class="btn btn-danger pull-left" id="print">
-                            <i class="fa fa-print"></i> Prindi
+                            <i class="fa fa-print"></i> <span class="hidden-xs">Prindi</span>
                         </button>
                     </div>
                 </div><!-- /.modal-content -->

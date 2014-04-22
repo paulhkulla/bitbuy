@@ -159,8 +159,8 @@ $(document).ready(function() {
 
 	// ACTIVITY
 	// ajax drop
-	$('#activity').click(function(e) {
-		var $this = $(this);
+	$('.activity').click(function(e) {
+		var $this = $('#activity-large');
 
 		if ($this.find('.badge').hasClass('bg-color-red')) {
 			$this.find('.badge').removeClassPrefix('bg-color-');
@@ -212,7 +212,7 @@ $(document).ready(function() {
 	// NOTIFICATION IS PRESENT
 
 	function notification_check() {
-		$this = $('#activity > .badge');
+		$this = $('.activity > .badge');
 
 		if (parseInt($this.text()) > 0) {
 			$this.addClass("bg-color-red bounceIn animated")
