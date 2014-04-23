@@ -99,7 +99,7 @@
         <header id="header">
         <div id="header-large-container" class="container no-padding">
             <div id="logo-group">
-                <span id="logo"> <a href="bitbuy.html"><img src="img/logo.svg" onerror="this.src=img/logo.png" alt="bitbuy"></a> </span>
+                <span id="logo"> <a href="bitbuy.html"><img src="img/logo.svg" alt="bitbuy"></a> </span>
             </div>
 
             <div id="price-group" class="pull-left">
@@ -604,7 +604,7 @@
                 </nav>
                 <div class="pull-right">
                     <span id="footer-logo-wrapper" class="pull-left">
-                        <span id="logo"> <a href="bitbuy.html"><img src="img/logo.svg" onerror="this.src=logo.png" alt="bitbuy"></a></span> &copy; 2014
+                        <span id="logo"> <a href="bitbuy.html"><img src="img/logo.svg" alt="bitbuy"></a></span> &copy; 2014
                     </span>
                     <a href="javascript:void(0);" title="Facebook"><span class="icon_facebook pull-right"></span></a>
                     <a href="javascript:void(0);" title="Twitter"><span class="icon_twitter pull-right"></span></a> 
@@ -939,6 +939,11 @@
 			localStorage.clear();
 
 			pageSetUp();
+
+            if (!Modernizr.svg) {
+                $("img[src$='.svg']")
+                .attr("src", "img/logo.png");
+            }
 
 			// Model i agree button
 			$("#i-agree").click(function(){
