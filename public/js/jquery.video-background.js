@@ -117,7 +117,7 @@
 			}
 			
 			//Preloader
-			videoMask.append(videoPreloader);
+			// videoMask.append(videoPreloader);
 			
 			//Video tag
 			if (!error) {
