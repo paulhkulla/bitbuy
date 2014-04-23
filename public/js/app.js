@@ -133,9 +133,9 @@ $(document).ready(function() {
 
     $(window).scroll(function () {
         if ($(this).scrollTop() > 50) {
-            $('.scroll-up i').fadeIn();
+            $('.scroll-up-footer i').fadeIn();
         } else {
-            $('.scroll-up i').fadeOut();
+            $('.scroll-up-footer i').fadeOut();
         }
     });
 	
