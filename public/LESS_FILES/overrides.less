@@ -1,10 +1,21 @@
+.SmallBox {
+    border: none;
+    border-left: 5px solid rgba(0, 0, 0, 0.15);
+}
+.SmallBox:hover {
+    border: none;
+    border-left: 5px solid rgba(0, 0, 0, 0.15);
+}
+.progress {
+    box-shadow: none;
+}
 .modal {
     a {
         color: #757575;
         text-decoration: underline;
 
 
-        &:hover, &:focus, &:active {
+        &:hover, &:active {
             color: #999999;
             text-decoration: none;
         }
@@ -162,6 +173,7 @@
     background-color: #99CC00;
 }
 .fuelux .wizard ul li {
+  cursor: pointer;
   color: #FFF;
   background: #82ae00;
   font-size: 13px;
@@ -363,11 +375,11 @@ h2 small {
         color: #FFFFFF;
 
         &:hover, &:focus {
-            color: lighten(#33b5e5, 15%);
+            color: lighten(#99CC00, 5%) !important;
             text-decoration: none;
         }
         &:active {
-            color: #33b5e5;
+            color: #EEE;
             text-decoration: none;
         }
     }
@@ -389,6 +401,11 @@ h2 small {
         & li.open > a, .active > a {
             background: none repeat scroll 0 0 rgba(156, 206, 0, 0.7) !important;
             color: #FFF !important;
+
+            &:hover {
+                background: none repeat scroll 0 0 rgba(156, 206, 0, 0.7) !important;
+                color: darken(rgba(41, 69, 87, 1), 5%) !important;
+            }
         }
 
         li:first-child a {
@@ -409,9 +426,6 @@ h2 small {
             &:hover {
                 background-color: darken(rgba(41, 69, 87, 1), 5%) !important;
                 color: #FFF !important;
-            }
-            &:active {
-                background-color: rgba(41, 69, 87, 1) !important;
             }
 
         }
@@ -442,20 +456,24 @@ h2 small {
         line-height: @line-height-base;
         cursor: default;
 
+        li .active {
+            color: lighten(#99CC00, 5%) !important;
+            font-weight: bold;
+        }
+
         li a {
             font-size: 12px !important;
             color: #FFFFFF !important;
 
             &:hover {
-            color: lighten(#33b5e5, 15%) !important;
+                color: lighten(#99CC00, 5%) !important;
             }
 
             &:focus {
-                color: #FFFFFF !important;
                 background: none !important;
             }
             &:active {
-                color: #33b5e5 !important;
+                color: #EEE !important;
                 background: none !important;
             }
         }
@@ -537,6 +555,16 @@ h2 small {
         line-height: @line-height-base;
         cursor: default;
 
+        li .active {
+            font-weight: bold;
+            &:hover {
+                color: #007C9C !important;
+            }
+
+            i {
+                color: #33B5E5; 
+            }
+        }
         li a {
             font-size: 11px !important;
             color: #007c9c !important;
@@ -546,14 +574,12 @@ h2 small {
             }
 
             &:focus {
-                color: #007c9c !important;
                 background: none !important;
             }
             &:active {
                 color: #0092b7 !important;
                 background: none !important;
             }
-
 
             i {
                 font-size: 14px !important;
@@ -712,14 +738,24 @@ aside nav ul li a {
     .menu-item-parent {
         background-color: darken(rgba(41, 69, 87, 1), 5%) !important;
         color: inherit !important;
+        left: 45px !important;
         padding-right: 12px;
+        border: none;
+        top: 0px;
+    }
+}
+.minified aside nav ul .active a {
+
+    .menu-item-parent {
+        background: none repeat scroll 0 0 rgba(156, 206, 0, 0.7) !important;
+                color: darken(rgba(41, 69, 87, 1), 5%) !important;
         border: none;
         top: 0px;
     }
 }
 
 .minified .minifyme .fa:before {
-	content:"\f055";
+	content:"\f065";
 }
 
 .minified .minifyme {
@@ -755,20 +791,35 @@ nav ul li {
     display: none;
 }
 
+#user-logout {
+    cursor: pointer;
+
+    &:hover {
+        color: #33b5e5 !important;
+    }
+    &:active {
+        color: #0092b7 !important;
+    }
+}
+#user-logout-mobile {
+    color: #fff;
+    display: none;
+    font-size: 1.5em;
+    line-height: 1em;
+    margin-top: 10px !important;
+    margin-right: 5px;
+    cursor: pointer;
+
+    &:hover {
+        color: lighten(#99CC00, 5%) !important;
+    }
+    &:active {
+        color: #EEE !important;
+    }
+}
 #user-login-mobile {
     display: none;
     font-size: 1.5em;
-    a {
-        margin-top: 9px !important;
-        color: #FFF !important;
-
-        &:hover, &:focus {
-            color: #33b5e5 !important;
-        }
-        &:active {
-            color: #0092b7 !important;
-        }
-    }
 }
 #hide-menu-mobile {
     display: none;
@@ -778,13 +829,10 @@ nav ul li {
         color: #FFF !important;
 
         &:hover  {
-            color: #33b5e5 !important;
+            color: lighten(#99CC00, 5%) !important;
         }
         &:active {
-            color: #69737A !important;
-        }
-        &:focus {
-            color: #FFF !important;
+            color: #333 !important;
         }
     }
 }
@@ -793,12 +841,6 @@ nav ul li {
         a {
             color: #69737A !important;
 
-            &:hover  {
-                color: #33b5e5 !important;
-            }
-            &:active, &:focus {
-                color: #69737A !important;
-            }
         }
     }
 }
@@ -818,7 +860,34 @@ nav ul li {
 @media (min-width: 768px) and (max-width: 991px) {
 
     #price-group {
-        margin-left: 0.9em;
+        margin-left: 1.5em;
+        font-size: 20px;
+        margin-top: 28px;
+
+        #price-labels {
+            margin-top: 24px;
+            margin-left: 4px;
+
+            .label {
+                font-size: 9px;
+                font-weight: 600;
+                width: 38px;
+            }
+        }
+        
+        #price-heading {
+            font-size: 9px;
+        }
+        
+        #price-status-circle {
+            margin-top: 25px !important;
+            margin-right: 3px;
+
+            .status-circle {
+                height: 8px;
+                width: 8px;
+            }
+        }
     }
 
 }
@@ -830,6 +899,19 @@ nav ul li {
 
 @media (max-width: 767px) {
 
+
+    #header-small-container {
+        .container {
+            padding: 0px 0px !important;
+        }
+    }
+    #mobile-name-balance {
+        display: block;
+    }
+    .user-name-balance.ng-hide-remove {
+        /* remember to add this */
+        display:none!important;
+    }
     .smart-form .col {
         float: left;
     }
@@ -855,6 +937,9 @@ nav ul li {
         display: none;
     }
     .user-login-buttons {
+        display: none;
+    }
+    .user-name-balance {
         display: none;
     }
     #you-need {
@@ -897,7 +982,7 @@ nav ul li {
             .label {
                 font-size: 9px;
                 font-weight: 600;
-                width: 34px;
+                width: 36px;
             }
         }
         
@@ -953,11 +1038,20 @@ nav ul li {
 		line-height: 17px !important;
 	}
 
+    #user-logout-mobile {
+        display: block;
+    }
     #user-login-mobile {
         display: block;
-        margin-right: 18px;
+        margin-right: 5px;
         margin-top: 10px;
         margin-left: 0;
+    }
+    .user-login-margined {
+        margin-right: 28px !important;
+    }
+    .hide-menu-mobile-margined {
+        margin-left: 7px !important;
     }
     #hide-menu-mobile {
         display: block;
@@ -1048,5 +1142,8 @@ nav ul li {
 /*
  * IPHONE
  */
-@media only screen and (min-width: 320px) and (max-width: 479px) {
+@media only screen and (max-width: 479px) {
+    #mobile-name-balance {
+        width: 125px;
+    }
 }

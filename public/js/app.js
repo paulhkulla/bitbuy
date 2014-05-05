@@ -90,14 +90,14 @@ $(document).ready(function() {
 		alert("Error - menu anchor does not exist");
 	}
 
-	// COLLAPSE LEFT NAV
-	$('.minifyme').click(function(e) {
-		$('body').toggleClass("minified");
-		$('.menu-item-parent').hide();
-		$('.menu-item-parent').not('.minified .menu-item-parent').fadeIn();
-		$(this).effect("highlight", {}, 500);
-		e.preventDefault();
-	});
+	// // COLLAPSE LEFT NAV
+	// $('.minifyme').click(function(e) {
+	// 	$('body').toggleClass("minified");
+	// 	$('.menu-item-parent').hide();
+	// 	$('.menu-item-parent').not('.minified .menu-item-parent').fadeIn();
+	// 	$(this).effect("highlight", {}, 500);
+	// 	e.preventDefault();
+	// });
 
 	// HIDE MENU
 	$('#hide-menu-mobile >:first-child > a').click(function(e) {
@@ -159,82 +159,82 @@ $(document).ready(function() {
 
 	// ACTIVITY
 	// ajax drop
-	$('.activity').click(function(e) {
-		var $this = $('#activity-large');
+// 	$('.activity').click(function(e) {
+// 		var $this = $('#activity-large');
+//
+// 		if ($this.find('.badge').hasClass('bg-color-red')) {
+// 			$this.find('.badge').removeClassPrefix('bg-color-');
+// 			$this.find('.badge').text("0");
+// 			// console.log("Ajax call for activity")
+// 		}
+//
+// 		if (!$this.next('.login-dropdown').is(':visible')) {
+// 			$this.next('.login-dropdown').fadeIn(150);
+// 			$this.addClass('active');
+// 		} else {
+// 			$this.next('.login-dropdown').fadeOut(150);
+// 			$this.removeClass('active');
+// 		}
+//
+// 		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');
+// 		//console.log(mytest)
+//
+// 		e.preventDefault();
+// 	});
 
-		if ($this.find('.badge').hasClass('bg-color-red')) {
-			$this.find('.badge').removeClassPrefix('bg-color-');
-			$this.find('.badge').text("0");
-			// console.log("Ajax call for activity")
-		}
-
-		if (!$this.next('.login-dropdown').is(':visible')) {
-			$this.next('.login-dropdown').fadeIn(150);
-			$this.addClass('active');
-		} else {
-			$this.next('.login-dropdown').fadeOut(150);
-			$this.removeClass('active');
-		}
-
-		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');
-		//console.log(mytest)
-
-		e.preventDefault();
-	});
-
-	$('.login-button').click(function(e) {
-		var $this = $('#activity-large');
-
-		if ($this.find('.badge').hasClass('bg-color-red')) {
-			$this.find('.badge').removeClassPrefix('bg-color-');
-			$this.find('.badge').text("0");
-			// console.log("Ajax call for activity")
-		}
-
-		if (!$this.next('.login-dropdown').is(':visible')) {
-			$this.next('.login-dropdown').fadeIn(150);
-			$this.addClass('active');
-			$('.login-dropdown a[href="#login-tab"]').tab('show');
-			$('.login-dropdown a[href="#register-tab"]').removeClass('active');
-			$('.login-dropdown a[href="#forgot-tab"]').removeClass('active');
-			$('.login-dropdown a[href="#login-tab"]').addClass('active');
-		} else {
-			$this.next('.login-dropdown').fadeOut(150);
-			$this.removeClass('active');
-		}
-
-		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');
-		//console.log(mytest)
-
-		e.preventDefault();
-	});
-
-	$('.register-button').click(function(e) {
-		var $this = $('#activity-large');
-
-		if ($this.find('.badge').hasClass('bg-color-red')) {
-			$this.find('.badge').removeClassPrefix('bg-color-');
-			$this.find('.badge').text("0");
-			// console.log("Ajax call for activity")
-		}
-
-		if (!$this.next('.login-dropdown').is(':visible')) {
-			$this.next('.login-dropdown').fadeIn(150);
-			$this.addClass('active');
-			$('.login-dropdown a[href="#register-tab"]').tab('show');
-			$('.login-dropdown a[href="#login-tab"]').removeClass('active');
-			$('.login-dropdown a[href="#forgot-tab"]').removeClass('active');
-			$('.login-dropdown a[href="#register-tab"]').addClass('active');
-		} else {
-			$this.next('.login-dropdown').fadeOut(150);
-			$this.removeClass('active');
-		}
-
-		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');
-		//console.log(mytest)
-
-		e.preventDefault();
-	});
+// 	$('.login-button').click(function(e) {
+// 		var $this = $('#activity-large');
+//
+// 		if ($this.find('.badge').hasClass('bg-color-red')) {
+// 			$this.find('.badge').removeClassPrefix('bg-color-');
+// 			$this.find('.badge').text("0");
+// 			// console.log("Ajax call for activity")
+// 		}
+//
+// 		if (!$this.next('.login-dropdown').is(':visible')) {
+// 			$this.next('.login-dropdown').fadeIn(150);
+// 			$this.addClass('active');
+// 			// $('.login-dropdown a[href="#login-tab"]').tab('show');
+// 			// $('.login-dropdown a[href="#register-tab"]').removeClass('active');
+// 			// $('.login-dropdown a[href="#forgot-tab"]').removeClass('active');
+// 			// $('.login-dropdown a[href="#login-tab"]').addClass('active');
+// 		} else {
+// 			$this.next('.login-dropdown').fadeOut(150);
+// 			$this.removeClass('active');
+// 		}
+//
+// 		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');
+// 		//console.log(mytest)
+//
+// 		e.preventDefault();
+// 	});
+//
+// 	$('.register-button').click(function(e) {
+// 		var $this = $('#activity-large');
+//
+// 		if ($this.find('.badge').hasClass('bg-color-red')) {
+// 			$this.find('.badge').removeClassPrefix('bg-color-');
+// 			$this.find('.badge').text("0");
+// 			// console.log("Ajax call for activity")
+// 		}
+//
+// 		if (!$this.next('.login-dropdown').is(':visible')) {
+// 			$this.next('.login-dropdown').fadeIn(150);
+// 			$this.addClass('active');
+// 			// $('.login-dropdown a[href="#register-tab"]').tab('show');
+// 			// $('.login-dropdown a[href="#login-tab"]').removeClass('active');
+// 			// $('.login-dropdown a[href="#forgot-tab"]').removeClass('active');
+// 			// $('.login-dropdown a[href="#register-tab"]').addClass('active');
+// 		} else {
+// 			$this.next('.login-dropdown').fadeOut(150);
+// 			$this.removeClass('active');
+// 		}
+//
+// 		var mytest = $this.next('.login-dropdown').find('.btn-group > .active > input').attr('id');
+// 		//console.log(mytest)
+//
+// 		e.preventDefault();
+// 	});
 
 	$('input[name="activity"]').change(function() {
 		//alert($(this).val())
@@ -247,14 +247,14 @@ $(document).ready(function() {
 
 	});
 
-	$(document).mouseup(function(e) {
-		if (!$('.login-dropdown').is(e.target)// if the target of the click isn't the container...
-		&& $('.login-dropdown').has(e.target).length === 0 
-		&& !($('#myModal').hasClass('in'))) {
-			$('.login-dropdown').fadeOut(150);
-			$('.login-dropdown').prev().removeClass("active")
-		}
-	});
+	// $(document).mouseup(function(e) {
+	// 	if (!$('.login-dropdown').is(e.target)// if the target of the click isn't the container...
+	// 	&& $('.login-dropdown').has(e.target).length === 0 
+	// 	&& !($('#myModal').hasClass('in'))) {
+	// 		$('.login-dropdown').fadeOut(150);
+	// 		$('.login-dropdown').prev().removeClass("active")
+	// 	}
+	// });
 
 	$('button[data-loading-text]').on('click', function() {
 		var btn = $(this)

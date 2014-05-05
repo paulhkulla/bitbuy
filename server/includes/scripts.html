@@ -1,80 +1,89 @@
 <!-- ANGULAR -->
-<script src="vendor/angular/angular.min.js"></script>
-<script src="vendor/angular-resource/angular-resource.min.js"></script>
-<script src="vendor/angular-route/angular-route.min.js"></script>
-<script src="app/app.js"></script>
+<script src="/vendor/angular/angular.min.js"></script>
+<script src="/vendor/angular-animate/angular-animate.min.js"></script>
+<script src="/vendor/angular-resource/angular-resource.min.js"></script>
+<script src="/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="/app/app.js"></script>
+<script src="/app/main/bbDirectives.js"></script>
+<script src="/app/main/bbMainCtrl.js"></script>
+<script src="/app/main/bbBuyCtrl.js"></script>
+<script src="/app/account/bbLoginDropdown.js"></script>
+<script src="/app/account/bbLoginCtrl.js"></script>
+<script src="/app/account/bbIdentity.js"></script>
+<script src="/app/account/bbAuth.js"></script>
 
 <!-- PACE LOADER -->
-<script data-pace-options='{ "restartOnRequestAfter": true }' src="js/plugin/pace/pace.min.js"></script>
+<script data-pace-options='{ "restartOnRequestAfter": true }' src="/js/plugin/pace/pace.min.js"></script>
 
 <!-- jQuery + jQueryUI -->
-<script src="vendor/jquery/dist/jquery.min.js"></script>
-<script src="vendor/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<script src="/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/vendor/jquery-ui/ui/minified/jquery-ui.min.js"></script>
 
 <!-- JS TOUCH : include this plugin for mobile drag / drop touch events
-<script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> -->
+<script src="/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> -->
 
 <!-- BOOTSTRAP JS -->
-<script src="js/bootstrap/bootstrap.min.js"></script>
+<script src="/js/bootstrap/bootstrap.min.js"></script>
 
 <!-- CUSTOM NOTIFICATION -->
-<script src="js/notification/SmartNotification.min.js"></script>
+<script src="/js/notification/SmartNotification.js"></script>
 
 <!-- JARVIS WIDGETS -->
-<script src="js/smartwidgets/jarvis.widget.min.js"></script>
+<script src="/js/smartwidgets/jarvis.widget.min.js"></script>
 
 <!-- EASY PIE CHARTS -->
-<script src="js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+<script src="/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
 
 <!-- SPARKLINES -->
-<script src="js/plugin/sparkline/jquery.sparkline.min.js"></script>
+<script src="/js/plugin/sparkline/jquery.sparkline.min.js"></script>
 
 <!-- JQUERY VALIDATE -->
-<script src="js/plugin/jquery-validate/jquery.validate.min.js"></script>
+<script src="/js/plugin/jquery-validate/jquery.validate.min.js"></script>
 
 <!-- JQUERY MASKED INPUT -->
-<script src="js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+<script src="/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
 
 <!-- JQUERY SELECT2 INPUT -->
-<script src="js/plugin/select2/select2.min.js"></script>
+<script src="/js/plugin/select2/select2.min.js"></script>
 
 <!-- JQUERY UI + Bootstrap Slider -->
-<script src="js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+<script src="/js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
 
 <!-- browser msie issue fix -->
-<script src="js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+<script src="/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
 
 <!-- FastClick: For mobile devices -->
-<script src="js/plugin/fastclick/fastclick.js"></script>
+<script src="/js/plugin/fastclick/fastclick.js"></script>
 
 <!--[if IE 7]>
     <h1>Teie brauser on aegunud. Palun uuendage, et meie lehte kasutada.</h1>
 <![endif]-->
 
 <!-- MAIN APP JS FILE -->
-<script src="js/app.js"></script>
+<script src="/js/app.js"></script>
 
 <!-- PAGE RELATED PLUGIN(S) -->
-<script src="js/plugin/bdaypicker/bday-picker.js"></script>
-<script src="js/plugin/odometer/odometer.min.js"></script>
-<script src="js/plugin/fuelux/wizard/wizard.js"></script>
-<script src="js/plugin/flot/jquery.flot.js"></script>
-<script src="js/plugin/flot/jquery.flot.resize.js"></script>
-<script src="js/plugin/flot/jquery.flot.time.js"></script>
-<script src="js/plugin/flot/jquery.flot.tooltip.min.js"></script>
+<script src="/js/plugin/bdaypicker/bday-picker.js"></script>
+<script src="/js/plugin/odometer/odometer.min.js"></script>
+<script src="/js/plugin/flot/jquery.flot.js"></script>
+<script src="/js/plugin/flot/jquery.flot.resize.js"></script>
+<script src="/js/plugin/flot/jquery.flot.time.js"></script>
+<script src="/js/plugin/flot/jquery.flot.tooltip.min.js"></script>
 
 <!-- Modernizr -->
-<script type="text/javascript" src="js/modernizr.custom.js"></script>
+<script type="text/javascript" src="/js/modernizr.custom.js"></script>
 
 <!--HTML5 Video Background JS-->
-<script type="text/javascript" src="js/jquery.video-background.js"></script>
+<script type="text/javascript" src="/js/jquery.video-background.js"></script>
 
 <!-- BEGIN WATCHING FOR HTML/CSS CHANGES -->
 <script src="/socket.io/socket.io.js"></script>
-<script src="js/watchWorker.js"></script>
-<script src="js/bitbuy.js"></script>
-<script src="js/bitbuy.ticker.js"></script>
+<script src="/js/bitbuy.js"></script>
+<script src="/js/bitbuy.ticker.js"></script>
 
+{% if process.env.NODE_ENV === 'development' %}
+<script src="/js/watchWorker.js"></script>
+{% endif %}
 
 <script type="text/javascript">
 
@@ -118,8 +127,8 @@
             loop:true,
             muted:true,
             aspectRatio:3, //0:Normal, 1:Aspect, 2:Full, 3:Scale
-            webm:"img/videos/tallinn.webm",
-            mp4:"img/videos/tallinn.mp4"
+            webm:"/img/videos/tallinn.webm",
+            mp4:"/img/videos/tallinn.mp4"
         });
 
         bitbuy.initModule();

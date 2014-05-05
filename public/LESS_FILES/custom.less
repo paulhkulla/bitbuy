@@ -1,3 +1,95 @@
+#mobile-name-balance {
+    display: none;
+    width: auto;
+    margin-top: 4px;
+    margin-right: 10px;
+    color: #FFF !important;
+    line-height: 1.3em !important;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+
+    .user-balance {
+        font-weight: 400 !important;
+        font-size: 11px !important;
+        line-height: 1em !important;
+    }
+    .user-fullname {
+        font-weight: 800 !important;
+        font-size: 18px !important;
+        text-transform: uppercase !important;
+        letter-spacing: -1px;
+        width: 125px;
+        height: 18px !important;
+    }
+}
+.user-name-balance {
+    .user-balance {
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        line-height: 1em !important;
+    }
+    .user-fullname {
+        font-weight: 800 !important;
+        font-size: 18px !important;
+        text-transform: uppercase !important;
+        letter-spacing: -1px;
+        line-height: 1.3em !important;
+    }
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.login-dropdown.ng-hide-add {
+    -webkit-transition:0.15s opacity linear;
+    transition:0.15s opacity linear;
+
+    /* remember to add this */
+    display:block!important;
+    opacity:1;
+}
+.login-dropdown.ng-hide-remove {
+    -webkit-animation-name: flipInY;
+    -moz-animation-name: flipInY;
+    -o-animation-name: flipInY;
+    animation-name: flipInY;
+    -webkit-animation-duration: .7s;
+    -moz-animation-duration: .7s;
+    -o-animation-duration: .7s;
+    animation-duration: .7s;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both;
+
+    /* remember to add this */
+    display:block!important;
+}
+.login-dropdown.ng-hide {
+  opacity:0;
+}
+.user-name-balance.ng-hide-remove {
+    -webkit-animation-name: fadeInRight;
+    -moz-animation-name: fadeInRight;
+    -o-animation-name: fadeInRight;
+    animation-name: fadeInRight;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both;
+
+    /* remember to add this */
+    display:block!important;
+}
+.widget-tabs {
+    margin-right: 10px;
+}
 #nav-lang-dropdown-toggle {
     width: 47px;
 }
@@ -58,20 +150,6 @@
     }
 
 }
-.active + .login-dropdown {
-	-webkit-animation-name: flipInY;
-	-moz-animation-name: flipInY;
-	-o-animation-name: flipInY;
-	animation-name: flipInY;
-	-webkit-animation-duration: .7s;
-	-moz-animation-duration: .7s;
-	-o-animation-duration: .7s;
-	animation-duration: .7s;
-	-webkit-animation-fill-mode: both;
-	-moz-animation-fill-mode: both;
-	-o-animation-fill-mode: both;
-	animation-fill-mode: both;
-}
 
 .login-dropdown >:first-child {
 	padding:10px;
@@ -90,10 +168,9 @@
 }
 .login-dropdown {
 	position: absolute;
-	display: none;
 	z-index: @ajax-dropdown-zindex;
     background: rgba(41, 69, 87, 0.9) !important;
-	top: 45px;
+    top: 45px;
 	width: 344px;
 	left: -1 * (344px/2 - 32/2); 
 	-webkit-border-radius: 0px;
@@ -148,7 +225,7 @@
         text-decoration: underline;
 
 
-        &:hover, &:focus, &:active {
+        &:hover, &:active {
             color: #999999;
             text-decoration: none;
         }
@@ -191,7 +268,7 @@
 // Finish login dropdown
 
 .estimated-popover {
-    cursor: pointer;
+    cursor: default;
 }
 .btn-blue {
   .button-variant(#FFFFFF; #33b5e5; darken(#0092b7, 5%));
@@ -236,16 +313,19 @@
     font-size: 18px !important;
     line-height: 18px !important;
 
-    &:hover, &:focus {
-        fill: #33b5e5 !important;
+    &:hover {
+        color: lighten(#99CC00, 5%) !important;
     }
     &:active {
-        fill: #0092b7 !important;
+        color: #EEE !important;
     }
 }
 
 .user-login-buttons {
     margin-top: 20px;
+}
+.user-name-balance {
+    margin-top: 22px;
 }
 
 #euro-and-price.border-green .odometer-digit {
