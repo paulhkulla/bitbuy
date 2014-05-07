@@ -1,5 +1,5 @@
 /*
- * config.js
+ * express.js
  */
 
 /*jslint browser : true, continue : true,
@@ -18,7 +18,6 @@ var
     logger       = require( 'morgan' ),
     cookieParser = require( 'cookie-parser' ),
     bodyParser   = require( 'body-parser' ),
-    session      = require( 'express-session' ),
     passport     = require( 'passport' ),
     consolidate  = require( 'consolidate' ),
     swig         = require( 'swig' ),
@@ -45,8 +44,6 @@ module.exports = function(app, config, env) {
     app.use( logger( 'dev' ) );
     app.use( cookieParser() );
     app.use( bodyParser() );
-    app.use( session({ secret: 'never stop dreaming' }) );
     app.use( passport.initialize() );
-    app.use( passport.session() );
     //--------------------- END EXPRESS CONFIG -----------------------
 };

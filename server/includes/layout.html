@@ -38,6 +38,7 @@
 
 		<!-- BEGIN HEADER TOP SMALL CONTAINER -->
         <header>
+
         <div id="header-small-container" class="container-fluid no-padding">
             <div class="container no-padding">
 
@@ -524,6 +525,11 @@
             </div><!-- /.modal-dialog -->
         </div>
         <!-- END MODAL -->
+
+        <!--Embedding The User Object-->
+        <script type="text/javascript">
+            var user = {[{ user | json | safe }]};
+        </script>
 
         {% include "./scripts.html" %}
 

@@ -10,7 +10,7 @@
 */
 /*global angular, bbApp, $ */
 
-bbApp.factory( 'bbAuth', [ '$http', 'bbIdentity', '$q', function( $http, bbIdentity, $q ) {
+bbApp.factory( 'bbAuth', [ '$http', 'bbIdentity', '$q', "$window", function( $http, bbIdentity, $q, $window ) {
     return {
         authenticateUser: function( username, password ) {
 
@@ -18,7 +18,26 @@ bbApp.factory( 'bbAuth', [ '$http', 'bbIdentity', '$q', function( $http, bbIdent
 
             $http.post( '/login', { username : username, password : password } ).then( function( response ) {
                 if( response.data.success ) {
-                    bbIdentity.currentUser = response.data.user;
+                    bbIdentity.currentUser              = response.data.user;
+                    $window.sessionStorage.access_token = response.data.user.access_token;
+                    dfd.resolve( true );
+                }
+                else {
+                    dfd.resolve( false );
+                }
+            });
+
+            return dfd.promise;
+        },
+
+        authenticateToken: function() {
+
+            var dfd = $q.defer();
+
+            $http.get( '/login' ).then( function( response ) {
+                if( response.data.success ) {
+                    bbIdentity.currentUser              = response.data.user;
+                    $window.sessionStorage.access_token = response.data.user.access_token;
                     dfd.resolve( true );
                 }
                 else {

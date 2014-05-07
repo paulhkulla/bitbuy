@@ -14,13 +14,17 @@
 
 bbApp.controller('bbLoginCtrl', [
     '$scope',
+    '$window',
     'bbIdentity',
     'bbAuth',
-    function($scope, bbIdentity, bbAuth) {
+    function($scope, $window, bbIdentity, bbAuth) {
+        $scope.identity = bbIdentity;
+
+        if ( $window.sessionStorage.getItem( 'access_token' ) ) {
+            bbAuth.authenticateToken();
+        }
+
         $scope.signin = function(username, password) {
-
-            $scope.identity = bbIdentity;
-
             bbAuth.authenticateUser( username, password ).then( function( success ) {
                 if ( success ) {
                     $scope.isDropdownActive = false;
@@ -35,7 +39,7 @@ bbApp.controller('bbLoginCtrl', [
                 }
                 else {
                     $.smallBox({
-                        title : "Vale e-mail või parool!",
+                        title : "Sisestasite vale e-maili ja/või parooli!",
                         content : "Palun proovige uuesti!",
                         color : "#c7262c",
                         timeout: 3000,
@@ -44,4 +48,5 @@ bbApp.controller('bbLoginCtrl', [
                 }
             });
         };
-    }]);
+    }
+]);

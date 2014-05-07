@@ -24,6 +24,7 @@
     "passport": "^0.2.0",
     "cookie-parser": "^1.0.1",
     "express-session": "^1.0.4",
-    "bcrypt": "^0.7.8"
+    "bcrypt": "^0.7.8",
+    "jwt-simple": "^0.2.0"
   }
 }

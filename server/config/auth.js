@@ -13,16 +13,29 @@
 'use strict';
 
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
-var passport = require( 'passport' );
+var 
+    passport = require( 'passport' ),
+    mongoose = require('mongoose'),
+    User     = mongoose.model('User');
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 exports.authenticate = function( req, res, next ) {
-    var auth = passport.authenticate( 'local', function( err, user ) {
+    var auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
         if ( err ) { return next( err ); }
-        if ( !user ) { res.send({ success : false }); }
-        req.logIn( user, function( err ) {
+        if ( !user ) { return res.send({ success : false }); }
+        User.createUserAccessToken( user.username, function( err, access_token ) {
             if ( err ) { return next( err ); }
-            res.send({ success : true, user : user });
+            res.send({
+                success : true,
+                user    : {
+                    username     : user.username,
+                    firstName    : user.firstName,
+                    lastName     : user.lastName,
+                    euroBalance  : user.euroBalance,
+                    btcBalance   : user.btcBalance,
+                    access_token : access_token
+                }
+            });
         });
     });
     auth( req, res, next );
