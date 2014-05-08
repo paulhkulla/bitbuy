@@ -61,7 +61,8 @@ module.exports = function( app ) {
                                                 lastName     : user.lastName,
                                                 euroBalance  : user.euroBalance,
                                                 btcBalance   : user.btcBalance,
-                                                access_token : access_token
+                                                access_token : access_token,
+                                                token_exp    : user.token_exp
                                             }
                                         });
                                     });

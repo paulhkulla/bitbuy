@@ -526,10 +526,32 @@
         </div>
         <!-- END MODAL -->
 
-        <!--Embedding The User Object-->
-        <script type="text/javascript">
-            var user = {[{ user | json | safe }]};
-        </script>
+        <div data-ng-controller="bbIdleCtrl">
+            <script type="text/ng-template" id="warning-dialog.html">
+                <div class="modal-header">
+                    <h4><i class="fa fa-warning"></i> <strong>Tähelepanu:</strong> Tuvastasime ebaaktiivsuse!</h4>
+                </div>
+                <div class="modal-body">
+                    <p><i class="fa fa-clock-o"></i> Teie turvalisuse huvides lukustatame teie konto <strong>{{countdownHumanized}}</strong> pärast...</p>
+                    <progressbar max="identity.currentUser.token_exp / 1000" value="countdown || identity.currentUser.token_exp / 1000" type="idle" animate="true" class="progress-striped active progress-idle"></progressbar>
+                    <div class="text-align-center">
+                        <a href="" data-ng-click="" class="btn btn-lg btn-success">
+                            <i class="fa fa-check"></i>
+                            Olen tagasi
+                        </a>
+                        <a href="" data-ng-click="" class="btn btn-lg btn-primary">
+                            <i class="fa fa-lock"></i>
+                            Lukusta kohe
+                        </a>
+                        <a href="" data-ng-click="" class="btn btn-lg btn-warning">
+                            <i class="fa fa-sign-out"></i>
+                            Logi välja
+                        </a>
+                    </div>
+                </div>
+            </script>
+        </div>
+
 
         {% include "./scripts.html" %}
 

@@ -17,10 +17,8 @@ var
     mongoose    = require( 'mongoose' ),
     bcrypt      = require('bcrypt'),
     jwt         = require('jwt-simple'),
-    tokenSecret = 'never stop dreaming',
-    AccessToken       = require('mongoose').model('AccessToken'),
+    AccessToken = require('mongoose').model('AccessToken'),
 
-    SALT_WORK_FACTOR = 10,
     UserSchema, User
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
@@ -49,7 +47,7 @@ module.exports = function( config ) {
         // only hash the password if it has been modified (or is new)
         if ( user.isModified('password') ) { 
             // generate a salt
-            bcrypt.genSalt( SALT_WORK_FACTOR, function( err, salt ) {
+            bcrypt.genSalt( config.SALT_WORK_FACTOR, function( err, salt ) {
                 if ( err ) { return next( err ); }
 
                 // hash the password along with our new salt
@@ -72,11 +70,11 @@ module.exports = function( config ) {
     };
 
     UserSchema.statics.encode = function( data ) {
-        return jwt.encode(data, tokenSecret);
+        return jwt.encode(data, config.token_secret);
     };
 
     UserSchema.statics.decode = function( data ) {
-        return jwt.decode(data, tokenSecret);
+        return jwt.decode(data, config.token_secret);
     };
 
     UserSchema.statics.findUser = function( username, access_token, cb ) {
@@ -118,7 +116,7 @@ module.exports = function( config ) {
             
             now = new Date().getTime();
             access_token = self.encode({ username : username, date_created : now });
-            bcrypt.genSalt( SALT_WORK_FACTOR, function( err, salt ) {
+            bcrypt.genSalt( config.SALT_WORK_FACTOR, function( err, salt ) {
                 if ( err ) { return cb( err,null ); }
 
                 // hash the access_token along with our new salt

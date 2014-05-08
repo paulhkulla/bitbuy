@@ -15,30 +15,15 @@
 var bbApp = angular.module( 'bbApp', [
     'ngResource',
     'ngAnimate',
-    'ui.router'
+    'ngIdle',
+    'ui.router',
+    'ui.bootstrap'
 ]);
 
-bbApp.run([ '$rootScope', '$state', '$stateParams', function( $rootScope, $state, $stateParams ) {
-    $rootScope.$state       = $state;
-    $rootScope.$stateParams = $stateParams;
-}]);
-
-bbApp.factory('authInterceptor', [ '$q', '$window', function( $q, $window ) {
-    return {
-        request: function ( config ) {
-            config.headers = config.headers || {};
-            if ( $window.sessionStorage.getItem( 'access_token' ) ) {
-                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem( 'access_token' );
-            }
-            return config || $q.when( config );
-        },
-        response: function ( response ) {
-            if ( response.status === 401 ) {
-                // handle the case where the user is not authenticated
-            }
-            return response || $q.when( response );
-        }
-    };
+bbApp.run([ '$rootScope', '$state', '$stateParams', '$idle', function( $rootScope, $state, $stateParams, $idle ) {
+    $rootScope.$state           = $state;
+    $rootScope.$stateParams     = $stateParams;
+    $idle.watch();
 }]);
 
 bbApp.config([
@@ -46,7 +31,14 @@ bbApp.config([
     '$urlRouterProvider',
     '$locationProvider',
     '$httpProvider',
-    function( $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider ) {
+    '$idleProvider',
+    '$keepaliveProvider',
+    function( $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $idleProvider, $keepaliveProvider ) {
+
+        // configure $idle settings
+        $idleProvider.idleDuration( 10 ); // in seconds
+        $idleProvider.warningDuration( 15 * 60 ); // in seconds
+        $keepaliveProvider.interval( 3 * 60 ); // in seconds
 
         $httpProvider.interceptors.push('authInterceptor');
 
@@ -59,7 +51,6 @@ bbApp.config([
 
         // State routing
         $stateProvider
-
             //--------------------- HEADER-NAV STATES ------------------------
             .state( 'what-is-bitcoin', {
                 url         : '/what-is-bitcoin',
@@ -129,4 +120,22 @@ bbApp.config([
     }
 
 ]);
+
+bbApp.factory('authInterceptor', [ '$q', '$window', function( $q, $window ) {
+    return {
+        request: function ( config ) {
+            config.headers = config.headers || {};
+            if ( $window.sessionStorage.getItem( 'access_token' ) ) {
+                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem( 'access_token' );
+            }
+            return config || $q.when( config );
+        },
+        response: function ( response ) {
+            if ( response.status === 401 ) {
+                // handle the case where the user is not authenticated
+            }
+            return response || $q.when( response );
+        }
+    };
+}]);
 

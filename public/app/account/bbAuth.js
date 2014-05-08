@@ -11,6 +11,8 @@
 /*global angular, bbApp, $ */
 
 bbApp.factory( 'bbAuth', [ '$http', 'bbIdentity', '$q', "$window", function( $http, bbIdentity, $q, $window ) {
+
+
     return {
         authenticateUser: function( username, password ) {
 

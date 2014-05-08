@@ -13,20 +13,37 @@
 'use strict';
 
 bbApp.controller('bbLoginCtrl', [
+    '$rootScope',
     '$scope',
     '$window',
     'bbIdentity',
     'bbAuth',
-    function($scope, $window, bbIdentity, bbAuth) {
+    function( $rootScope, $scope, $window, bbIdentity, bbAuth ) {
+
         $scope.identity = bbIdentity;
+        $scope.isLoginButtonDisabled = false;
 
         if ( $window.sessionStorage.getItem( 'access_token' ) ) {
-            bbAuth.authenticateToken();
+            bbAuth.authenticateToken().then( function( success ) {
+                if ( success ) {
+                    $rootScope.$emit( 'initIdleEvents' );
+                }
+            });
         }
 
+
         $scope.signin = function(username, password) {
+
+            $scope.isLoginButtonDisabled = true;
+
             bbAuth.authenticateUser( username, password ).then( function( success ) {
+
+                $scope.isLoginButtonDisabled = false;
+
                 if ( success ) {
+
+                    $rootScope.$emit( 'initIdleEvents' );
+
                     $scope.isDropdownActive = false;
 
                     $.smallBox({
@@ -47,6 +64,7 @@ bbApp.controller('bbLoginCtrl', [
                     }); 
                 }
             });
+
         };
     }
 ]);
