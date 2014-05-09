@@ -1,5 +1,5 @@
 /*
- * bbIdentity.js
+ * bbIdentitySvc.js
  */
 
 /*jslint browser : true, continue : true,
@@ -12,7 +12,7 @@
 
 'use strict';
 
-bbApp.factory('bbIdentity', function() {
+bbApp.factory('bbIdentitySvc', function() {
     return {
         currentUser     : undefined,
         isAuthenticated : function() {

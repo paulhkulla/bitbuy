@@ -17,89 +17,88 @@ bbApp.controller('bbIdleCtrl', [
     '$scope',
     '$idle',
     '$modal',
-    'bbIdentity',
-    'bbAuth',
-    function( $rootScope, $scope, $idle, $modal, bbIdentity, bbAuth ) {
+    'bbIdentitySvc',
+    'bbAuthSvc',
+    function( $rootScope, $scope, $idle, $modal, bbIdentitySvc, bbAuthSvc ) {
         
         var
             isIdleEventsInit = false,
-            initIdleEvents, closeModals;
+            initIdleEvents
+            ;
             
-        $scope.identity = bbIdentity;
-
-        closeModals = function() {
-            if ($scope.warning) {
-                $scope.warning.close();
-                $scope.warning = null;
-            }
-        };
+        $scope.identity = bbIdentitySvc;
 
         // Setup and initialize idle watch and its events
         initIdleEvents = function( token_exp ) {
 
+            $idle.watch();
             isIdleEventsInit = true;
 
             $idle._options().warningDuration = token_exp / 1000;
-            $idle._options().autoResume = false;
 
             $scope.events = [];
 
-            $scope.$on('$idleStart', function() {
+            $scope.$on( '$idleStart', function() {
                 // the user appears to have gone idle                   
-                console.log('User is idle');
-                bbAuth.authenticateToken().then( function( success ) {
+                $idle._options().autoResume = false;
+                bbAuthSvc.authenticateToken().then( function( success ) {
                     if ( success ) {
-                        closeModals();
-
                         $scope.warning = $modal.open({
                             templateUrl: 'warning-dialog.html',
-                            backdrop: 'static',
-                            size: 'sm',
-                            controller: [ '$scope', 'bbIdentity', function( $scope, bbIdentity ) {
-                                $scope.countdownHumanized = humanizeDuration( bbIdentity.currentUser.token_exp, "et" );
-                                $scope.identity = bbIdentity;
+                            controller: [ '$rootScope', '$scope', 'bbIdentitySvc', function( $rootScope, $scope, bbIdentitySvc ) {
+                                $scope.countdownHumanized = humanizeDuration( bbIdentitySvc.currentUser.token_exp, "et" );
+                                $scope.identity = bbIdentitySvc;
 
-                                $scope.$on('$idleWarn', function(e, countdown) {
+                                $scope.$on( '$idleWarn', function( e, countdown ) {
                                     // follows after the $idleStart event, but includes a countdown until the user is considered timed out
                                     // the countdown arg is the number of seconds remaining until then.
                                     // you can change the title or display a warning dialog from here.
                                     // you can let them resume their session by calling $idle.watch()
-                                    console.log('Warning! User about to get timed out!');
 
                                     $scope.countdownHumanized = humanizeDuration( countdown * 1000, "et" );
                                     $scope.countdown = countdown;
+                                    $scope.closeIdleModal = function() {
+                                        $rootScope.$emit( 'closeIdleModal' );
+                                    };
+
                                 });
                             }]
                         });
 
+                        $scope.warning.result.then( null, function( result ) {
+                            $idle.watch();
+                            $idle._options().autoResume = true;
+                        });
                     }
 
                 });
 
             });
 
-            $scope.$on('$idleTimeout', function() {
-                // the user has timed out (meaning idleDuration + warningDuration has passed without any activity)
-                // this is where you'd log them
-                console.log('User has timed out!');
-            });
-
-            $scope.$on('$idleEnd', function() {
-                // the user has come back from AFK and is doing stuff. if you are warning them, you can use this to hide the dialog 
-                console.log('User is no longer idle.');
-                closeModals();
-            });
-
-            $scope.$on('$keepalive', function() {
+            $scope.$on( '$keepalive', function() {
                 // do something to keep the user's session alive
-                console.log('Heartbeat...');
-                bbAuth.authenticateToken();
+                bbAuthSvc.authenticateToken();
             });
+
+            $rootScope.$on( 'closeIdleModal', function() {
+                $scope.warning.dismiss( null );
+            });
+
+//             $scope.$on('$idleTimeout', function() {
+//                 // the user has timed out (meaning idleDuration + warningDuration has passed without any activity)
+//                 // this is where you'd log them
+//                 console.log('User has timed out!');
+//             });
+//
+//             $scope.$on('$idleEnd', function() {
+//                 // the user has come back from AFK and is doing stuff. if you are warning them, you can use this to hide the dialog 
+//                 console.log('User is no longer idle.');
+//             });
         };
 
-        $rootScope.$on('initIdleEvents', function () {
+        $rootScope.$on( 'initIdleEvents', function () {
             if ( ! isIdleEventsInit ) {
-                initIdleEvents( bbIdentity.currentUser.token_exp );
+                initIdleEvents( bbIdentitySvc.currentUser.token_exp );
             }
         });
 

@@ -15,8 +15,8 @@
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var 
     passport = require( 'passport' ),
-    mongoose = require('mongoose'),
-    User     = mongoose.model('User');
+    mongoose = require( 'mongoose' ),
+    User     = mongoose.model( 'User' );
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 exports.authenticate = function( req, res, next ) {

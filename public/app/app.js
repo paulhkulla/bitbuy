@@ -23,7 +23,6 @@ var bbApp = angular.module( 'bbApp', [
 bbApp.run([ '$rootScope', '$state', '$stateParams', '$idle', function( $rootScope, $state, $stateParams, $idle ) {
     $rootScope.$state           = $state;
     $rootScope.$stateParams     = $stateParams;
-    $idle.watch();
 }]);
 
 bbApp.config([

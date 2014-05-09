@@ -16,27 +16,28 @@ bbApp.controller('bbLoginCtrl', [
     '$rootScope',
     '$scope',
     '$window',
-    'bbIdentity',
-    'bbAuth',
-    function( $rootScope, $scope, $window, bbIdentity, bbAuth ) {
+    'bbLoginDropdownSvc',
+    'bbIdentitySvc',
+    'bbAuthSvc',
+    function( $rootScope, $scope, $window, bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc ) {
 
-        $scope.identity = bbIdentity;
+        $scope.bbLoginDropdownSvc    = bbLoginDropdownSvc;
+        $scope.identity              = bbIdentitySvc;
         $scope.isLoginButtonDisabled = false;
 
         if ( $window.sessionStorage.getItem( 'access_token' ) ) {
-            bbAuth.authenticateToken().then( function( success ) {
+            bbAuthSvc.authenticateToken().then( function( success ) {
                 if ( success ) {
                     $rootScope.$emit( 'initIdleEvents' );
                 }
             });
         }
 
-
         $scope.signin = function(username, password) {
 
             $scope.isLoginButtonDisabled = true;
 
-            bbAuth.authenticateUser( username, password ).then( function( success ) {
+            bbAuthSvc.authenticateUser( username, password ).then( function( success ) {
 
                 $scope.isLoginButtonDisabled = false;
 
@@ -44,10 +45,10 @@ bbApp.controller('bbLoginCtrl', [
 
                     $rootScope.$emit( 'initIdleEvents' );
 
-                    $scope.isDropdownActive = false;
+                    bbLoginDropdownSvc.isDropdownActive = false;
 
                     $.smallBox({
-                        title : "Teretulemast tagasi, <strong>" + bbIdentity.currentUser.firstName + "</strong>!",
+                        title : "Teretulemast tagasi, <strong>" + bbIdentitySvc.currentUser.firstName + "</strong>!",
                         content : "<i>&ldquo;Parim aeg puu istutamiseks oli 20 aastat tagasi. Teine parim aeg on hetkel.&rdquo;</i> <small>-Hiina vanasõna</small>",
                         color : "#96BF48",
                         timeout: 8000,

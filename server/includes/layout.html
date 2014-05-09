@@ -64,7 +64,7 @@
                 <!-- BEGIN HEADER MOBILE NAVIGATION -->
                 <ul id="header-nav-mobile" class="header-dropdown-list pull-left">
                     <li>
-                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                    <a title="Info" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-info"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu">
@@ -117,13 +117,13 @@
 
                 <!-- BEGIN MOBILE USER/LOGIN AREA -->
                 <div id="user-logout-mobile" data-ng-show="identity.isAuthenticated()" class="btn-header pull-right">
-                    <i class="fa fa-sign-out" data-ng-click=""></i>
+                    <i title="Logi välja" class="fa fa-sign-out" data-ng-click=""></i>
                 </div>
                 <div id="user-login-mobile" data-ng-class="{ 'user-login-margined': !identity.isAuthenticated() }" class="btn-header pull-right">
-                    <i class="icon-user icomoon-user icon-user-header-mobile scroll-up activity pull-left" data-ng-click="toggleDropdown()"></i>
+                    <i class="icon-user icomoon-user icon-user-header-mobile scroll-up activity pull-left" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"></i>
                 </div>
                 <div id="mobile-name-balance" data-ng-show="identity.isAuthenticated()" class="pull-right">
-                    <span class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}}</span>
+                    <span class="user-fullname"><i title="Lukusta konto" class="fa fa-unlock-o" id="user-lock-mobile"></i> {{identity.currentUser.firstName + " " + identity.currentUser.lastName}}</span>
                     <div class="user-balance">
                         <span class="euro-balance"><strong>€{{identity.currentUser.euroBalance | number }} : </strong></span>
                         <span class="btc-balance"><strong><i class="fa fa-btc"></i>{{identity.currentUser.btcBalance | number }}</strong></span>
@@ -192,27 +192,27 @@
                 <div class="icon-user-header relative pull-left">
 
                     <!-- BEGIN MAIN LOGIN DROPDOWN TRIGGER ICON -->
-                    <span id="activity-large" class="activity" data-ng-class="{active: isDropdownActive}" data-ng-click="toggleDropdown()">
+                    <span id="activity-large" class="activity" data-ng-class="{active: bbLoginDropdownSvc.isDropdownActive}" data-ng-click="bbLoginDropdownSvc.toggleDropdown()">
                         <i class="icon-user icomoon-user"></i>
                     </span>
                     <!-- END MAIN LOGIN DROPDOWN TRIGGER ICON -->
 
                     <!-- BEGIN LOGIN DROPDOWN -->
-                    <div class="login-dropdown ng-hide" data-ng-show="isDropdownActive" data-login-dropdown></div>
+                    <div class="login-dropdown ng-hide" data-ng-show="bbLoginDropdownSvc.isDropdownActive" data-login-dropdown></div>
                     <!-- END LOGIN DROPDOWN -->
 
                 </div>
                 <!-- END DROPDOWN TRIGGER ICON AND DROPDOWN -->
 
                 <!-- BEGIN LOGIN/REGISTER BUTTONS -->
-                <div data-ng-hide="identity.isAuthenticated()" class="user-login-buttons pull-left">
-                    <a class="btn btn-labeled btn-blue login-button" data-ng-click="activateTab('login'); activateDropdown()" href="#login-tab" data-toggle="tab">
+                <div data-ng-show="!identity.isAuthenticated()" class="ng-hide user-login-buttons pull-left">
+                    <a href="" class="btn btn-labeled btn-blue login-button" data-ng-click="bbLoginDropdownSvc.activateTab('login'); bbLoginDropdownSvc.activateDropdown()">
                         <span class="btn-label">
                             <i class="fa fa-sign-in"></i>
                         </span>
                         Logi sisse
                     </a><br />
-                    <a class="btn btn-labeled btn-blue register-button" data-ng-click="activateTab('register'); activateDropdown()" href="#register-tab" data-toggle="tab">
+                    <a href="" class="btn btn-labeled btn-blue register-button" data-ng-click="bbLoginDropdownSvc.activateTab('register'); bbLoginDropdownSvc.activateDropdown()">
                         <span class="btn-label">
                             <i class="fa fa-pencil"></i>
                         </span>
@@ -223,7 +223,7 @@
 
                 <!-- BEGIN AUTHENTICATED USER AREA -->
                 <div data-ng-show="identity.isAuthenticated()" class="user-name-balance pull-left">
-                    <div class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <i class="fa fa-sign-out fa-fw" id="user-logout"></i></div>
+                    <div class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <i title="Lukusta konto" class="fa fa-unlock-o" id="user-lock"></i> <i title="Logi välja" class="fa fa-sign-out" id="user-logout"></i></div>
                     <div class="user-balance">
                         <div class="euro-balance">EUR kontojääk: <strong>€{{identity.currentUser.euroBalance | number : 2}}</strong></div>
                         <div class="btc-balance">BTC kontojääk: <strong><i class="fa fa-btc"></i>{{identity.currentUser.btcBalance | number }}</strong></div>
@@ -312,7 +312,7 @@
                 <!-- BEGIN FOOTER LOGO AND SOCIAL ICONS -->
                 <div class="pull-right">
                     <span id="footer-logo-wrapper" class="pull-left">
-                        <span id="logo"> <a href="/"><img src="/img/logo.svg" alt="bitbuy"></a></span> &copy; 2014
+                        <span id="logo"> <a href="/"><img src="/img/logo.svg" alt="bitbuy"></a></span> &copy; {{ currentYear }}
                     </span>
                     <a href="javascript:void(0);" title="Facebook"><span class="icon_facebook pull-right"></span></a>
                     <a href="javascript:void(0);" title="Twitter"><span class="icon_twitter pull-right"></span></a> 
@@ -529,21 +529,24 @@
         <div data-ng-controller="bbIdleCtrl">
             <script type="text/ng-template" id="warning-dialog.html">
                 <div class="modal-header">
+                    <button aria-hidden="true" data-ng-click="closeIdleModal()"  class="close" type="button">
+                        ×
+                    </button>
                     <h4><i class="fa fa-warning"></i> <strong>Tähelepanu:</strong> Tuvastasime ebaaktiivsuse!</h4>
                 </div>
                 <div class="modal-body">
                     <p><i class="fa fa-clock-o"></i> Teie turvalisuse huvides lukustatame teie konto <strong>{{countdownHumanized}}</strong> pärast...</p>
                     <progressbar max="identity.currentUser.token_exp / 1000" value="countdown || identity.currentUser.token_exp / 1000" type="idle" animate="true" class="progress-striped active progress-idle"></progressbar>
                     <div class="text-align-center">
-                        <a href="" data-ng-click="" class="btn btn-lg btn-success">
+                        <a href="" data-ng-click="closeIdleModal()" class="btn-bottom-margin btn btn-lg btn-success">
                             <i class="fa fa-check"></i>
                             Olen tagasi
                         </a>
-                        <a href="" data-ng-click="" class="btn btn-lg btn-primary">
+                        <a href="" data-ng-click="" class="btn-bottom-margin btn btn-lg btn-primary">
                             <i class="fa fa-lock"></i>
                             Lukusta kohe
                         </a>
-                        <a href="" data-ng-click="" class="btn btn-lg btn-warning">
+                        <a href="" data-ng-click="" class="btn-bottom-margin btn btn-lg btn-warning">
                             <i class="fa fa-sign-out"></i>
                             Logi välja
                         </a>

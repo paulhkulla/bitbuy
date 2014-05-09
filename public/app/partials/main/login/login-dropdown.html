@@ -1,14 +1,14 @@
 <!-- BEGIN LOGIN DROPDOWN BUTTONS -->
 <div data-toggle="buttons" class="btn-group btn-group-justified">
-    <a href="#login-tab" data-ng-click="activateTab('login')" data-ng-class="{active: activeDropdownTab === 'login'}" class="btn btn-success active" data-toggle="tab">
+    <a href="" data-ng-click="bbLoginDropdownSvc.activateTab('login')" data-ng-class="{active: bbLoginDropdownSvc.activeDropdownTab === 'login'}" class="btn btn-success" data-toggle="tab">
         <input type="radio">
         <i class="fa fa-sign-in"></i>
     </a>
-    <a href="#register-tab" data-ng-click="activateTab('register')" data-ng-class="{active: activeDropdownTab === 'register'}" class="btn btn-success" data-toggle="tab">
+    <a href="" data-ng-click="bbLoginDropdownSvc.activateTab('register')" data-ng-class="{active: bbLoginDropdownSvc.activeDropdownTab === 'register'}" class="btn btn-success" data-toggle="tab">
         <input type="radio">
         <i class="fa fa-pencil"></i>
     </a>
-    <a href="#forgot-tab" data-ng-click="activateTab('forgot')" data-ng-class="{active: activeDropdownTab === 'forgot'}" class="btn btn-success" data-toggle="tab">
+    <a href="" data-ng-click="bbLoginDropdownSvc.activateTab('forgot')" data-ng-class="{active: bbLoginDropdownSvc.activeDropdownTab === 'forgot'}" class="btn btn-success" data-toggle="tab">
         <input type="radio">
         <i class="fa fa-question-circle"></i>
     </a>
@@ -19,7 +19,10 @@
 <div class="login-dropdown-content custom-scroll tab-content">
 
     <!-- BEGIN LOGIN TAB -->
-    <div id="login-tab" class="tab-pane fade in active">
+    <div id="login-tab" data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'login'">
+        <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
+            ×
+        </button>
         <header>
         <h4>Logi sisse</h4>
         </header>
@@ -67,8 +70,11 @@
     <!-- END LOGIN TAB -->
 
     <!-- BEGIN REGISTER TAB -->
-    <div id="register-tab" class="tab-pane fade">
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register'" id="register-tab">
 
+        <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
+            ×
+        </button>
         <header>
         <h4>Registreeru</h4>
         </header>
@@ -145,8 +151,11 @@
     <!-- END REGISTER TAB -->
 
     <!-- BEGIN FORGOT TAB -->
-    <div id="forgot-tab" class="alert alert-transparent tab-pane fade">
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'forgot'" id="forgot-tab">
 
+        <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
+            ×
+        </button>
         <header>
         <h4>Unustasid parooli?</h4>
         </header>

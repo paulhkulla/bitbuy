@@ -796,8 +796,17 @@ nav ul li {
 #header-nav-mobile {
     display: none;
 }
+#user-lock {
+    margin-left: 2px;
 
+    &:hover.fa-unlock-o:before {
+        content:"\f023";
+    }
+}
 #user-logout {
+    margin-left: 2px;
+}
+#user-logout, #user-lock {
     cursor: pointer;
 
     &:hover {
@@ -807,13 +816,26 @@ nav ul li {
         color: #0092b7 !important;
     }
 }
+#user-lock-mobile {
+    cursor: pointer;
+
+    &:hover.fa-unlock-o:before {
+        content:"\f023";
+    }
+    &:hover {
+        color: lighten(#99CC00, 5%) !important;
+    }
+    &:active {
+        color: #EEE !important;
+    }
+}
 #user-logout-mobile {
     color: #fff;
     display: none;
     font-size: 1.5em;
     line-height: 1em;
     margin-top: 10px !important;
-    margin-right: 5px;
+    margin-right: 6px;
     cursor: pointer;
 
     &:hover {
@@ -906,6 +928,9 @@ nav ul li {
 @media (max-width: 767px) {
 
 
+    .btn-bottom-margin {
+        margin-bottom: 2px;
+    }
     #header-small-container {
         .container {
             padding: 0px 0px !important;
@@ -913,6 +938,9 @@ nav ul li {
     }
     #mobile-name-balance {
         display: block;
+        .user-fullname {
+            font-size: 16px !important;
+        }
     }
     .user-name-balance.ng-hide-remove {
         /* remember to add this */

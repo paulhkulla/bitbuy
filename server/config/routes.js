@@ -15,9 +15,9 @@
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
     auth        = require( './auth' ),
-    mongoose    = require('mongoose'),
-    User        = mongoose.model('User'),
-    AccessToken = mongoose.model('AccessToken');
+    mongoose    = require( 'mongoose' ),
+    User        = mongoose.model( 'User' ),
+    AccessToken = mongoose.model( 'AccessToken' );
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function( app ) {
@@ -37,7 +37,7 @@ module.exports = function( app ) {
 
                 if ( /^Bearer$/i.test( scheme ) ) {
                     access_token = credentials;
-                    decoded      = User.decode(access_token);
+                    decoded      = AccessToken.decode(access_token);
 
                     //Now do a lookup on that email in mongodb ... if exists it's a real user
                     if ( decoded && decoded.username && decoded.date_created ) {
@@ -46,9 +46,9 @@ module.exports = function( app ) {
                                 console.log( err );
                                 res.send({ error: 'Issue finding user.' });
                             }
-                            else {
+                            if ( user ) {
                                 if ( +(new Date(decoded.date_created)) !== +user.access_token.date_created ) {
-                                    return res.send({ error: 'Invalid token.' });
+                                    res.send({ error: 'Token date mismatch. Potential theft.' });
                                 }
                                 if ( ! AccessToken.hasExpired( user.access_token.date_created, user.token_exp ) ) {
                                     User.createUserAccessToken( user.username, function( err, access_token ) {
@@ -71,7 +71,7 @@ module.exports = function( app ) {
                                     res.send({ error: 'Token expired. Please log in again.'  });
                                 }
                             }
-                        } );
+                        });
                     }
                     else {
                         console.log('Whoa! Couldn\'t even decode incoming token!');

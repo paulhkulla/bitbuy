@@ -15,6 +15,7 @@ white          : true
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
     mongoose = require( 'mongoose' ),
+    jwt      = require( 'jwt-simple' ),
     AccessTokenSchema
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
@@ -34,7 +35,15 @@ module.exports = function( config ) {
         return diff > token_exp;
     };
 
-    mongoose.model('AccessToken', AccessTokenSchema);
+    AccessTokenSchema.statics.encode = function( data ) {
+        return jwt.encode( data, config.token_secret );
+    };
+
+    AccessTokenSchema.statics.decode = function( data ) {
+        return jwt.decode( data, config.token_secret );
+    };
+
+    mongoose.model( 'AccessToken', AccessTokenSchema );
 
 };
 

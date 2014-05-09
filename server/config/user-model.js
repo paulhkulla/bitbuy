@@ -15,9 +15,9 @@
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
     mongoose    = require( 'mongoose' ),
-    bcrypt      = require('bcrypt'),
-    jwt         = require('jwt-simple'),
-    AccessToken = require('mongoose').model('AccessToken'),
+    bcrypt      = require( 'bcrypt' ),
+    crypto      = require( 'crypto' ),
+    AccessToken = require( 'mongoose' ).model( 'AccessToken' ),
 
     UserSchema, User
     ;
@@ -41,27 +41,6 @@ module.exports = function( config ) {
         reset_token_exp : Number
     });
 
-    UserSchema.pre( 'save', function( next ) {
-        var user = this;
-
-        // only hash the password if it has been modified (or is new)
-        if ( user.isModified('password') ) { 
-            // generate a salt
-            bcrypt.genSalt( config.SALT_WORK_FACTOR, function( err, salt ) {
-                if ( err ) { return next( err ); }
-
-                // hash the password along with our new salt
-                bcrypt.hash( user.password, salt, function( err, hash ) {
-                    if ( err ) { return next( err ); }
-
-                    // override the cleartext password with the hashed one
-                    user.password = hash;
-                });
-            });
-        }
-        next();
-    });
-
     UserSchema.methods.comparePassword = function( candidatePassword, callback ) {
         bcrypt.compare( candidatePassword, this.password, function( err, isMatch ) {
             if ( err ) { return callback( err ); }
@@ -69,12 +48,16 @@ module.exports = function( config ) {
         });
     };
 
-    UserSchema.statics.encode = function( data ) {
-        return jwt.encode(data, config.token_secret);
-    };
+    UserSchema.statics.hash = function( input, cb ) {
+        bcrypt.genSalt( config.SALT_WORK_FACTOR, function( err, salt ) {
+            if ( err ) { return cb( err, null ); }
 
-    UserSchema.statics.decode = function( data ) {
-        return jwt.decode(data, config.token_secret);
+            // hash the access_token along with our new salt
+            bcrypt.hash( input, salt, function( err, hash ) {
+                if ( err ) { return cb( err, null ); }
+                cb( false, hash );
+            });
+        });
     };
 
     UserSchema.statics.findUser = function( username, access_token, cb ) {
@@ -86,10 +69,13 @@ module.exports = function( config ) {
                     if ( err ) { return cb( err, null ); }
                     if ( isMatch ) { cb( false, user ); }
                     else {
-                        cb(new Error('Supplied token does not exist or does not match.'), null);
+                        cb(new Error('Supplied token does not match.'), null);
                     }
                 });
-            } 
+            }  
+            else {
+                cb(new Error('Supplied token does not exist.'), null);
+            }
         });
     };
 
@@ -115,25 +101,19 @@ module.exports = function( config ) {
             //Create a token and add to user and save
             
             now = new Date().getTime();
-            access_token = self.encode({ username : username, date_created : now });
-            bcrypt.genSalt( config.SALT_WORK_FACTOR, function( err, salt ) {
-                if ( err ) { return cb( err,null ); }
-
-                // hash the access_token along with our new salt
-                bcrypt.hash( access_token, salt, function( err, hash ) {
-                    if ( err ) { return cb( err,null ); }
-
-                    user.access_token = new AccessToken({ token : hash, date_created : now });
-                    user.save(function( err, user ) {
-                        if ( err ) {
-                            cb( err, null );
-                        }
-                        else {
-                            cb( false, access_token );
-                        }
-                    });
+            access_token = AccessToken.encode({ username : username, date_created : now });
+            User.hash( access_token, function( err, hashedToken ) {
+                user.access_token = new AccessToken({ token : hashedToken, date_created : now });
+                user.save(function( err, user ) {
+                    if ( err ) {
+                        cb( err, null );
+                    }
+                    else {
+                        cb( false, access_token );
+                    }
                 });
             });
+
         });
     };
 
@@ -152,6 +132,7 @@ module.exports = function( config ) {
             });
         });
     };
+
     UserSchema.statics.generateResetToken = function( email, cb ) {
         var now, expires;
 
@@ -161,7 +142,7 @@ module.exports = function( config ) {
                 cb( err, null );
             } else if ( user ) {
                 //Generate reset token and URL link; also, create expiry for reset token
-                user.reset_token = require( 'crypto' ).randomBytes( 32 ).toString( 'hex' );
+                user.reset_token = crypto.randomBytes( 32 ).toString( 'hex' );
                 now = new Date();
                 expires = new Date( now.getTime() + ( config.resetTokenExpires ) ).getTime();
                 user.reset_token_exp = expires;
@@ -178,8 +159,12 @@ module.exports = function( config ) {
 
     User.find({}).exec(function( err, collection ) {
         if ( collection.length === 0 ) {
-            User.create({ firstName: 'Joe', lastName: 'Eames', euroBalance: 9534, btcBalance: 100.34522, username: 'joe', password: 'joe' });
-            User.create({ firstName: 'Markus', lastName: 'Pint', euroBalance: 10232.99, btcBalance: 1, username: 'markuspint@hotmail.com', password: 'kokaiin' });
+            User.hash( 'joe', function( err, hashedPassword ) {
+                User.create({ firstName: 'Joe', lastName: 'Eames', euroBalance: 9534, btcBalance: 100.34522, username: 'joe', password: hashedPassword });
+            });
+            User.hash( 'kokaiin', function( err, hashedPassword ) {
+                User.create({ firstName: 'Markus', lastName: 'Pint', euroBalance: 10232.99, btcBalance: 1, username: 'markuspint@hotmail.com', password: hashedPassword });
+            });
         }
     });
 
