@@ -19,7 +19,8 @@ bbApp.controller('bbLoginCtrl', [
     'bbLoginDropdownSvc',
     'bbIdentitySvc',
     'bbAuthSvc',
-    function( $rootScope, $scope, $window, bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc ) {
+    'bbIdleSvc',
+    function( $rootScope, $scope, $window, bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
 
         $scope.bbLoginDropdownSvc    = bbLoginDropdownSvc;
         $scope.identity              = bbIdentitySvc;
@@ -28,7 +29,9 @@ bbApp.controller('bbLoginCtrl', [
         if ( $window.sessionStorage.getItem( 'access_token' ) ) {
             bbAuthSvc.authenticateToken().then( function( success ) {
                 if ( success ) {
-                    $rootScope.$emit( 'initIdleEvents' );
+                    if ( ! bbIdleSvc.isIdleEventsInit ) {
+                        bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
+                    }
                 }
             });
         }
@@ -44,6 +47,10 @@ bbApp.controller('bbLoginCtrl', [
                 if ( success ) {
 
                     $rootScope.$emit( 'initIdleEvents' );
+
+                    if ( ! bbIdleSvc.isIdleEventsInit ) {
+                        bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
+                    }
 
                     bbLoginDropdownSvc.isDropdownActive = false;
 
