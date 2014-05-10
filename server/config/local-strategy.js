@@ -17,7 +17,7 @@ var
     passport      = require( 'passport' ),
     mongoose      = require('mongoose'),
     LocalStrategy = require( 'passport-local' ).Strategy,
-    User          = mongoose.model('User')
+    User          = mongoose.model( 'User' )
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 

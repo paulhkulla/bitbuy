@@ -13,11 +13,13 @@
 'use strict';
 
 bbApp.factory('bbLoginSvc', [
+    '$location',
+    '$window',
     'bbLoginDropdownSvc',
     'bbIdentitySvc',
     'bbAuthSvc',
     'bbIdleSvc',
-    function( bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
+    function( $location, $window, bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
 
         return {
 
@@ -35,9 +37,7 @@ bbApp.factory('bbLoginSvc', [
 
                     if ( success ) {
 
-                        if ( ! bbIdleSvc.isIdleEventsInit ) {
-                            bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
-                        }
+                        bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
 
                         bbLoginDropdownSvc.isDropdownActive = false;
 
@@ -62,6 +62,16 @@ bbApp.factory('bbLoginSvc', [
             },
 
             signout               : function() {
+                bbAuthSvc.logoutUser().then( function() {
+                    $.smallBox({
+                        title : "Nägemiseni!",
+                        content : "<i class='fa fa-sign-out'></i> Olete edukalt välja logitud!",
+                        color : "#96BF48",
+                        timeout: 8000,
+                        iconSmall : "fa fa-check fadeInLeft animated"
+                    }); 
+                    $location.path('/');
+                });
             }
         };
     }]);

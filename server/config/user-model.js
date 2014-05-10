@@ -101,9 +101,9 @@ module.exports = function( config ) {
     UserSchema.statics.invalidateUserAccessToken = function( username, cb ) {
         this.findOne( { username : username }, function( err, user ) {
             if( err || !user ) {
-                console.log( 'err' );
+                return cb( err, null )
             }
-            user.token = null;
+            user.access_token = null;
             user.save( function( err, user ) {
                 if ( err ) {
                     cb( err, null );

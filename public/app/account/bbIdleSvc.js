@@ -15,27 +15,29 @@
 bbApp.factory('bbIdleSvc', [
     '$rootScope',
     '$idle',
-    '$modal',
+    '$location',
     'bbAuthSvc',
     'bbWarningModalSvc',
-    function( $rootScope, $idle, $modal, bbAuthSvc, bbWarningModalSvc ) {
+    function( $rootScope, $idle, $location, bbAuthSvc, bbWarningModalSvc ) {
         
         var
             initIdleEvents,
             isIdleEventsInit = false,
 
-            warningModal, closeWarningModal
+            warningModal
             ;
 
         // Setup and initialize idle watch and its events
         initIdleEvents = function( token_exp ) {
 
             $idle.watch();
+            if ( isIdleEventsInit ) { return; }
             isIdleEventsInit = true;
 
             $idle._options().warningDuration = token_exp / 1000;
 
             $rootScope.$on( '$idleStart', function() {
+            console.log("this is twice");
 
                 bbWarningModalSvc.token_exp           = token_exp / 1000;
                 bbWarningModalSvc.countdown           = token_exp / 1000;
@@ -45,7 +47,18 @@ bbApp.factory('bbIdleSvc', [
                 bbAuthSvc.authenticateToken().then( function( success ) {
                     if ( success ) {
                         warningModal = bbWarningModalSvc.warningModal();
-                        warningModal.result.then( null, function( result ) {
+                        console.log(warningModal);
+                        warningModal.result.then( function( result ) {
+                            $idle.unwatch();
+                            $.smallBox({
+                                title : "Nägemiseni!",
+                                content : "<i class='fa fa-sign-out'></i> Olete edukalt välja logitud!",
+                                color : "#96BF48",
+                                timeout: 8000,
+                                iconSmall : "fa fa-check fadeInLeft animated"
+                            }); 
+                            $location.path('/');
+                        }, function( result ) {
                             $idle.watch();
                             $idle._options().autoResume = true;
                         });
@@ -56,13 +69,13 @@ bbApp.factory('bbIdleSvc', [
             });
 
             $rootScope.$on( '$idleWarn', function( e, countdown ) {
-                console.log("trigger");
                 bbWarningModalSvc.countdown          = countdown;
                 bbWarningModalSvc.countdownHumanized = humanizeDuration( countdown * 1000, "et" );
             });
 
             $rootScope.$on('$idleTimeout', function() {
-                bbWarningModalSvc.countdown          = 0;
+                bbWarningModalSvc.countdown = 0;
+                warningModal.close( bbAuthSvc.logoutUser() );
             });
 
             $rootScope.$on( '$keepalive', function() {
@@ -72,14 +85,8 @@ bbApp.factory('bbIdleSvc', [
 
         };
 
-        closeWarningModal = function() {
-            warningModal.dismiss( null );
-        };
-
         return {
-            initIdleEvents    : initIdleEvents,
-            closeWarningModal : closeWarningModal,
-            isIdleEventsInit  : isIdleEventsInit
+            initIdleEvents : initIdleEvents
         };
 
     }]);

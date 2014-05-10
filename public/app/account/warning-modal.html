@@ -1,22 +1,22 @@
 <div class="modal-header">
-    <button aria-hidden="true" data-ng-click="closeIdleModal()"  class="close" type="button">
+    <button aria-hidden="true" data-ng-click="$dismiss()"  class="close" type="button">
         ×
     </button>
     <h4><i class="fa fa-warning"></i> <strong>Tähelepanu:</strong> Tuvastasime ebaaktiivsuse!</h4>
 </div>
 <div class="modal-body">
-    <p><i class="fa fa-clock-o"></i> Teie turvalisuse huvides lukustatame teie konto <strong>{{warningModalSvcObj.countdownHumanized}}</strong> pärast...</p>
+    <p><i class="fa fa-clock-o"></i> Teie turvalisuse huvides lukustame teie konto <strong>{{warningModalSvcObj.countdownHumanized}}</strong> pärast...</p>
     <progressbar max="warningModalSvcObj.token_exp" value="warningModalSvcObj.countdown" type="idle" animate="true" class="progress-striped active progress-idle"></progressbar>
     <div class="text-align-center">
-        <a href="" data-ng-click="closeIdleModal()" class="btn-bottom-margin btn btn-lg btn-success">
+        <a href="" data-ng-click="$dismiss()" class="btn-bottom-margin btn btn-lg btn-success">
             <i class="fa fa-check"></i>
             Olen tagasi
         </a>
-        <a href="" data-ng-click="" class="btn-bottom-margin btn btn-lg btn-primary">
+        <a href="" data-ng-click="$close( logoutUser() )" class="btn-bottom-margin btn btn-lg btn-primary">
             <i class="fa fa-lock"></i>
             Lukusta kohe
         </a>
-        <a href="" data-ng-click="" class="btn-bottom-margin btn btn-lg btn-warning">
+        <a href="" data-ng-click="$close( logoutUser() )" class="btn-bottom-margin btn btn-lg btn-warning">
             <i class="fa fa-sign-out"></i>
             Logi välja
         </a>

@@ -20,37 +20,14 @@ var
     AccessToken = mongoose.model( 'AccessToken' );
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
-exports.authenticatePost = function( req, res, next ) {
-    var auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
-        if ( err ) { return next( err ); }
-        if ( !user ) { return next( res.send({ success : false }) ); }
-        User.createUserAccessToken( user.username, function( err, access_token ) {
-            if ( err ) { return next( err ); }
-            return next( res.send({
-                    success : true,
-                    user    : {
-                        username     : user.username,
-                        firstName    : user.firstName,
-                        lastName     : user.lastName,
-                        euroBalance  : user.euroBalance,
-                        btcBalance   : user.btcBalance,
-                        access_token : access_token,
-                        token_exp    : user.token_exp
-                    }
-            }) );
-        });
-    });
-    auth( req, res, next );
-};
-
-exports.authenticateGet = function( req, res, next, config ) {
-
+exports.authenticate = function( req, res, next, config ) {
+    if ( req.body.auth_type === 'access_token'  ) {
         var
-            utils = require( './utils' )( config ),
-            parts, scheme, credentials,
-            access_token, decoded
-            ;
-    
+        utils = require( './utils' )( config ),
+        parts, scheme, credentials,
+        access_token, decoded
+        ;
+
         if ( req.headers && req.headers.authorization ) {
             parts = req.headers.authorization.split( ' ' );
             if ( parts.length === 2 ) {
@@ -102,4 +79,27 @@ exports.authenticateGet = function( req, res, next, config ) {
                 }
             }
         }
+    }
+    else {
+        var auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
+            if ( err ) { return next( err ); }
+            if ( !user ) { return next( res.send({ success : false }) ); }
+            User.createUserAccessToken( user.username, function( err, access_token ) {
+                if ( err ) { return next( err ); }
+                return next( res.send({
+                    success : true,
+                    user    : {
+                        username     : user.username,
+                        firstName    : user.firstName,
+                        lastName     : user.lastName,
+                        euroBalance  : user.euroBalance,
+                        btcBalance   : user.btcBalance,
+                        access_token : access_token,
+                        token_exp    : user.token_exp
+                    }
+                }) );
+            });
+        });
+        auth( req, res, next );
+    }
 };

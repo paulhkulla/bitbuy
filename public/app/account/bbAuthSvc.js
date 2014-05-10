@@ -15,7 +15,8 @@ bbApp.factory( 'bbAuthSvc', [
     'bbIdentitySvc',
     '$q',
     '$window',
-    function( $http, bbIdentitySvc, $q, $window ) {
+    '$location',
+    function( $http, bbIdentitySvc, $q, $window, $location ) {
 
         return {
             authenticateUser: function( username, password ) {
@@ -40,7 +41,7 @@ bbApp.factory( 'bbAuthSvc', [
 
                 var dfd = $q.defer();
 
-                $http.get( '/login' ).then( function( response ) {
+                $http.post( '/login', { auth_type : 'access_token' } ).then( function( response ) {
                     if( response.data.success ) {
                         bbIdentitySvc.currentUser           = response.data.user;
                         $window.sessionStorage.access_token = response.data.user.access_token;
@@ -52,7 +53,18 @@ bbApp.factory( 'bbAuthSvc', [
                 });
 
                 return dfd.promise;
-            }
+            },
 
+            logoutUser: function() {
+                var dfd = $q.defer();
+
+                $http.post( '/logout', { username : bbIdentitySvc.currentUser.username } ).then( function() {
+                        $window.sessionStorage.removeItem( 'access_token' );
+                        bbIdentitySvc.currentUser = undefined;
+                        dfd.resolve( true );
+                });
+
+                return dfd.promise;
+            }
         };
 }]);

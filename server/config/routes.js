@@ -13,16 +13,23 @@
 'use strict';
 
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
-var auth = require( './auth' );
+var 
+    auth     = require( './auth' ),
+    mongoose = require('mongoose'),
+    User     = mongoose.model( 'User' );
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function( app, config ) {
 
-    app.get( '/login', function( req, res, next ) {
-        auth.authenticateGet( req, res, next, config );
+    app.post( '/login', function( req, res, next ) {
+        auth.authenticate( req, res, next, config );
     });
 
-    app.post( '/login', auth.authenticatePost );
+    app.post( '/logout', function( req, res ) {
+        User.invalidateUserAccessToken( req.body.username, function() {
+            res.end();
+        });
+    });
 
     app.get( '*', function( req, res ) { res.render( 'index' ); });
 };

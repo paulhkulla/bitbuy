@@ -24,10 +24,13 @@ bbApp.factory('bbWarningModalSvc', [ '$modal', function( $modal ) {
                     templateUrl : '/app/account/warning-modal.html',
                     controller  : [
                         '$scope',
-                        'bbIdleSvc',
-                        function( $scope, bbIdleSvc ) {
+                        '$location',
+                        'bbIdleSvc', 
+                        'bbAuthSvc', 
+                        function( $scope, $location, bbIdleSvc, bbAuthSvc ) {
+                            // console.log(warningModal);
                             $scope.warningModalSvcObj = that;
-                            $scope.closeIdleModal     = function() { bbIdleSvc.closeWarningModal(); };
+                            $scope.logoutUser = bbAuthSvc.logoutUser;
                         }] 
                 });
             return warningModal;

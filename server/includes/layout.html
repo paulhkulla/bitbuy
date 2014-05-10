@@ -117,7 +117,7 @@
 
                 <!-- BEGIN MOBILE USER/LOGIN AREA -->
                 <div id="user-logout-mobile" data-ng-show="identity.isAuthenticated()" class="btn-header pull-right">
-                    <i title="Logi välja" class="fa fa-sign-out" data-ng-click=""></i>
+                    <i title="Logi välja" class="fa fa-sign-out" data-ng-click="signout()"></i>
                 </div>
                 <div id="user-login-mobile" data-ng-class="{ 'user-login-margined': !identity.isAuthenticated() }" class="btn-header pull-right">
                     <i class="icon-user icomoon-user icon-user-header-mobile scroll-up activity pull-left" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"></i>
@@ -223,7 +223,7 @@
 
                 <!-- BEGIN AUTHENTICATED USER AREA -->
                 <div data-ng-show="identity.isAuthenticated()" class="user-name-balance pull-left">
-                    <div class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <i title="Lukusta konto" class="fa fa-unlock-o" id="user-lock"></i> <i title="Logi välja" data-ng-click="signout" class="fa fa-sign-out" id="user-logout"></i></div>
+                    <div class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <i title="Lukusta konto" class="fa fa-unlock-o" id="user-lock"></i> <i title="Logi välja" data-ng-click="signout()" class="fa fa-sign-out" id="user-logout"></i></div>
                     <div class="user-balance">
                         <div class="euro-balance">EUR kontojääk: <strong>€{{identity.currentUser.euroBalance | number : 2}}</strong></div>
                         <div class="btc-balance">BTC kontojääk: <strong><i class="fa fa-btc"></i>{{identity.currentUser.btcBalance | number }}</strong></div>

@@ -53,7 +53,7 @@ bbApp.config([
     function( $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $idleProvider, $keepaliveProvider ) {
 
         // configure $idle settings
-        $idleProvider.idleDuration( 10 ); // in seconds
+        $idleProvider.idleDuration( 3 ); // in seconds
         $idleProvider.warningDuration( 15 * 60 ); // in seconds
         $keepaliveProvider.interval( 3 * 60 ); // in seconds
 
