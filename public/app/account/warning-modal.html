@@ -5,8 +5,8 @@
     <h4><i class="fa fa-warning"></i> <strong>Tähelepanu:</strong> Tuvastasime ebaaktiivsuse!</h4>
 </div>
 <div class="modal-body">
-    <p><i class="fa fa-clock-o"></i> Teie turvalisuse huvides lukustatame teie konto <strong>{{countdownHumanized}}</strong> pärast...</p>
-    <progressbar max="identity.currentUser.token_exp / 1000" value="countdown || identity.currentUser.token_exp / 1000" type="idle" animate="true" class="progress-striped active progress-idle"></progressbar>
+    <p><i class="fa fa-clock-o"></i> Teie turvalisuse huvides lukustatame teie konto <strong>{{warningModalSvcObj.countdownHumanized}}</strong> pärast...</p>
+    <progressbar max="warningModalSvcObj.token_exp" value="warningModalSvcObj.countdown" type="idle" animate="true" class="progress-striped active progress-idle"></progressbar>
     <div class="text-align-center">
         <a href="" data-ng-click="closeIdleModal()" class="btn-bottom-margin btn btn-lg btn-success">
             <i class="fa fa-check"></i>

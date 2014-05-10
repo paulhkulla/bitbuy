@@ -1,5 +1,5 @@
 /*
- * bbLoginDropdown.js
+ * bbLoginDropdownCtrl.js
  */
 
 /*jslint browser : true, continue : true,
@@ -8,14 +8,13 @@
   regexp         : true, sloppy   : true, vars     : false,
   white          : true
 */
-/*global angular, bbApp */
+/*global angular, bbApp, $ */
 
 'use strict';
 
-bbApp.directive("bbLoginDropdown", function() {
-    return {
-        restrict    : 'A',
-        templateUrl : '/app/account/login-dropdown.html',
-        controller  : 'bbLoginDropdownCtrl'
-    };
-});
+bbApp.controller('bbLoginDropdownCtrl', ['$scope', 'bbLoginSvc', function($scope, bbLoginSvc) {
+
+    $scope.signin = bbLoginSvc.signin;
+    $scope.isLoginButtonDisabled = bbLoginSvc.isLoginButtonDisabled;
+
+}]);

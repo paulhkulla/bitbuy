@@ -223,7 +223,7 @@
 
                 <!-- BEGIN AUTHENTICATED USER AREA -->
                 <div data-ng-show="identity.isAuthenticated()" class="user-name-balance pull-left">
-                    <div class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <i title="Lukusta konto" class="fa fa-unlock-o" id="user-lock"></i> <i title="Logi välja" class="fa fa-sign-out" id="user-logout"></i></div>
+                    <div class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <i title="Lukusta konto" class="fa fa-unlock-o" id="user-lock"></i> <i title="Logi välja" data-ng-click="signout" class="fa fa-sign-out" id="user-logout"></i></div>
                     <div class="user-balance">
                         <div class="euro-balance">EUR kontojääk: <strong>€{{identity.currentUser.euroBalance | number : 2}}</strong></div>
                         <div class="btc-balance">BTC kontojääk: <strong><i class="fa fa-btc"></i>{{identity.currentUser.btcBalance | number }}</strong></div>

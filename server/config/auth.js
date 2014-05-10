@@ -23,21 +23,21 @@ var
 exports.authenticatePost = function( req, res, next ) {
     var auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
         if ( err ) { return next( err ); }
-        if ( !user ) { return res.send({ success : false }); }
+        if ( !user ) { return next( res.send({ success : false }) ); }
         User.createUserAccessToken( user.username, function( err, access_token ) {
             if ( err ) { return next( err ); }
-            res.send({
-                success : true,
-                user    : {
-                    username     : user.username,
-                    firstName    : user.firstName,
-                    lastName     : user.lastName,
-                    euroBalance  : user.euroBalance,
-                    btcBalance   : user.btcBalance,
-                    access_token : access_token,
-                    token_exp    : user.token_exp
-                }
-            });
+            return next( res.send({
+                    success : true,
+                    user    : {
+                        username     : user.username,
+                        firstName    : user.firstName,
+                        lastName     : user.lastName,
+                        euroBalance  : user.euroBalance,
+                        btcBalance   : user.btcBalance,
+                        access_token : access_token,
+                        token_exp    : user.token_exp
+                    }
+            }) );
         });
     });
     auth( req, res, next );
@@ -66,16 +66,16 @@ exports.authenticateGet = function( req, res, next, config ) {
                         User.findUser( decoded.username, access_token, function( err, user ) {
                             if ( err ) {
                                 console.log( err );
-                                res.send({ error: 'Issue finding user.' });
+                                return next( res.send({ error: 'Issue finding user.' }) );
                             }
                             if ( user ) {
                                 if ( +(new Date(decoded.date_created)) !== +user.access_token.date_created ) {
-                                    res.send({ error: 'Token date mismatch. Potential theft.' });
+                                    return next( res.send({ error: 'Token date mismatch. Potential theft.' }) );
                                 }
                                 if ( ! AccessToken.hasExpired( user.access_token.date_created, user.token_exp ) ) {
                                     User.createUserAccessToken( user.username, function( err, access_token ) {
-                                        if ( err ) { return res.send({ error : err }); }
-                                        res.send({
+                                        if ( err ) { return next( res.send({ error : err }) ); }
+                                        return next( res.send({
                                             success : true,
                                             user    : {
                                                 username     : user.username,
@@ -86,18 +86,18 @@ exports.authenticateGet = function( req, res, next, config ) {
                                                 access_token : access_token,
                                                 token_exp    : user.token_exp
                                             }
-                                        });
+                                        }) );
                                     });
                                 }
                                 else {
-                                    res.send({ error: 'Token expired. Please log in again.'  });
+                                    return next( res.send({ error: 'Token expired. Please log in again.'  }) );
                                 }
                             }
                         });
                     }
                     else {
                         console.log('Whoa! Couldn\'t even decode incoming token!');
-                        res.send({ error: 'Issue decoding incoming token.' });
+                        return next( res.send({ error: 'Issue decoding incoming token.' }) );
                     }
                 }
             }

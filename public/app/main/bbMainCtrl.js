@@ -12,9 +12,16 @@
 
 'use strict';
 
-bbApp.controller('bbMainCtrl', ['$scope', 'bbLoginDropdownSvc', function($scope, bbLoginDropdownSvc) {
+bbApp.controller( 'bbMainCtrl', [
+    '$scope',
+    'bbLoginDropdownSvc',
+    'bbLoginSvc',
+    'bbIdentitySvc',
+    function( $scope, bbLoginDropdownSvc, bbLoginSvc, bbIdentitySvc ) {
 
     $scope.bbLoginDropdownSvc = bbLoginDropdownSvc;
+    $scope.signout            = bbLoginSvc.signout;
+    $scope.identity           = bbIdentitySvc;
 
     $scope.currentYear        = new Date().getFullYear();
 

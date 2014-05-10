@@ -20,10 +20,28 @@ var bbApp = angular.module( 'bbApp', [
     'ui.bootstrap'
 ]);
 
-bbApp.run([ '$rootScope', '$state', '$stateParams', function( $rootScope, $state, $stateParams ) {
-    $rootScope.$state       = $state;
-    $rootScope.$stateParams = $stateParams;
-}]);
+bbApp.run([ 
+    '$rootScope',
+    '$state',
+    '$stateParams',
+    '$window',
+    'bbIdentitySvc',
+    'bbAuthSvc',
+    'bbIdleSvc',
+    function( $rootScope, $state, $stateParams, $window, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
+        $rootScope.$state       = $state;
+        $rootScope.$stateParams = $stateParams;
+
+        if ( $window.sessionStorage.getItem( 'access_token' ) ) {
+            bbAuthSvc.authenticateToken().then( function( success ) {
+                if ( success ) {
+                    if ( ! bbIdleSvc.isIdleEventsInit ) {
+                        bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
+                    }
+                }
+            });
+        }
+    }]);
 
 bbApp.config([
     '$stateProvider',
