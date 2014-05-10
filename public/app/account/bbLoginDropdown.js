@@ -12,10 +12,10 @@
 
 'use strict';
 
-bbApp.directive("loginDropdown", function() {
+bbApp.directive("bbLoginDropdown", function() {
     return {
         restrict    : 'A',
-        templateUrl : '/app/partials/main/login/login-dropdown.html',
+        templateUrl : '/app/account/login-dropdown.html',
         controller  : 'bbLoginCtrl'
     };
 });
