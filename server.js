@@ -31,10 +31,10 @@ require( './server/config/express' )( app, config, env );
 require( './server/config/mongoose' )( config );
 
 //----------------- SETUP PASSPORT MIDDLEWARE --------------------
-require( './server/config/passport' )();
+require( './server/config/passport' )( config );
 
 //----------------- SETUP SERVER SIDE ROUTING --------------------
-require( './server/config/routes' )( app );
+require( './server/config/routes' )( app, config );
 
 //------------------- BEGIN SERVER START-UP ----------------------
 server = app.listen( config.port );

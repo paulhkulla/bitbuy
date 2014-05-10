@@ -15,7 +15,6 @@
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
     mongoose    = require( 'mongoose' ),
-    bcrypt      = require( 'bcrypt' ),
     crypto      = require( 'crypto' ),
     AccessToken = require( 'mongoose' ).model( 'AccessToken' ),
 
@@ -24,6 +23,8 @@ var
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function( config ) {
+
+    var utils = require( './utils' )( config );
 
     var UserSchema, User;
 
@@ -41,31 +42,12 @@ module.exports = function( config ) {
         reset_token_exp : Number
     });
 
-    UserSchema.methods.comparePassword = function( candidatePassword, callback ) {
-        bcrypt.compare( candidatePassword, this.password, function( err, isMatch ) {
-            if ( err ) { return callback( err ); }
-            callback( null, isMatch );
-        });
-    };
-
-    UserSchema.statics.hash = function( input, cb ) {
-        bcrypt.genSalt( config.SALT_WORK_FACTOR, function( err, salt ) {
-            if ( err ) { return cb( err, null ); }
-
-            // hash the access_token along with our new salt
-            bcrypt.hash( input, salt, function( err, hash ) {
-                if ( err ) { return cb( err, null ); }
-                cb( false, hash );
-            });
-        });
-    };
-
     UserSchema.statics.findUser = function( username, access_token, cb ) {
         this.findOne({ username : username }, function( err, user ) {
             if ( err ) { return cb( err, null ); }
             if ( !user ) { return cb( 'User mismatch', null ); }
             if ( user.access_token && user.access_token.token ) {
-                bcrypt.compare( access_token, user.access_token.token, function( err, isMatch ) {
+                utils.compareHash( access_token, user.access_token.token, function( err, isMatch ) {
                     if ( err ) { return cb( err, null ); }
                     if ( isMatch ) { cb( false, user ); }
                     else {
@@ -91,7 +73,6 @@ module.exports = function( config ) {
     };
     UserSchema.statics.createUserAccessToken = function( username, cb ) {
         var 
-            self = this,
             now, access_token;
 
         this.findOne({ username : username }, function( err, user ) {
@@ -101,8 +82,8 @@ module.exports = function( config ) {
             //Create a token and add to user and save
             
             now = new Date().getTime();
-            access_token = AccessToken.encode({ username : username, date_created : now });
-            User.hash( access_token, function( err, hashedToken ) {
+            access_token = utils.jwtEncode({ username : username, date_created : now });
+            utils.hash( access_token, function( err, hashedToken ) {
                 user.access_token = new AccessToken({ token : hashedToken, date_created : now });
                 user.save(function( err, user ) {
                     if ( err ) {
@@ -159,10 +140,10 @@ module.exports = function( config ) {
 
     User.find({}).exec(function( err, collection ) {
         if ( collection.length === 0 ) {
-            User.hash( 'joe', function( err, hashedPassword ) {
+            utils.hash( 'joe', function( err, hashedPassword ) {
                 User.create({ firstName: 'Joe', lastName: 'Eames', euroBalance: 9534, btcBalance: 100.34522, username: 'joe', password: hashedPassword });
             });
-            User.hash( 'kokaiin', function( err, hashedPassword ) {
+            utils.hash( 'kokaiin', function( err, hashedPassword ) {
                 User.create({ firstName: 'Markus', lastName: 'Pint', euroBalance: 10232.99, btcBalance: 1, username: 'markuspint@hotmail.com', password: hashedPassword });
             });
         }

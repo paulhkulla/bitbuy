@@ -21,13 +21,16 @@ var
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
-module.exports = function() {
+module.exports = function( config ) {
+
+    var utils = require( './utils' )( config );
+
     passport.use( new LocalStrategy(
         function( username, password, done ) {
             User.findOne( { username : username } ).exec( function( err, user ) {
                 if ( user ) {
                     // check if password matches
-                    user.comparePassword( password, function(err, isMatch) {
+                    utils.compareHash( password, user.password, function(err, isMatch) {
                         if ( err ) { throw err; }
                         if ( isMatch ) { 
                             return done( null, user );

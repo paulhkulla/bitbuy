@@ -16,6 +16,6 @@
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
-module.exports = function () {
-    require( './local-strategy' )();
+module.exports = function ( config ) {
+    require( './local-strategy' )( config );
 };
