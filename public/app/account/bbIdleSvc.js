@@ -37,7 +37,6 @@ bbApp.factory('bbIdleSvc', [
             $idle._options().warningDuration = token_exp / 1000;
 
             $rootScope.$on( '$idleStart', function() {
-            console.log("this is twice");
 
                 bbWarningModalSvc.token_exp           = token_exp / 1000;
                 bbWarningModalSvc.countdown           = token_exp / 1000;
@@ -47,17 +46,8 @@ bbApp.factory('bbIdleSvc', [
                 bbAuthSvc.authenticateToken().then( function( success ) {
                     if ( success ) {
                         warningModal = bbWarningModalSvc.warningModal();
-                        console.log(warningModal);
                         warningModal.result.then( function( result ) {
-                            $idle.unwatch();
-                            $.smallBox({
-                                title : "Nägemiseni!",
-                                content : "<i class='fa fa-sign-out'></i> Olete edukalt välja logitud!",
-                                color : "#96BF48",
-                                timeout: 8000,
-                                iconSmall : "fa fa-check fadeInLeft animated"
-                            }); 
-                            $location.path('/');
+                            console.log(result);
                         }, function( result ) {
                             $idle.watch();
                             $idle._options().autoResume = true;

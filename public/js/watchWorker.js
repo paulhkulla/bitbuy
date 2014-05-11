@@ -25,29 +25,29 @@ $(function () {
     //----------------- END MODULE SCOPE VARIABLES -------------------
 
     //--------------------- BEGIN DOM METHODS ------------------------
-    setJqueryMap = (function () {
+    setJqueryMap = ( function () {
         jqueryMap = { $head : $( 'head' ) };
     })();
     //---------------------- END DOM METHODS -------------------------
 
     //------------------- BEGIN EVENT LISTENERS ----------------------
-    socket.on('reload', function () {
+    socket.on( 'reload', function () {
         location.reload( true );
     });
 
-    socket.on('stylesheet', function (sheet) {
+    socket.on( 'stylesheet', function (sheet) {
         var
             $link = $( '<link rel="stylesheet" type="text/css" media="screen">' ),
             oldSheet;
 
-        if (!nameMap[sheet]) { nameMap[sheet] = sheet; }
+        if ( !nameMap[sheet] ) { nameMap[sheet] = sheet; }
         oldSheet = nameMap[sheet];
-        console.log(nameMap);
+        console.log( nameMap );
 
         appendedSheet = sheet + '?' + Date.now();
 
 
-        $link.attr('href', appendedSheet);
+        $link.attr( 'href', appendedSheet );
 
         if ( sheet.indexOf( 'bootstrap' ) >= 0 ) {
             jqueryMap.$head.prepend( $link );
@@ -56,12 +56,12 @@ $(function () {
             jqueryMap.$head.append( $link );
         }
 
-        setTimeout(function() {
-            $('link[href="' + oldSheet + '"]').remove();
-        }, 1000);
+        setTimeout( function() {
+            $( 'link[href="' + oldSheet + '"]' ).remove();
+        }, 1000 );
 
         nameMap[sheet] = appendedSheet;
-        console.log(nameMap);
+        console.log( nameMap );
     });
     //-------------------- END EVENT LISTENERS -----------------------
 });

@@ -20,7 +20,7 @@ var
     express       = require( 'express' ),
     app           = express(),
 
-    server
+    server, io
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
@@ -42,4 +42,5 @@ console.log( 'Listening on port %d in %s env...', server.address().port, env );
 //-------------------- END SERVER START-UP -----------------------
 
 //--------------- INITIALIZE WATCHER AND TICKER ------------------
-require( './server/config/watcher-ticker' )( config, env, server );
+io = require( './lib/ticker' ).connect( server );
+require( './server/config/watcher' )( config, env, io );

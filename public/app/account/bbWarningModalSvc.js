@@ -24,10 +24,8 @@ bbApp.factory('bbWarningModalSvc', [ '$modal', function( $modal ) {
                     templateUrl : '/app/account/warning-modal.html',
                     controller  : [
                         '$scope',
-                        '$location',
-                        'bbIdleSvc', 
                         'bbAuthSvc', 
-                        function( $scope, $location, bbIdleSvc, bbAuthSvc ) {
+                        function( $scope, bbAuthSvc ) {
                             // console.log(warningModal);
                             $scope.warningModalSvcObj = that;
                             $scope.logoutUser = bbAuthSvc.logoutUser;

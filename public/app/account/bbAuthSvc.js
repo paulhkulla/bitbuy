@@ -16,7 +16,8 @@ bbApp.factory( 'bbAuthSvc', [
     '$q',
     '$window',
     '$location',
-    function( $http, bbIdentitySvc, $q, $window, $location ) {
+    '$idle',
+    function( $http, bbIdentitySvc, $q, $window, $location, $idle ) {
 
         return {
             authenticateUser: function( username, password ) {
@@ -61,7 +62,16 @@ bbApp.factory( 'bbAuthSvc', [
                 $http.post( '/logout', { username : bbIdentitySvc.currentUser.username } ).then( function() {
                         $window.sessionStorage.removeItem( 'access_token' );
                         bbIdentitySvc.currentUser = undefined;
-                        dfd.resolve( true );
+                        $idle.unwatch();
+                        $.smallBox({
+                            title : "Nägemiseni!",
+                            content : "<i class='fa fa-sign-out'></i> Olete edukalt välja logitud!",
+                            color : "#96BF48",
+                            timeout: 8000,
+                            iconSmall : "fa fa-check fadeInLeft animated"
+                        }); 
+                        $location.path('/');
+                        dfd.resolve( "logged out" );
                 });
 
                 return dfd.promise;

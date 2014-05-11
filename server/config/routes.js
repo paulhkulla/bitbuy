@@ -27,7 +27,7 @@ module.exports = function( app, config ) {
 
     app.post( '/logout', function( req, res ) {
         User.invalidateUserAccessToken( req.body.username, function() {
-            res.end();
+             res.end();
         });
     });
 
