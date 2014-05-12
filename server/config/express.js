@@ -33,6 +33,7 @@ module.exports = function(app, config, env) {
         }); 
     }
     swig.setDefaults({ 
+        cache: 'memory',
         varControls: [ '{[{', '}]}' ]
     }); 
     app.engine( 'html', consolidate.swig );
