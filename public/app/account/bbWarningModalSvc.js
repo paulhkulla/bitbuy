@@ -21,12 +21,13 @@ bbApp.factory('bbWarningModalSvc', [ '$modal', function( $modal ) {
             var 
                 that         = this,
                 warningModal = $modal.open({
+                    size        : 'sm',
                     templateUrl : '/app/account/warning-modal.html',
+                    windowClass : 'modal-idle',
                     controller  : [
                         '$scope',
                         'bbAuthSvc', 
                         function( $scope, bbAuthSvc ) {
-                            // console.log(warningModal);
                             $scope.warningModalSvcObj = that;
                             $scope.logoutUser = bbAuthSvc.logoutUser;
                         }] 

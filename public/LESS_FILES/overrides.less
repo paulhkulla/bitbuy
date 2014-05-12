@@ -1,3 +1,50 @@
+#locked-modal-login-form {
+    footer {
+        padding: 0px !important;
+    }
+}
+
+.locked-modal-btn {
+    margin-bottom: 4px;
+    &:hover {
+        .fa-lock:before {
+            content:"\f13e";
+        }
+    }
+}
+.air-top-right {
+    top: 15px;
+    right: 20px;
+    color: #FFF;
+    font-size: 52px;
+    cursor: default;
+}
+.modal-locked .modal-header {
+    background-color: #3B9FF3;
+    color:  #FFF;
+    border-bottom: 0px;
+    border-radius: 3px 3px 0px 0px; 
+}
+.modal-locked .modal-content { 
+    border: 0px;
+    border-radius: 6px 6px 3px 3px; 
+}
+.modal-locked .modal-dialog {
+    width: @modal-sm;
+    margin: 30px auto;
+}
+
+.modal-idle .modal-header {
+    background-color: #3B9FF3;
+    color:  #FFF;
+    border-bottom: 0px;
+    border-radius: 3px 3px 0px 0px; 
+}
+.modal-idle .modal-content { 
+    border: 0px;
+    border-radius: 6px 6px 3px 3px; 
+}
+
 .progress-bar-idle {
   background-color: #82AE00;
 }
@@ -9,6 +56,7 @@
     border-left: 5px solid rgba(0, 0, 0, 0.15);
 }
 .SmallBox:hover {
+    box-shadow: 0px 0px 10px #CCC;
     border: none;
     border-left: 5px solid rgba(0, 0, 0, 0.15);
 }
@@ -748,13 +796,19 @@ aside nav ul li a {
         padding-right: 12px;
         border: none;
         top: 0px;
+        z-index: 2000 !important;
+
+        &:hover {
+            display: none !important;
+        z-index: 20000 !important;
+        }
     }
 }
 .minified aside nav ul .active a {
 
     .menu-item-parent {
         background: none repeat scroll 0 0 rgba(156, 206, 0, 0.7) !important;
-                color: darken(rgba(41, 69, 87, 1), 5%) !important;
+        color: darken(rgba(41, 69, 87, 1), 5%) !important;
         border: none;
         top: 0px;
     }
@@ -928,6 +982,9 @@ nav ul li {
 @media (max-width: 767px) {
 
 
+    .minified nav > ul > li:hover > a > .menu-item-parent, .minified nav > ul > li:hover > ul {
+        display: none !important;
+    }
     .btn-bottom-margin {
         margin-bottom: 2px;
     }

@@ -18,7 +18,7 @@ bbApp.factory('bbLoginDropdownSvc', [
     'bbIdentitySvc',
     function( $rootScope, $document, bbIdentitySvc ) {
 
-        var onMouseup = function( e ) {
+        var onMousedown = function( e ) {
             if ( !$( '.login-dropdown' ).is( e.target )// if the target of the click isn't the container...
                 && $( '.login-dropdown' ).has( e.target ).length === 0 
                 && !$( '#divSmallBoxes' ).is( e.target ) && $( '#divSmallBoxes' ).has( e.target ).length === 0 
@@ -28,7 +28,7 @@ bbApp.factory('bbLoginDropdownSvc', [
                 && !( $( '#myModal' ).hasClass( 'in' ) ) ) {
                     e.data.dropdownObj.isDropdownActive = false;
                     $rootScope.$apply();
-                    $( $document ).unbind('mouseup', onMouseup);
+                    $( $document ).unbind( 'mousedown', onMousedown );
             }
         };
 
@@ -40,21 +40,21 @@ bbApp.factory('bbLoginDropdownSvc', [
             toggleDropdown    : function() {
                 if ( bbIdentitySvc.isAuthenticated() ) {
                     this.isDropdownActive = false;
-                    $( $document ).unbind( 'mouseup', onMouseup );
+                    $( $document ).unbind( 'mousedown', onMousedown );
                     return;
                 }
                 this.isDropdownActive = this.isDropdownActive ? false : true;
-                $( $document ).bind( 'mouseup', { dropdownObj : this }, onMouseup );
+                $( $document ).bind( 'mousedown', { dropdownObj : this }, onMousedown );
             },
 
             activateDropdown  : function() {
                 if ( bbIdentitySvc.isAuthenticated() ) {
                     this.isDropdownActive = false;
-                    $( $document ).unbind('mouseup', onMouseup);
+                    $( $document ).unbind( 'mousedown', onMousedown );
                     return;
                 }
                 this.isDropdownActive = true;
-                $( $document ).bind( 'mouseup', { dropdownObj : this }, onMouseup );
+                $( $document ).bind( 'mousedown', { dropdownObj : this }, onMousedown );
             }, 
 
             activateTab       : function( tab ) {

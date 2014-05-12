@@ -13,14 +13,16 @@
 'use strict';
 
 bbApp.factory('bbLoginSvc', [
-    '$window',
     'bbLoginDropdownSvc',
     'bbIdentitySvc',
     'bbAuthSvc',
     'bbIdleSvc',
-    function( $window, bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
+    function( bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
 
         return {
+
+            username              : null,
+            password              : null,
 
             isLoginButtonDisabled : false,
 
@@ -39,6 +41,8 @@ bbApp.factory('bbLoginSvc', [
                         bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
 
                         bbLoginDropdownSvc.isDropdownActive = false;
+                        that.username = null;
+                        that.password = null;
 
                         $.smallBox({
                             title : "Teretulemast tagasi, <strong>" + bbIdentitySvc.currentUser.firstName + "</strong>!",
@@ -46,7 +50,7 @@ bbApp.factory('bbLoginSvc', [
                             color : "#96BF48",
                             timeout: 8000,
                             icon : "fa fa-check fadeInLeft animated"
-                        }); 
+                        });
                     }
                     else {
                         $.smallBox({
@@ -58,10 +62,6 @@ bbApp.factory('bbLoginSvc', [
                         }); 
                     }
                 });
-            },
-
-            signout               : function() {
-                bbAuthSvc.logoutUser();
             }
         };
     }]);

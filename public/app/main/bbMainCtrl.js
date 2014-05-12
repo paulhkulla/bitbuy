@@ -17,10 +17,11 @@ bbApp.controller( 'bbMainCtrl', [
     'bbLoginDropdownSvc',
     'bbLoginSvc',
     'bbIdentitySvc',
-    function( $scope, bbLoginDropdownSvc, bbLoginSvc, bbIdentitySvc ) {
+    'bbAuthSvc',
+    function( $scope, bbLoginDropdownSvc, bbLoginSvc, bbIdentitySvc, bbAuthSvc ) {
 
     $scope.bbLoginDropdownSvc = bbLoginDropdownSvc;
-    $scope.signout            = bbLoginSvc.signout;
+    $scope.signout            = bbAuthSvc.logoutUser;
     $scope.identity           = bbIdentitySvc;
 
     $scope.currentYear        = new Date().getFullYear();

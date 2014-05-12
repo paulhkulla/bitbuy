@@ -26,7 +26,7 @@ $(function () {
 
     //--------------------- BEGIN DOM METHODS ------------------------
     setJqueryMap = ( function () {
-        jqueryMap = { $head : $( 'head' ) };
+        jqueryMap = {};
     })();
     //---------------------- END DOM METHODS -------------------------
 
@@ -35,7 +35,31 @@ $(function () {
         location.reload( true );
     });
 
-    socket.on( 'stylesheet', function (sheet) {
+    socket.on( 'javascript', function ( file ) {
+        var
+            $script = $( '<script></script>' ),
+            oldFile;
+
+        if ( !nameMap[file] ) { nameMap[file] = file; }
+        oldFile = nameMap[file];
+        console.log( nameMap );
+
+        appendedFile = file + '?' + Date.now();
+
+
+        $script.attr( 'src', appendedFile );
+
+        $( 'script[src="' + oldFile + '"]' ).before( $script );
+
+        setTimeout( function() {
+            $( 'script[src="' + oldFile + '"]' ).remove();
+        }, 1000 );
+
+        nameMap[file] = appendedFile;
+        console.log( nameMap );
+    });
+
+    socket.on( 'stylesheet', function ( sheet ) {
         var
             $link = $( '<link rel="stylesheet" type="text/css" media="screen">' ),
             oldSheet;
@@ -49,12 +73,7 @@ $(function () {
 
         $link.attr( 'href', appendedSheet );
 
-        if ( sheet.indexOf( 'bootstrap' ) >= 0 ) {
-            jqueryMap.$head.prepend( $link );
-        }
-        else {
-            jqueryMap.$head.append( $link );
-        }
+        $( 'link[href="' + oldSheet + '"]' ).before( $link );
 
         setTimeout( function() {
             $( 'link[href="' + oldSheet + '"]' ).remove();

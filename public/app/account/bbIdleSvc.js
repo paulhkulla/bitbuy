@@ -18,17 +18,20 @@ bbApp.factory('bbIdleSvc', [
     '$location',
     'bbAuthSvc',
     'bbWarningModalSvc',
-    function( $rootScope, $idle, $location, bbAuthSvc, bbWarningModalSvc ) {
+    'bbLockedModalSvc',
+    function( $rootScope, $idle, $location, bbAuthSvc, bbWarningModalSvc, bbLockedModalSvc ) {
         
         var
             initIdleEvents,
             isIdleEventsInit = false,
 
-            warningModal
+            warningModal, lockedModal
             ;
 
         // Setup and initialize idle watch and its events
         initIdleEvents = function( token_exp ) {
+
+            console.log( "Idle events init at %s", new moment().format("HH:mm:ss") );
 
             $idle.watch();
             if ( isIdleEventsInit ) { return; }
@@ -38,6 +41,7 @@ bbApp.factory('bbIdleSvc', [
 
             $rootScope.$on( '$idleStart', function() {
 
+                console.log( "Idle start at %s", new moment().format("HH:mm:ss") );
                 bbWarningModalSvc.token_exp           = token_exp / 1000;
                 bbWarningModalSvc.countdown           = token_exp / 1000;
                 bbWarningModalSvc.countdownHumanized  = humanizeDuration( token_exp, "et" );
@@ -47,7 +51,7 @@ bbApp.factory('bbIdleSvc', [
                     if ( success ) {
                         warningModal = bbWarningModalSvc.warningModal();
                         warningModal.result.then( function( result ) {
-                            console.log(result);
+
                         }, function( result ) {
                             $idle.watch();
                             $idle._options().autoResume = true;
@@ -65,11 +69,12 @@ bbApp.factory('bbIdleSvc', [
 
             $rootScope.$on('$idleTimeout', function() {
                 bbWarningModalSvc.countdown = 0;
-                warningModal.close( bbAuthSvc.logoutUser() );
+                warningModal.close( bbAuthSvc.logoutUser( "lock_automatically" ) );
             });
 
             $rootScope.$on( '$keepalive', function() {
                 // do something to keep the user's session alive
+                console.log( "Heartbeat at %s", new moment().format("HH:mm:ss") );
                 bbAuthSvc.authenticateToken();
             });
 

@@ -52,10 +52,11 @@ bbApp.config([
     '$keepaliveProvider',
     function( $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $idleProvider, $keepaliveProvider ) {
 
-        // configure $idle settings
-        $idleProvider.idleDuration( 3 ); // in seconds
-        $idleProvider.warningDuration( 15 * 60 ); // in seconds
-        $keepaliveProvider.interval( 3 * 60 ); // in seconds
+        // configure idle settings, durations are in seconds
+        // idleDuration must be greater than keepaliveProvider.interval!
+        $idleProvider.idleDuration( 20 );
+        $idleProvider.warningDuration( 15 * 60 );
+        $keepaliveProvider.interval( 5 );
 
         $httpProvider.interceptors.push('authInterceptor');
 
