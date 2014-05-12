@@ -20,20 +20,18 @@ var
     bodyParser   = require( 'body-parser' ),
     passport     = require( 'passport' ),
     consolidate  = require( 'consolidate' ),
-    swig         = require( 'swig' )
+    swig         = require( 'swig' ),
+
+    swigCache = 'memory'
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function(app, config, env) {
 
     //------------------- BEGIN TEMPLATE CONFIG ----------------------
-    if ( env === 'development' ) { 
-        swig.setDefaults({ 
-            cache: false
-        }); 
-    }
+    swigCache = env === 'development' ? false : false;
     swig.setDefaults({ 
-        cache: 'memory',
+        cache: swigCache,
         varControls: [ '{[{', '}]}' ]
     }); 
     app.engine( 'html', consolidate.swig );
