@@ -20,7 +20,7 @@ var
     bodyParser   = require( 'body-parser' ),
     passport     = require( 'passport' ),
     consolidate  = require( 'consolidate' ),
-    swig         = require( 'swig' ),
+    swig         = require( 'swig' )
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
