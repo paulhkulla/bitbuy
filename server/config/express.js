@@ -21,18 +21,18 @@ var
     passport     = require( 'passport' ),
     consolidate  = require( 'consolidate' ),
     swig         = require( 'swig' ),
-
-    swigCache = "memory"
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function(app, config, env) {
 
     //------------------- BEGIN TEMPLATE CONFIG ----------------------
-    if ( env === 'development' ) { swigCache = false; }
-    console.log(swigCache);
+    if ( env === 'development' ) { 
+        swig.setDefaults({ 
+            cache: false
+        }); 
+    }
     swig.setDefaults({ 
-        cache: swigCache,
         varControls: [ '{[{', '}]}' ]
     }); 
     app.engine( 'html', consolidate.swig );
