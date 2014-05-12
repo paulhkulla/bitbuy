@@ -30,6 +30,7 @@ module.exports = function(app, config, env) {
 
     //------------------- BEGIN TEMPLATE CONFIG ----------------------
     if ( env === 'development' ) { swigCache = false; }
+    console.log(swigCache);
     swig.setDefaults({ 
         cache: swigCache,
         varControls: [ '{[{', '}]}' ]
