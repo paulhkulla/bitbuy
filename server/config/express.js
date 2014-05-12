@@ -22,14 +22,14 @@ var
     consolidate  = require( 'consolidate' ),
     swig         = require( 'swig' ),
 
-    swigCache
+    swigCache = 'memory'
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function(app, config, env) {
 
     //------------------- BEGIN TEMPLATE CONFIG ----------------------
-    swigCache = env === 'development' ? false : 'memory';
+    if ( env === 'development' ) { swigCache = false; }
     swig.setDefaults({ 
         cache: swigCache,
         varControls: [ '{[{', '}]}' ]
