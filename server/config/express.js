@@ -22,7 +22,7 @@ var
     consolidate  = require( 'consolidate' ),
     swig         = require( 'swig' ),
 
-    swigCache = 'memory'
+    swigCache = "memory"
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
