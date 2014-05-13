@@ -15,18 +15,14 @@
 bbApp.factory('bbIdleSvc', [
     '$rootScope',
     '$idle',
-    '$location',
     'bbAuthSvc',
+    'bbLogoutSvc',
     'bbWarningModalSvc',
-    'bbLockedModalSvc',
-    function( $rootScope, $idle, $location, bbAuthSvc, bbWarningModalSvc, bbLockedModalSvc ) {
+    function( $rootScope, $idle, bbAuthSvc, bbLogoutSvc, bbWarningModalSvc ) {
         
         var
             initIdleEvents,
-            isIdleEventsInit = false,
-
-            warningModal, lockedModal
-            ;
+            isIdleEventsInit = false;
 
         // Setup and initialize idle watch and its events
         initIdleEvents = function( token_exp ) {
@@ -49,13 +45,14 @@ bbApp.factory('bbIdleSvc', [
 
                 bbAuthSvc.authenticateToken().then( function( success ) {
                     if ( success ) {
-                        warningModal = bbWarningModalSvc.warningModal();
-                        warningModal.result.then( function( result ) {
-
-                        }, function( result ) {
-                            $idle.watch();
-                            $idle._options().autoResume = true;
-                        });
+                        bbWarningModalSvc.warningModal();
+                        bbWarningModalSvc.warningModalInstance.result.then(
+                            function( result ) {},
+                            function( result ) {
+                                $idle.watch();
+                                $idle._options().autoResume = true;
+                            }
+                        );
                     }
 
                 });
@@ -69,7 +66,9 @@ bbApp.factory('bbIdleSvc', [
 
             $rootScope.$on('$idleTimeout', function() {
                 bbWarningModalSvc.countdown = 0;
-                warningModal.close( bbAuthSvc.logoutUser( "lock_automatically" ) );
+                bbWarningModalSvc.warningModalInstance.close( 
+                    bbLogoutSvc.signout( "lock_automatically" )
+                );
             });
 
             $rootScope.$on( '$keepalive', function() {

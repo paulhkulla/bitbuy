@@ -14,10 +14,11 @@
 
 bbApp.factory('bbWarningModalSvc', [ '$modal', function( $modal ) {
     return {
-        countdown          : undefined,
-        countdownHumanized : undefined,
-        token_exp          : undefined,
-        warningModal       : function() {
+        countdown            : undefined,
+        countdownHumanized   : undefined,
+        token_exp            : undefined,
+        warningModalInstance : undefined,
+        warningModal         : function() {
             var 
                 that         = this,
                 warningModal = $modal.open({
@@ -26,12 +27,13 @@ bbApp.factory('bbWarningModalSvc', [ '$modal', function( $modal ) {
                     windowClass : 'modal-idle',
                     controller  : [
                         '$scope',
-                        'bbAuthSvc', 
-                        function( $scope, bbAuthSvc ) {
+                        'bbLogoutSvc', 
+                        function( $scope, bbLogoutSvc ) {
                             $scope.warningModalSvcObj = that;
-                            $scope.logoutUser = bbAuthSvc.logoutUser;
+                            $scope.signout = bbLogoutSvc.signout;
                         }] 
                 });
+            this.warningModalInstance = warningModal;
             return warningModal;
         }
     };

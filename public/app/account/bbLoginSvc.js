@@ -26,9 +26,10 @@ bbApp.factory('bbLoginSvc', [
 
             isLoginButtonDisabled : false,
 
-            signin                : function(username, password) {
+            signin                : function( username, password, locked ) {
 
-                var that = this;
+                var title,
+                    that = this;
 
                 this.isLoginButtonDisabled = true;
 
@@ -53,8 +54,14 @@ bbApp.factory('bbLoginSvc', [
                         });
                     }
                     else {
+                        if ( locked ) {
+                            title = "Sisestasite vale parooli!"; 
+                        }
+                        else {
+                            title = "Sisestasite vale e-maili ja/või parooli!";
+                        }
                         $.smallBox({
-                            title : "Sisestasite vale e-maili ja/või parooli!",
+                            title : title,
                             content : "Palun proovige uuesti!",
                             color : "#c7262c",
                             timeout: 3000,

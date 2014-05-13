@@ -54,9 +54,9 @@ bbApp.config([
 
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
-        $idleProvider.idleDuration( 20 );
+        $idleProvider.idleDuration( 5 );
         $idleProvider.warningDuration( 15 * 60 );
-        $keepaliveProvider.interval( 5 );
+        $keepaliveProvider.interval( 2 );
 
         $httpProvider.interceptors.push('authInterceptor');
 

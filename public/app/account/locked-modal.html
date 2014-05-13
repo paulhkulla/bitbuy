@@ -19,14 +19,14 @@
             </fieldset>
 
             <footer>
-            <button data-ng-disabled="isLoginButtonDisabled" data-ng-click="signin( identity.currentUser.username, password )" class="locked-modal-btn btn btn-block btn-success">
+            <button data-ng-disabled="isLoginButtonDisabled" data-ng-click="signin( identity.currentUser.username, password, true )" class="locked-modal-btn btn btn-block btn-success">
                 <i class="fa fa-lock"></i>
                 Taasta juurdepääs
             </button>
             </footer>
         </form>
     <div class="text-align-center">
-        <a href="" data-ng-click="$close( logoutUser( false ) )" class="btn btn-block btn-warning">
+        <a href="" data-ng-click="$close( signout( false ) )" class="btn btn-block btn-warning">
             <i class="fa fa-sign-out"></i>
             Logi välja
         </a>

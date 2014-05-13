@@ -15,9 +15,9 @@
 bbApp.factory('bbLockedModalSvc', [ '$modal', function( $modal ) {
     return {
         lockedModalInstance : undefined,
-        lockedModal       : function() {
+        lockedModal         : function() {
             var 
-                that         = this,
+                that        = this,
                 lockedModal = $modal.open({
                     templateUrl : '/app/account/locked-modal.html',
                     windowClass: "modal-locked",
@@ -25,9 +25,9 @@ bbApp.factory('bbLockedModalSvc', [ '$modal', function( $modal ) {
                     controller  : [
                         '$scope',
                         'bbIdentitySvc', 
-                        'bbAuthSvc',
+                        'bbLogoutSvc',
                         'bbLoginSvc',
-                        function( $scope, bbIdentitySvc, bbAuthSvc, bbLoginSvc ) {
+                        function( $scope, bbIdentitySvc, bbLogoutSvc, bbLoginSvc ) {
                             $scope.warningModalSvcObj    = that;
                             $scope.identity              = bbIdentitySvc;
 
@@ -35,7 +35,7 @@ bbApp.factory('bbLockedModalSvc', [ '$modal', function( $modal ) {
                             $scope.password              = bbLoginSvc.password;
                             $scope.isLoginButtonDisabled = bbLoginSvc.isLoginButtonDisabled;
 
-                            $scope.logoutUser            = bbAuthSvc.logoutUser;
+                            $scope.signout               = bbLogoutSvc.signout;
                         }] 
                 });
             this.lockedModalInstance = lockedModal;
