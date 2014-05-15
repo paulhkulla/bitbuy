@@ -16,8 +16,10 @@ bbApp.factory( 'bbAuthSvc', [
     '$q',
     '$window',
     '$idle',
+    '$keepalive',
     'bbLockedModalSvc',
-    function( $http, bbIdentitySvc, $q, $window, $idle, bbLockedModalSvc ) {
+    'authService',
+    function( $http, bbIdentitySvc, $q, $window, $idle, $keepalive, bbLockedModalSvc, authService ) {
 
         var initSession = function( data ) {
             bbIdentitySvc.currentUser           = data.user;
@@ -42,11 +44,14 @@ bbApp.factory( 'bbAuthSvc', [
                 $http.post( '/login', { username : username, password : password } ).then( function( response ) {
                     if( response.data.success ) {
                         initSession( response.data );
+                        authService.loginConfirmed();
                         dfd.resolve( true );
                     }
                     else {
                         dfd.resolve( false );
                     }
+                }, function ( rejection ) {
+                    dfd.resolve( false );
                 });
 
                 return dfd.promise;
@@ -57,12 +62,9 @@ bbApp.factory( 'bbAuthSvc', [
                 var dfd = $q.defer();
 
                 $http.post( '/login', { auth_type : 'access_token' } ).then( function( response ) {
-                    if( response.data.success ) {
+                    if ( response.data.success ) {
                         initSession( response.data );
                         dfd.resolve( true );
-                    }
-                    else {
-                        dfd.resolve( false );
                     }
                 });
 
@@ -70,10 +72,13 @@ bbApp.factory( 'bbAuthSvc', [
             },
 
             logoutUser: function( lock ) {
+
                 $idle.unwatch();
+                $keepalive.stop();
+
                 var dfd = $q.defer();
 
-                $http.post( '/logout', { username : bbIdentitySvc.currentUser.username } ).then( function() {
+                $http.post( '/logout' ).then( function() {
                         bbIdentitySvc.authenticated = false;
                         $window.sessionStorage.removeItem( 'access_token' );
                         $window.sessionStorage.removeItem( 'currentUser' );
@@ -95,7 +100,7 @@ bbApp.factory( 'bbAuthSvc', [
                                 bbLockedModalSvc.lockedModalInstance = undefined;
                             }
                         }
-                        dfd.resolve();
+                        dfd.resolve( false );
                 });
 
                 return dfd.promise;

@@ -17,7 +17,8 @@ var bbApp = angular.module( 'bbApp', [
     'ngAnimate',
     'ngIdle',
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'http-auth-interceptor'
 ]);
 
 bbApp.run([ 
@@ -54,9 +55,9 @@ bbApp.config([
 
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
-        $idleProvider.idleDuration( 5 );
+        $idleProvider.idleDuration( 5 * 60 );
         $idleProvider.warningDuration( 15 * 60 );
-        $keepaliveProvider.interval( 2 );
+        $keepaliveProvider.interval( 2 * 60 );
 
         $httpProvider.interceptors.push('authInterceptor');
 
@@ -64,8 +65,8 @@ bbApp.config([
 
         // Redirects
         $urlRouterProvider
-        .otherwise( "/buy" )
-        .when( "/buy", '/buy/step-1' );
+            .otherwise( "/buy" )
+            .when( "/buy", '/buy/step-1' );
 
         // State routing
         $stateProvider
@@ -147,12 +148,6 @@ bbApp.factory('authInterceptor', [ '$q', '$window', function( $q, $window ) {
                 config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem( 'access_token' );
             }
             return config || $q.when( config );
-        },
-        response: function ( response ) {
-            if ( response.status === 401 ) {
-                console.log("asd");
-            }
-            return response || $q.when( response );
         }
     };
 }]);

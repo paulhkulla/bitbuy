@@ -246,7 +246,10 @@
             <aside id="left-panel">
             <nav>
             <ul>
-                <li>
+                <li data-ng-show="identity.isAuthenticated()">
+                <a href="#"><i class="fa fa-fw fa-wrench"></i><span class="menu-item-parent">Admin</span></a>
+                </li>
+                <li data-ng-show="identity.isAuthenticated()">
                 <a href="#"><i class="fa fa-fw fa-gear"></i><span class="menu-item-parent">Seaded</span></a>
                 </li>
                 <li>
@@ -258,17 +261,17 @@
                 <li data-ng-class="{active: $state.includes('sell')}">
                 <a data-ui-sref="sell"><i class="fa fa-fw fa-btc"></i><span class="menu-item-parent">Müü</span></a>
                 </li>
-                <li>
+                <li data-ng-show="identity.isAuthenticated()">
                 <a href="#"><i class="fa fa-fw fa-download"></i><span class="menu-item-parent">Väljamakse</span></a>
                 </li>
-                <li>
+                <li data-ng-show="identity.isAuthenticated()">
                 <a href="#"><i class="fa fa-fw fa-list-alt"></i><span class="menu-item-parent">Tehingud</span></a>
                 </li>
                 <li>
                 <a href="#"><i class="fa fa-fw fa-question-circle"></i><span class="menu-item-parent">Abi</span></a>
                 </li>
-                <li>
-                <a href="#"><i class="fa fa-fw fa-sign-out"></i><span class="menu-item-parent">Logi välja</span></a>
+                <li data-ng-show="identity.isAuthenticated()">
+                <a href="" data-ng-click="signout( false )" ><i class="fa fa-fw fa-sign-out"></i><span class="menu-item-parent">Logi välja</span></a>
                 </li>
             </ul>
             </nav>

@@ -12,11 +12,11 @@
 
 'use strict';
 
-bbApp.controller('bbLoginDropdownCtrl', ['$scope', 'bbLoginSvc', function($scope, bbLoginSvc) {
+bbApp.controller( 'bbLoginDropdownCtrl', [ '$scope', 'bbLoginSvc', function( $scope, bbLoginSvc ) {
 
     $scope.signin                = bbLoginSvc.signin;
     $scope.username              = bbLoginSvc.username;
     $scope.password              = bbLoginSvc.password;
     $scope.isLoginButtonDisabled = bbLoginSvc.isLoginButtonDisabled;
 
-}]);
+} ]);

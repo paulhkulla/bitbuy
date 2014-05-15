@@ -17,89 +17,121 @@ var
     passport    = require( 'passport' ),
     mongoose    = require( 'mongoose' ),
     User        = mongoose.model( 'User' ),
-    AccessToken = mongoose.model( 'AccessToken' );
-//----------------- END MODULE SCOPE VARIABLES -------------------
+    AccessToken = mongoose.model( 'AccessToken' ),
 
-exports.authenticate = function( req, res, next, config ) {
-    if ( req.body.auth_type === 'access_token'  ) {
+    genResObj;
+//----------------- END MODULE SCOPE VARIABLES -------------------
+genResObj = function( success, tokenAndUser, statusCode, attribute, value ) {
+    var obj = {};
+
+    if ( ! success && ! tokenAndUser ) {
+        obj.responseHeader = {};
+    }
+
+    if ( success ) { obj.success = success; }
+    if ( tokenAndUser ) {
+        obj.user = {
+            username     : tokenAndUser.user.username,
+            firstName    : tokenAndUser.user.firstName,
+            lastName     : tokenAndUser.user.lastName,
+            euroBalance  : tokenAndUser.user.euroBalance,
+            btcBalance   : tokenAndUser.user.btcBalance,
+            access_token : tokenAndUser.access_token,
+            token_exp    : tokenAndUser.user.token_exp
+        }
+    }
+    if ( statusCode ) { obj.responseStatusCode = statusCode; }
+    if ( attribute ) { obj.responseHeader.attribute = attribute; }
+    if ( value ) { obj.responseHeader.value = value; }
+
+    return obj;
+};
+
+exports.authenticate = function( req, res, next, config, callback ) {
+    if ( req.headers && req.headers.authorization ) {
         var
-        utils = require( './utils' )( config ),
-        parts, scheme, credentials,
-        access_token, decoded
+            utils = require( './utils' )( config ),
+            parts, scheme, credentials,
+            access_token, decoded
         ;
 
-        if ( req.headers && req.headers.authorization ) {
-            parts = req.headers.authorization.split( ' ' );
-            if ( parts.length === 2 ) {
-                scheme      = parts[0];
-                credentials = parts[1];
+        parts = req.headers.authorization.split( ' ' );
+        if ( parts.length === 2 ) {
+            scheme      = parts[0];
+            credentials = parts[1];
 
-                if ( /^Bearer$/i.test( scheme ) ) {
-                    access_token = credentials;
-                    decoded      = utils.jwtDecode( access_token );
+            if ( /^Bearer$/i.test( scheme ) ) {
+                access_token = credentials;
+                try { 
+                    decoded = utils.jwtDecode( access_token );
+                }
+                catch ( err ) {
+                    return callback( genResObj( false, null, 401, 'WWW-Authenticate',
+                        'Bearer, error="invalid_token",'
+                        + ' error_description="Malformed access token"' ) );
+                }
 
-                    //Now do a lookup on that email in mongodb ... if exists it's a real user
-                    if ( decoded && decoded.username && decoded.date_created ) {
-                        User.findUser( decoded.username, access_token, function( err, user ) {
-                            if ( err ) {
-                                console.log( err );
-                                return next( res.send({ error: 'Issue finding user.' }) );
+                //Now do a lookup on that email in mongodb ... if exists it's a real user
+                if ( decoded && decoded.username && decoded.date_created ) {
+                    User.findUser( decoded.username, access_token, function( err, user ) {
+                        if ( err ) {
+                            return callback( genResObj( false, null, 401, 'WWW-Authenticate', 'Bearer' ) );
+                        }
+                        if ( user ) {
+                            if ( +(new Date(decoded.date_created)) !== +user.access_token.date_created ) {
+                                return callback( genResObj( false, null, 401, 'WWW-Authenticate',
+                                    'Bearer, error="invalid_token",'
+                                    + ' error_description="Access token date mismatch. Potential theft. Change your password."' ) );
                             }
-                            if ( user ) {
-                                if ( +(new Date(decoded.date_created)) !== +user.access_token.date_created ) {
-                                    return next( res.send({ error: 'Token date mismatch. Potential theft.' }) );
-                                }
-                                if ( ! AccessToken.hasExpired( user.access_token.date_created, user.token_exp ) ) {
-                                    User.createUserAccessToken( user.username, function( err, access_token ) {
-                                        if ( err ) { return next( res.send({ error : err }) ); }
-                                        return next( res.send({
-                                            success : true,
-                                            user    : {
-                                                username     : user.username,
-                                                firstName    : user.firstName,
-                                                lastName     : user.lastName,
-                                                euroBalance  : user.euroBalance,
-                                                btcBalance   : user.btcBalance,
-                                                access_token : access_token,
-                                                token_exp    : user.token_exp
-                                            }
-                                        }) );
-                                    });
-                                }
-                                else {
-                                    return next( res.send({ error: 'Token expired. Please log in again.'  }) );
-                                }
+                            if ( ! AccessToken.hasExpired( user.access_token.date_created, user.token_exp ) ) {
+                                User.createUserAccessToken( user.username, function( err, access_token ) {
+                                    if ( err ) {
+                                        return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
+                                    }
+                                    return callback( genResObj( true, { user : user, access_token : access_token } ) );
+                                });
                             }
-                        });
-                    }
-                    else {
-                        console.log('Whoa! Couldn\'t even decode incoming token!');
-                        return next( res.send({ error: 'Issue decoding incoming token.' }) );
-                    }
+                            else {
+                                return callback( genResObj( false, null, 401, 'WWW-Authenticate',
+                                    'Bearer, error="invalid_token",'
+                                    + ' error_description="The access token expired"' ) );
+                            }
+                        }
+                    });
+                }
+                else {
+                    return callback( genResObj( false, null, 401, 'WWW-Authenticate',
+                        'Bearer, error="invalid_token",'
+                        + ' error_description="Incomplete access token"' ) );
                 }
             }
         }
     }
-    else {
+    else if ( req.body.username && req.body.password ){
         var auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
-            if ( err ) { return next( err ); }
-            if ( !user ) { return next( res.send({ success : false }) ); }
+            if ( err ) {
+                return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
+            }
+            if ( ! user ) {
+                return callback( { success : false, user : null  } );
+            }
             User.createUserAccessToken( user.username, function( err, access_token ) {
-                if ( err ) { return next( err ); }
-                return next( res.send({
-                    success : true,
-                    user    : {
-                        username     : user.username,
-                        firstName    : user.firstName,
-                        lastName     : user.lastName,
-                        euroBalance  : user.euroBalance,
-                        btcBalance   : user.btcBalance,
-                        access_token : access_token,
-                        token_exp    : user.token_exp
-                    }
-                }) );
+                if ( err ) {
+                    return callback({
+                        success            : false,
+                        responseStatusCode : 500,
+                        responseHeader     : {
+                            attribute : 'error',
+                            value     : 'server_error'
+                        }
+                    });
+                }
+                return callback( genResObj( true, { user : user, access_token : access_token } ) );
             });
         });
         auth( req, res, next );
+    }
+    else {
+        return callback( genResObj( false, null, 401, 'WWW-Authenticate', 'Bearer' ) );
     }
 };

@@ -1,5 +1,5 @@
 /*
- * mongoose.js
+ * routes.js
  */
 
 /*jslint browser : true, continue : true,
@@ -22,12 +22,32 @@ var
 module.exports = function( app, config ) {
 
     app.post( '/login', function( req, res, next ) {
-        auth.authenticate( req, res, next, config );
+        auth.authenticate( req, res, next, config, function ( result ) {
+            if ( ! result.responseHeader ) {
+                res.send( result );
+            }
+            else {
+                res.statusCode = result.responseStatusCode;
+                if ( result.responseHeader ) {
+                    res.setHeader( result.responseHeader.attribute, result.responseHeader.value );
+                }
+            }
+            res.end();
+        });
     });
 
-    app.post( '/logout', function( req, res ) {
-        User.invalidateUserAccessToken( req.body.username, function() {
-             res.end();
+    app.post( '/logout', function( req, res, next ) {
+        auth.authenticate( req, res, next, config, function ( result ) {
+            if ( result.success ) {
+                console.log( result );
+                User.invalidateUserAccessToken( result.user.username, function() {
+                    res.end();
+                });
+            }
+            else {
+                console.log( result );
+                res.end();
+            }
         });
     });
 
