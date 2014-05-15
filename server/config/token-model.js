@@ -22,8 +22,13 @@ var
 module.exports = function( config ) {
 
     AccessTokenSchema = mongoose.Schema({
-        token        : String,
-        date_created : { type: Date, default: Date.now }
+        token : {
+            type : String
+        },
+        date_created : { 
+            type: Date,
+            default: Date.now
+        }
     });
 
     AccessTokenSchema.statics.hasExpired = function( date_created, token_exp ) {

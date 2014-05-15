@@ -39,13 +39,11 @@ module.exports = function( app, config ) {
     app.post( '/logout', function( req, res, next ) {
         auth.authenticate( req, res, next, config, function ( result ) {
             if ( result.success ) {
-                console.log( result );
                 User.invalidateUserAccessToken( result.user.username, function() {
                     res.end();
                 });
             }
             else {
-                console.log( result );
                 res.end();
             }
         });

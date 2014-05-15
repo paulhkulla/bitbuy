@@ -78,7 +78,7 @@ bbApp.factory( 'bbAuthSvc', [
 
                 var dfd = $q.defer();
 
-                $http.post( '/logout' ).then( function() {
+                $http.post( '/logout', { auth_type : 'access_token' } ).then( function() {
                         bbIdentitySvc.authenticated = false;
                         $window.sessionStorage.removeItem( 'access_token' );
                         $window.sessionStorage.removeItem( 'currentUser' );

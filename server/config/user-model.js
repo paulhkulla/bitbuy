@@ -17,6 +17,8 @@ var
     mongoose    = require( 'mongoose' ),
     crypto      = require( 'crypto' ),
     AccessToken = require( 'mongoose' ).model( 'AccessToken' ),
+    zxcvbn      = require( 'zxcvbn2' ),
+    Schema      = mongoose.Schema,
 
     UserSchema, User
     ;
@@ -24,22 +26,104 @@ var
 
 module.exports = function( config ) {
 
-    var utils = require( './utils' )( config );
 
-    var UserSchema, User;
+    var 
+        validatePassword,
+        utils = require( './utils' )( config );
 
-    UserSchema = mongoose.Schema({
-        username        : String,
-        password        : String,
-        date_created    : { type: Date, default: Date.now },
-        token_exp       : { type: Number, default: config.tokenExpires },
-        firstName       : String,
-        lastName        : String,
-        euroBalance     : Number,
-        btcBalance      : Number,
-        access_token    : Object,
-        reset_token     : String,
-        reset_token_exp : Number
+    validatePassword = function( password ) {
+        var score = zxcvbn( password );
+        if ( score.score < 2 ) {
+            return false;
+        }
+        return true;
+    };
+
+    UserSchema = new Schema({
+        username : {
+            type     : String,
+            trim     : true,
+            default  : '',
+            required : 'E-mail is required!',
+            match    : [ /^[a-z0-9!#$%&'*+/=?^_`{|}~.-`']+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i,
+                'E-mail is invalid!' ]
+        },
+        password : {
+            type     : String,
+            default  : '',
+            required : 'Password is required!',
+            validate : [ validatePassword, 'Password is too simple!' ]
+        },
+        firstName : {
+            type     : String,
+            trim     : true,
+            default  : '',
+            required : 'First name is required!',
+        },
+        lastName : {
+            type     : String,
+            trim     : true,
+            default  : '',
+            required : 'Last name is required!',
+        },
+        birthday : {
+            type : Date,
+            default : '',
+            required : 'Birthday is required!',
+        },
+        euroBalance : {
+            type    : Number,
+            default : 0
+        },
+        btcBalance : {
+            type    : Number,
+            default : 0
+        },
+        roles: {
+            type: [{
+                type : String,
+                enum : [ 'user', 'admin' ]
+            }],
+            default : [ 'user' ]
+        },
+        access_token : {
+            type : Object
+        },
+        token_exp : { 
+            type    : Number,
+            default : config.tokenExpires
+        },
+        reset_token : {
+            type : Object,
+        },
+        reset_token_exp : { 
+            type    : Number,
+            default : config.resetTokenExpires
+        },
+        date_updated : {
+            type : Date
+        },
+        date_created : {
+            type    : Date,
+            default : Date.now
+        }
+    });
+
+    /**
+    * Hook a pre save method to hash the password
+    */
+    UserSchema.pre( 'save', function( next ) {
+
+        var user = this;
+
+        if ( ! user.isModified( 'password' ) 
+            || ! ( user.password && validatePassword( user.password ) ) ) { return next(); }
+
+            utils.hash( user.password, function( err, hashedPassword ) {
+                user.password = hashedPassword;
+                next();
+            });
+
     });
 
     UserSchema.statics.findUser = function( username, access_token, cb ) {
@@ -137,16 +221,5 @@ module.exports = function( config ) {
     };
 
     User  = mongoose.model( 'User', UserSchema );
-
-    User.find({}).exec(function( err, collection ) {
-        if ( collection.length === 0 ) {
-            utils.hash( 'joe', function( err, hashedPassword ) {
-                User.create({ firstName: 'Joe', lastName: 'Eames', euroBalance: 9534, btcBalance: 100.34522, username: 'joe', password: hashedPassword });
-            });
-            utils.hash( 'kokaiin', function( err, hashedPassword ) {
-                User.create({ firstName: 'Markus', lastName: 'Pint', euroBalance: 10232.99, btcBalance: 1, username: 'markuspint@hotmail.com', password: hashedPassword, token_exp : 15000 });
-            });
-        }
-    });
 
 };

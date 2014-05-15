@@ -14,6 +14,17 @@
 
 bbApp.controller( 'bbLoginDropdownCtrl', [ '$scope', 'bbLoginSvc', function( $scope, bbLoginSvc ) {
 
+    // Inititalize birtday picker
+    $("#birthday-picker-dropdown").birthdaypicker({
+        dateFormat: "littleEndian",
+        minAge: 16,
+        maxAge: 110,
+        hidden: false,
+        placeholder: false,
+        defaultDate: "1990-01-01"
+
+    });
+
     $scope.signin                = bbLoginSvc.signin;
     $scope.username              = bbLoginSvc.username;
     $scope.password              = bbLoginSvc.password;

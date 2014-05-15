@@ -38,7 +38,7 @@ genResObj = function( success, tokenAndUser, statusCode, attribute, value ) {
             btcBalance   : tokenAndUser.user.btcBalance,
             access_token : tokenAndUser.access_token,
             token_exp    : tokenAndUser.user.token_exp
-        }
+        };
     }
     if ( statusCode ) { obj.responseStatusCode = statusCode; }
     if ( attribute ) { obj.responseHeader.attribute = attribute; }
