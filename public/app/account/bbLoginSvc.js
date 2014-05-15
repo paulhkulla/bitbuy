@@ -31,11 +31,11 @@ bbApp.factory('bbLoginSvc', [
                 var title,
                     that = this;
 
-                // this.isLoginButtonDisabled = true;
+                this.isLoginButtonDisabled = true;
 
                 bbAuthSvc.authenticateUser( username, password ).then( function( success ) {
 
-                    // that.isLoginButtonDisabled = false;
+                    that.isLoginButtonDisabled = false;
 
                     if ( success ) {
 
