@@ -37,12 +37,12 @@ module.exports = function( config ) {
     User = mongoose.model( 'User' );
 
     User.find({}).exec(function( err, collection ) {
-        // var testUser = new User({ firstName: 'Obi-wan', lastName: 'Kenobi', username: 'obi@email.com', password: 'jaladmaha', birthday: "1990-09-05" });
-        // testUser.save(function (err) {
-        //     if (err) {
-        //         console.log(err);
-        //     }
-        // });
+        var testUser = new User({ firstName: 'Obi-wan', lastName: 'Kenobi', username: 'obi@email.com', password: 'jaladmaha', birthday: "1990-09-05" });
+        testUser.save(function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
         if ( collection.length === 0 ) {
             utils.hash( 'joe', function( err, hashedPassword ) {
                 User.create({ firstName: 'Joe', lastName: 'Eames', euroBalance: 9534, btcBalance: 100.34522, username: 'joe', password: hashedPassword });
