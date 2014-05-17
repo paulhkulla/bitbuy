@@ -29,12 +29,6 @@ bbApp.factory('bbIdentitySvc', [ '$window', 'bbLockedModalSvc', function( $windo
     return {
         currentUser   : currentUser || undefined,
         authenticated : undefined,
-        locked        : locked || undefined,
-        isAuthenticated : function() {
-            return !!this.currentUser;
-        },
-        isLocked : function() {
-            return !!this.locked;
-        }
+        locked        : locked || undefined
     };
 }]);

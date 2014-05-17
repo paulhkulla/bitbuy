@@ -19,11 +19,14 @@ bbApp.factory( 'bbAuthSvc', [
     '$keepalive',
     'bbLockedModalSvc',
     'authService',
-    function( $http, bbIdentitySvc, $q, $window, $idle, $keepalive, bbLockedModalSvc, authService ) {
+    'bbUser',
+    function( $http, bbIdentitySvc, $q, $window, $idle, $keepalive, bbLockedModalSvc, authService, bbUser ) {
 
         var initSession = function( data ) {
-            bbIdentitySvc.currentUser           = data.user;
-            $window.sessionStorage.currentUser  = JSON.stringify(bbIdentitySvc.currentUser);
+            var user = new bbUser();
+            angular.extend( user, data.user );
+            bbIdentitySvc.currentUser           = user;
+            $window.sessionStorage.currentUser  = JSON.stringify( bbIdentitySvc.currentUser );
             bbIdentitySvc.authenticated         = true;
             $window.sessionStorage.access_token = data.user.access_token;
             $window.localStorage.removeItem( 'currentUser' );
@@ -33,35 +36,39 @@ bbApp.factory( 'bbAuthSvc', [
                 bbLockedModalSvc.lockedModalInstance.close();
                 bbLockedModalSvc.lockedModalInstance = undefined;
             }
-
         };
 
         return {
-            authenticateUser: function( username, password ) {
+
+            initSession : initSession,
+
+            authenticateUser : function( username, password ) {
 
                 var dfd = $q.defer();
 
-                $http.post( '/login', { username : username, password : password } ).then( function( response ) {
-                    if( response.data.success ) {
-                        initSession( response.data );
-                        authService.loginConfirmed();
-                        dfd.resolve( true );
-                    }
-                    else {
-                        dfd.resolve( false );
-                    }
-                }, function ( rejection ) {
-                    dfd.resolve( false );
-                });
+                $http.post( '/login',
+                    { username : username, password : password, auth_type : 'credentials' } )
+                        .then( function( response ) {
+                            if( response.data.success ) {
+                                initSession( response.data );
+                                authService.loginConfirmed();
+                                dfd.resolve( true );
+                            }
+                            else {
+                                dfd.resolve( false );
+                            }
+                        }, function ( rejection ) {
+                            dfd.resolve( false );
+                        });
 
                 return dfd.promise;
             },
 
-            authenticateToken: function() {
+            authenticateToken : function() {
 
                 var dfd = $q.defer();
 
-                $http.post( '/login', { auth_type : 'access_token' } ).then( function( response ) {
+                $http.post( '/login' ).then( function( response ) {
                     if ( response.data.success ) {
                         initSession( response.data );
                         dfd.resolve( true );
@@ -71,14 +78,14 @@ bbApp.factory( 'bbAuthSvc', [
                 return dfd.promise;
             },
 
-            logoutUser: function( lock ) {
+            logoutUser : function( lock ) {
 
                 $idle.unwatch();
                 $keepalive.stop();
 
                 var dfd = $q.defer();
 
-                $http.post( '/logout', { auth_type : 'access_token' } ).then( function() {
+                $http.post( '/logout' ).then( function() {
                         bbIdentitySvc.authenticated = false;
                         $window.sessionStorage.removeItem( 'access_token' );
                         $window.sessionStorage.removeItem( 'currentUser' );

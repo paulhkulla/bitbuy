@@ -37,18 +37,24 @@ module.exports = function( config ) {
     User = mongoose.model( 'User' );
 
     User.find({}).exec(function( err, collection ) {
-        var testUser = new User({ firstName: 'Obi-wan', lastName: 'Kenobi', username: 'obi@email.com', password: 'jaladmaha', birthday: "1990-09-05" });
-        testUser.save(function (err) {
-            if (err) {
-                console.log(err);
-            }
-        });
         if ( collection.length === 0 ) {
-            utils.hash( 'joe', function( err, hashedPassword ) {
-                User.create({ firstName: 'Joe', lastName: 'Eames', euroBalance: 9534, btcBalance: 100.34522, username: 'joe', password: hashedPassword });
+            var testUser1 = new User({ firstName: 'Obi-wan', lastName: 'Kenobi', username: 'admin@gmail.com', password: 'jaladmaha', birthday: "1990-09-05", roles: [ 'admin' ] });
+            testUser1.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
             });
-            utils.hash( 'kokaiin', function( err, hashedPassword ) {
-                User.create({ firstName: 'Markus', lastName: 'Pint', euroBalance: 10232.99, btcBalance: 1, username: 'markuspint@hotmail.com', password: hashedPassword, token_exp : 15000 });
+            var testUser2 = new User({ firstName: 'Joe', lastName: 'Rogan', username: 'joe@gmail.com', password: 'koerapoeg', birthday: "1956-12-01", roles: [ 'user' ], token_exp: 10000 });
+            testUser2.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+            var testUser3 = new User({ firstName: 'Dan', lastName: 'Wahlin', username: 'dan@gmail.com', password: 'kassipoeg', birthday: "1988-01-30" });
+            testUser3.save(function (err) {
+                if (err) {
+                    console.log(err);
+                }
             });
         }
     });

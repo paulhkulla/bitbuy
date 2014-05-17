@@ -116,13 +116,13 @@
 
 
                 <!-- BEGIN MOBILE USER/LOGIN AREA -->
-                <div id="user-logout-mobile" data-ng-show="identity.isAuthenticated()" class="btn-header pull-right">
+                <div id="user-logout-mobile" data-ng-show="identity.currentUser" class="btn-header pull-right">
                     <i title="Logi välja" class="fa fa-sign-out" data-ng-click="signout( false )"></i>
                 </div>
-                <div id="user-login-mobile" data-ng-class="{ 'user-login-margined': !identity.isAuthenticated() }" class="btn-header pull-right">
+                <div id="user-login-mobile" data-ng-class="{ 'user-login-margined': !identity.currentUser }" class="btn-header pull-right">
                     <i class="icon-user icomoon-user icon-user-header-mobile scroll-up activity pull-left" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"></i>
                 </div>
-                <div id="mobile-name-balance" data-ng-show="identity.isAuthenticated()" class="pull-right">
+                <div id="mobile-name-balance" data-ng-show="identity.currentUser" class="pull-right">
                     <span class="user-fullname"><i title="Lukusta konto" data-ng-show="identity.isLocked()" class="fa fa-lock" id="user-lock-mobile"></i><i title="Lukusta konto" data-ng-show="!identity.isLocked()" data-ng-click="signout( 'lock_manually' )" class="fa fa-unlock-o" id="user-lock-mobile"></i> {{identity.currentUser.firstName + " " + identity.currentUser.lastName}}</span>
                     <div class="user-balance">
                         <span class="euro-balance"><strong>€{{identity.currentUser.euroBalance | number }} : </strong></span>
@@ -132,7 +132,7 @@
                 <!-- END MOBILE USER/LOGIN AREA -->
 
                 <!-- BEGIN MOBILE TOGGLE MENU -->
-                <div id="hide-menu-mobile" data-ng-class="{ 'hide-menu-mobile-margined': identity.isAuthenticated() }" class="btn-header pull-left">
+                <div id="hide-menu-mobile" data-ng-class="{ 'hide-menu-mobile-margined': identity.currentUser }" class="btn-header pull-left">
                     <span>
                         <a href="javascript:void(0);" title="Ava menüü">
                             <i class="fa fa-reorder"></i>
@@ -205,7 +205,7 @@
                 <!-- END DROPDOWN TRIGGER ICON AND DROPDOWN -->
 
                 <!-- BEGIN LOGIN/REGISTER BUTTONS -->
-                <div data-ng-show="!identity.isAuthenticated()" class="user-login-buttons pull-left">
+                <div data-ng-show="!identity.currentUser" class="user-login-buttons pull-left">
                     <a href="" class="btn btn-labeled btn-blue login-button" data-ng-click="bbLoginDropdownSvc.activateTab('login'); bbLoginDropdownSvc.activateDropdown()">
                         <span class="btn-label">
                             <i class="fa fa-sign-in"></i>
@@ -222,7 +222,7 @@
                 <!-- END LOGIN/REGISTER BUTTONS -->
 
                 <!-- BEGIN AUTHENTICATED USER AREA -->
-                <div data-ng-show="identity.isAuthenticated()" class="user-name-balance pull-left">
+                <div data-ng-show="identity.currentUser" class="user-name-balance pull-left">
                     <div class="user-fullname">{{identity.currentUser.firstName + " " + identity.currentUser.lastName}} <i title="Lukusta konto" data-ng-show="identity.isLocked()" class="fa fa-lock" id="user-lock"></i><i title="Lukusta konto" data-ng-show="!identity.isLocked()" data-ng-click="signout( 'lock_manually' )" class="fa fa-unlock-o" id="user-lock"></i> <i title="Logi välja" data-ng-click="signout( false )" class="fa fa-sign-out" id="user-logout"></i></div>
                     <div class="user-balance">
                         <div class="euro-balance">EUR kontojääk: <strong>€{{identity.currentUser.euroBalance | number : 2}}</strong></div>
@@ -246,10 +246,10 @@
             <aside id="left-panel">
             <nav>
             <ul>
-                <li data-ng-show="identity.isAuthenticated()">
-                <a href="#"><i class="fa fa-fw fa-wrench"></i><span class="menu-item-parent">Admin</span></a>
+                <li data-ng-class="{active: $state.includes('admin')}" data-ng-show="identity.currentUser.isAdmin()">
+                <a data-ui-sref="admin"><i class="fa fa-fw fa-wrench"></i><span class="menu-item-parent">Admin</span></a>
                 </li>
-                <li data-ng-show="identity.isAuthenticated()">
+                <li data-ng-show="identity.currentUser">
                 <a href="#"><i class="fa fa-fw fa-gear"></i><span class="menu-item-parent">Seaded</span></a>
                 </li>
                 <li>
@@ -261,16 +261,16 @@
                 <li data-ng-class="{active: $state.includes('sell')}">
                 <a data-ui-sref="sell"><i class="fa fa-fw fa-btc"></i><span class="menu-item-parent">Müü</span></a>
                 </li>
-                <li data-ng-show="identity.isAuthenticated()">
+                <li data-ng-show="identity.currentUser">
                 <a href="#"><i class="fa fa-fw fa-download"></i><span class="menu-item-parent">Väljamakse</span></a>
                 </li>
-                <li data-ng-show="identity.isAuthenticated()">
+                <li data-ng-show="identity.currentUser">
                 <a href="#"><i class="fa fa-fw fa-list-alt"></i><span class="menu-item-parent">Tehingud</span></a>
                 </li>
                 <li>
                 <a href="#"><i class="fa fa-fw fa-question-circle"></i><span class="menu-item-parent">Abi</span></a>
                 </li>
-                <li data-ng-show="identity.isAuthenticated()">
+                <li data-ng-show="identity.currentUser">
                 <a href="" data-ng-click="signout( false )" ><i class="fa fa-fw fa-sign-out"></i><span class="menu-item-parent">Logi välja</span></a>
                 </li>
             </ul>

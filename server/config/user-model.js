@@ -18,6 +18,7 @@ var
     crypto      = require( 'crypto' ),
     AccessToken = require( 'mongoose' ).model( 'AccessToken' ),
     zxcvbn      = require( 'zxcvbn2' ),
+    encrypt     = require( 'mongoose-encrypt' ),
     Schema      = mongoose.Schema,
 
     UserSchema, User
@@ -28,7 +29,7 @@ module.exports = function( config ) {
 
 
     var 
-        validatePassword,
+        validatePassword, validateEmail,
         utils = require( './utils' )( config );
 
     validatePassword = function( password ) {
@@ -39,14 +40,17 @@ module.exports = function( config ) {
         return true;
     };
 
+    validateEmail = function( email ) {
+        var re = /^[a-z0-9!#$%&'*+=?^_`{|}~.-`']+@[a-z0-9-]+(\.[a-z0-9-]+)*$/;
+        return re.test( email );
+    };
+
     UserSchema = new Schema({
         username : {
             type     : String,
             trim     : true,
             default  : '',
-            required : 'E-mail is required!',
-            match    : [ /^[a-z0-9!#$%&'*+/=?^_`{|}~.-`']+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i,
-                'E-mail is invalid!' ]
+            required : 'E-mail is required!'
         },
         password : {
             type     : String,
@@ -67,7 +71,7 @@ module.exports = function( config ) {
             required : 'Last name is required!',
         },
         birthday : {
-            type : Date,
+            type : String,
             default : '',
             required : 'Birthday is required!',
         },
@@ -78,6 +82,10 @@ module.exports = function( config ) {
         btcBalance : {
             type    : Number,
             default : 0
+        },
+        tradeLimit : {
+            type    : Number,
+            default : 1000
         },
         roles: {
             type: [{
@@ -110,20 +118,40 @@ module.exports = function( config ) {
     });
 
     /**
+    * Hook a pre validate method to validate the email
+    * as setter is interfering normally
+    */
+    UserSchema.pre( 'validate', function( next ) {
+        if ( ! validateEmail( this.username ) ) {
+            this.invalidate( 'username', 'E-mail is invalid', this.username );
+        }
+        next();
+    });
+
+    /**
     * Hook a pre save method to hash the password
     */
     UserSchema.pre( 'save', function( next ) {
-
         var user = this;
+        if ( ! user.isModified( 'password' ) ) { return next(); }
 
-        if ( ! user.isModified( 'password' ) 
-            || ! ( user.password && validatePassword( user.password ) ) ) { return next(); }
+        utils.hash( user.password, function( err, hashedPassword ) {
+            user.password = hashedPassword;
+            next();
+        });
+    });
 
-            utils.hash( user.password, function( err, hashedPassword ) {
-                user.password = hashedPassword;
-                next();
-            });
-
+    UserSchema.plugin( encrypt, {
+        paths: [ 
+            'firstName',
+            'lastName',
+            'birthday'
+            ],
+        password: function( date ) {
+            // Return the correct password for the given date.
+            // As long as you don't need to migrate to a new password, just return the current one.
+            return config.encryption_secret;
+        }
     });
 
     UserSchema.statics.findUser = function( username, access_token, cb ) {

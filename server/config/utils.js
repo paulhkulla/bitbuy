@@ -14,8 +14,8 @@
 
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
-    bcrypt = require( 'bcrypt' ),
-    jwt    = require( 'jwt-simple' )
+    bcrypt             = require( 'bcrypt' ),
+    jwt                = require( 'jwt-simple' )
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
@@ -48,6 +48,6 @@ module.exports = function( config ) {
         jwtDecode : function( data ) {
             return jwt.decode( data, config.token_secret );
         },
-    }
+    };
 
 };

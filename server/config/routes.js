@@ -21,8 +21,19 @@ var
 
 module.exports = function( app, config ) {
 
+    app.get( '/api/users', auth.requiresRole( 'admin', config ),
+        function( req, res ) {
+            User.find({}).exec( function( err, collection ) {
+                req.result.collection = collection.map( function(doc) {
+                    return doc.toJSON({ getters : true });
+                });
+                res.send( req.result );
+                res.end();
+            });
+        });
+
     app.post( '/login', function( req, res, next ) {
-        auth.authenticate( req, res, next, config, function ( result ) {
+        auth.authenticate( req, res, next, config, true, function ( result ) {
             if ( ! result.responseHeader ) {
                 res.send( result );
             }
@@ -37,7 +48,7 @@ module.exports = function( app, config ) {
     });
 
     app.post( '/logout', function( req, res, next ) {
-        auth.authenticate( req, res, next, config, function ( result ) {
+        auth.authenticate( req, res, next, config, true, function ( result ) {
             if ( result.success ) {
                 User.invalidateUserAccessToken( result.user.username, function() {
                     res.end();

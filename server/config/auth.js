@@ -37,6 +37,7 @@ genResObj = function( success, tokenAndUser, statusCode, attribute, value ) {
             euroBalance  : tokenAndUser.user.euroBalance,
             btcBalance   : tokenAndUser.user.btcBalance,
             access_token : tokenAndUser.access_token,
+            roles        : tokenAndUser.user.roles,
             token_exp    : tokenAndUser.user.token_exp
         };
     }
@@ -47,32 +48,50 @@ genResObj = function( success, tokenAndUser, statusCode, attribute, value ) {
     return obj;
 };
 
-exports.authenticate = function( req, res, next, config, callback ) {
-    if ( req.body.auth_type === 'access_token'  ) {
-        var
+exports.authenticate = function( req, res, next, config, generate_new_token, callback ) {
+    var
         utils = require( './utils' )( config ),
-        parts, scheme, credentials,
+        auth,
+        parts, scheme,
         access_token, decoded
         ;
 
+        auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
+            if ( err ) {
+                return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
+            }
+            if ( ! user ) {
+                return callback( { success : false, user : null  } );
+            }
+            User.createUserAccessToken( user.username, function( err, access_token ) {
+                if ( err ) {
+                    return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
+                }
+                return callback( genResObj( true, { user : user, access_token : access_token } ) );
+            });
+        });
+
+    if ( req.body.auth_type === 'credentials'  ) {
+        auth( req, res, next );
+    }
+    else {
         if ( req.headers && req.headers.authorization ) {
             parts = req.headers.authorization.split( ' ' );
             if ( parts.length === 2 ) {
-                scheme      = parts[0];
-                credentials = parts[1];
+                scheme       = parts[0];
+                access_token = parts[1];
 
                 if ( /^Bearer$/i.test( scheme ) ) {
-                    access_token = credentials;
                     try { 
                         decoded = utils.jwtDecode( access_token );
                     }
                     catch ( err ) {
                         return callback( genResObj( false, null, 401, 'WWW-Authenticate',
                             'Bearer, error="invalid_token",'
-                            + ' error_description="Malformed access token"' ) );
+                        + ' error_description="Malformed access token"' ) );
                     }
 
-                    //Now do a lookup on that email in mongodb ... if exists it's a real user
+                    // Now do a lookup on that email in mongodb ... if exists it's a real user
                     if ( decoded && decoded.username && decoded.date_created ) {
                         User.findUser( decoded.username, access_token, function( err, user ) {
                             if ( err ) {
@@ -85,12 +104,17 @@ exports.authenticate = function( req, res, next, config, callback ) {
                                     + ' error_description="Access token date mismatch. Potential theft. Change your password."' ) );
                                 }
                                 if ( ! AccessToken.hasExpired( user.access_token.date_created, user.token_exp ) ) {
-                                    User.createUserAccessToken( user.username, function( err, access_token ) {
-                                        if ( err ) {
-                                            return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
-                                        }
+                                    if ( generate_new_token ) {
+                                        User.createUserAccessToken( user.username, function( err, access_token ) {
+                                            if ( err ) {
+                                                return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
+                                            }
+                                            return callback( genResObj( true, { user : user, access_token : access_token } ) );
+                                        });
+                                    }
+                                    else {
                                         return callback( genResObj( true, { user : user, access_token : access_token } ) );
-                                    });
+                                    }
                                 }
                                 else {
                                     return callback( genResObj( false, null, 401, 'WWW-Authenticate',
@@ -98,42 +122,79 @@ exports.authenticate = function( req, res, next, config, callback ) {
                                     + ' error_description="The access token expired"' ) );
                                 }
                             }
+                            else {
+                                return callback( { success : false, user : null  } );
+                            }
                         });
                     }
                     else {
                         return callback( genResObj( false, null, 401, 'WWW-Authenticate',
                             'Bearer, error="invalid_token",'
-                            + ' error_description="Incomplete access token"' ) );
+                        + ' error_description="Incomplete access token"' ) );
                     }
                 }
+                else {
+                    return callback( genResObj( false, null, 401, 'WWW-Authenticate',
+                        'Bearer, error="invalid_token",'
+                    + ' error_description="Invalid authorization header"' ) );
+                }
+            }
+            else {
+                return callback( genResObj( false, null, 401, 'WWW-Authenticate',
+                    'Bearer, error="invalid_token",'
+                + ' error_description="Invalid authorization header"' ) );
+            
             }
         }
         else {
             return callback( genResObj( false, null, 401, 'WWW-Authenticate', 'Bearer' ) );
         }
     }
-    else {
-        var auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
-            if ( err ) {
-                return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
-            }
-            if ( ! user ) {
-                return callback( { success : false, user : null  } );
-            }
-            User.createUserAccessToken( user.username, function( err, access_token ) {
-                if ( err ) {
-                    return callback({
-                        success            : false,
-                        responseStatusCode : 500,
-                        responseHeader     : {
-                            attribute : 'error',
-                            value     : 'server_error'
-                        }
-                    });
+};
+
+exports.requiresApiLogin = function( config ) {
+    return function( req, res, next ) {
+        exports.authenticate( req, res, next, config, false, function ( result ) {
+            if ( ! result.responseHeader ) {
+                if ( result.success ) {
+                    next( result );
                 }
-                return callback( genResObj( true, { user : user, access_token : access_token } ) );
-            });
+                else {
+                    res.status(403);
+                    res.end();
+                }
+            }
+            else {
+                res.statusCode = result.responseStatusCode;
+                if ( result.responseHeader ) {
+                    res.setHeader( result.responseHeader.attribute, result.responseHeader.value );
+                }
+                res.end();
+            }
         });
-        auth( req, res, next );
-    }
+    };
+};
+
+exports.requiresRole = function( role, config ) {
+    return function( req, res, next ) {
+        exports.authenticate( req, res, next, config, false, function ( result ) {
+            if ( ! result.responseHeader ) {
+                if ( result.user.roles && result.user.roles.indexOf( role ) > -1 ) {
+                    req.result = result;
+                    next();
+                }
+                else {
+                    res.status( 403 );
+                    res.end();
+                }
+            }
+            else {
+                res.statusCode = result.responseStatusCode;
+                if ( result.responseHeader ) {
+                    res.setHeader( result.responseHeader.attribute, result.responseHeader.value );
+                }
+                res.end();
+            }
+        });
+    };
 };

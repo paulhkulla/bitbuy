@@ -12,7 +12,7 @@
 
 'use strict';
 
-bbApp.factory('bbLoginSvc', [
+bbApp.factory( 'bbLoginSvc', [
     'bbLoginDropdownSvc',
     'bbIdentitySvc',
     'bbAuthSvc',

@@ -55,9 +55,9 @@ bbApp.config([
 
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
-        $idleProvider.idleDuration( 5 * 2 );
+        $idleProvider.idleDuration( 5 * 60 );
         $idleProvider.warningDuration( 15 * 60 );
-        $keepaliveProvider.interval( 2 );
+        $keepaliveProvider.interval( 2 * 60 );
 
         $httpProvider.interceptors.push('authInterceptor');
 
@@ -134,6 +134,18 @@ bbApp.config([
                 url         : '/sell',
                 templateUrl : '/app/sell/sell.html',
                 controller  : 'bbMainCtrl'
+            })
+
+            //-------------------- ADMIN PANEL STATES -----------------------
+            .state( 'admin', {
+                url         : '/admin',
+                templateUrl : '/app/admin/admin.html',
+                // resolve     : {
+                //     loginPromise : function ( bbAuthSvc ) {
+                //         return bbAuthSvc.loginPromise;
+                //     } 
+                // },
+                controller  : 'bbAdminCtrl'
             });
 
     }

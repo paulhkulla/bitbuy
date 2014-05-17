@@ -40,7 +40,7 @@ bbApp.factory('bbLoginDropdownSvc', [
             activeDropdownTab : 'login',
 
             toggleDropdown    : function() {
-                if ( bbIdentitySvc.isAuthenticated() ) {
+                if ( bbIdentitySvc.currentUser ) {
                     this.isDropdownActive = false;
                     $( $document ).unbind( 'mousedown', onMousedown );
                     return;
@@ -56,7 +56,7 @@ bbApp.factory('bbLoginDropdownSvc', [
             },
 
             activateDropdown  : function() {
-                if ( bbIdentitySvc.isAuthenticated() ) {
+                if ( bbIdentitySvc.currentUser ) {
                     this.isDropdownActive = false;
                     $( $document ).unbind( 'mousedown', onMousedown );
                     return;
