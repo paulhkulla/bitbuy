@@ -27,20 +27,15 @@ bbApp.run([
     '$stateParams',
     '$window',
     'bbIdentitySvc',
-    'bbAuthSvc',
     'bbIdleSvc',
-    function( $rootScope, $state, $stateParams, $window, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
+    function( $rootScope, $state, $stateParams, $window, bbIdentitySvc, bbIdleSvc ) {
         $rootScope.$state       = $state;
         $rootScope.$stateParams = $stateParams;
 
-        if ( $window.sessionStorage.getItem( 'access_token' ) ) {
-            bbAuthSvc.authenticateToken().then( function( success ) {
-                if ( success ) {
-                    if ( ! bbIdleSvc.isIdleEventsInit ) {
-                        bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
-                    }
-                }
-            });
+        if ( $window.sessionStorage.getItem( 'currentUser' ) ) {
+            if ( ! bbIdleSvc.isIdleEventsInit ) {
+                bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
+            }
         }
     }]);
 
@@ -55,9 +50,9 @@ bbApp.config([
 
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
-        $idleProvider.idleDuration( 5 * 60 );
+        $idleProvider.idleDuration( 5 * 2 );
         $idleProvider.warningDuration( 15 * 60 );
-        $keepaliveProvider.interval( 2 * 60 );
+        $keepaliveProvider.interval( 2 * 5 );
 
         $httpProvider.interceptors.push('authInterceptor');
 

@@ -16,9 +16,12 @@ bbApp.controller( 'bbAdminCtrl', [
     '$scope',
     '$http',
     'bbAuthSvc',
-    function( $scope, $http, bbAuthSvc ) {
-        $http.get( '/api/users' ).then( function( response ) {
-            bbAuthSvc.initSession( response.data );
-            $scope.users = response.data.collection;
-        });
+    'bbIdentitySvc',
+    function( $scope, $http, bbAuthSvc, bbIdentitySvc ) {
+        if ( ! bbIdentitySvc.locked ) {
+            $http.get( '/api/users' ).then( function( response ) {
+                // bbAuthSvc.initSession( response.data );
+                $scope.users = response.data.collection;
+            });
+        }
 }]);

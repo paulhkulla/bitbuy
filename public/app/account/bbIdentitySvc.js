@@ -12,18 +12,31 @@
 
 'use strict';
 
-bbApp.factory('bbIdentitySvc', [ '$window', 'bbLockedModalSvc', function( $window, bbLockedModalSvc ) {
-    var currentUser, locked, lockedModal;
+bbApp.factory('bbIdentitySvc', [ 
+    '$window',
+    'bbLockedModalSvc',
+    'bbUser',
+    function( $window, bbLockedModalSvc, bbUser ) {
+
+    var
+        user, currentUser,
+        locked, lockedModal;
 
     if ( $window.localStorage.getItem( 'locked' ) ) {
         locked = JSON.parse( $window.localStorage.getItem( 'locked' ) );
     }
     if ( $window.localStorage.getItem( 'currentUser' ) ) {
         currentUser = JSON.parse( $window.localStorage.getItem( 'currentUser' ) );
+        user = new bbUser();
+        angular.extend( user, currentUser );
+        currentUser = user;
         lockedModal = bbLockedModalSvc.lockedModal();
     }
     else if ( $window.sessionStorage.getItem( 'currentUser' ) ) {
         currentUser = JSON.parse( $window.sessionStorage.getItem( 'currentUser' ) );
+        user = new bbUser();
+        angular.extend( user, currentUser );
+        currentUser = user;
     }
 
     return {
