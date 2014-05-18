@@ -12,14 +12,14 @@
 
 bbApp.factory( 'bbAuthSvc', [ 
     '$http',
-    'bbIdentitySvc',
     '$q',
     '$window',
     '$idle',
     '$keepalive',
+    'bbIdentitySvc',
     'bbLockedModalSvc',
     'bbUser',
-    function( $http, bbIdentitySvc, $q, $window, $idle, $keepalive, bbLockedModalSvc, bbUser ) {
+    function( $http, $q, $window, $idle, $keepalive, bbIdentitySvc, bbLockedModalSvc, bbUser ) {
 
         var initSession = function( data ) {
             var user = new bbUser();
@@ -109,6 +109,13 @@ bbApp.factory( 'bbAuthSvc', [
                 });
 
                 return dfd.promise;
+            },
+
+            authorizeCurrentUserForRoute : function ( role ) {
+                if ( bbIdentitySvc.isAuthorized( role ) ) {
+                    return true;
+                } 
+                return $q.reject( 'not authorized' );
             }
         };
-}]);
+    }]);

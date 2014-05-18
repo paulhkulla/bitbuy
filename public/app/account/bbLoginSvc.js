@@ -34,7 +34,6 @@ bbApp.factory( 'bbLoginSvc', [
                 this.isLoginButtonDisabled = true;
 
                 bbAuthSvc.authenticateUser( username, password ).then( function( response ) {
-console.log(response);
 
                     that.isLoginButtonDisabled = false;
 

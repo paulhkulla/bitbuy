@@ -62,6 +62,11 @@ bbApp.config([
     '$keepaliveProvider',
     function( $stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $idleProvider, $keepaliveProvider ) {
 
+        var routeRoleChecks = {
+            admin : { auth : [ 'bbAuthSvc', function ( bbAuthSvc ) {
+                return bbAuthSvc.authorizeCurrentUserForRoute( 'admin' );
+            }]}
+        }
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
         $idleProvider.idleDuration( 5 * 60 );
@@ -149,14 +154,7 @@ bbApp.config([
             .state( 'admin', {
                 url         : '/admin',
                 templateUrl : '/app/admin/admin.html',
-                resolve     : {
-                    auth : function ( bbIdentitySvc, $q ) {
-                        if ( bbIdentitySvc.currentUser && bbIdentitySvc.currentUser.isAdmin() ) {
-                            return true;
-                        } 
-                        return $q.reject( 'not authorized' );
-                    } 
-                },
+                resolve     : routeRoleChecks.admin,
                 controller  : 'bbAdminCtrl'
             });
 

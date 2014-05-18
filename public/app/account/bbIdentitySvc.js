@@ -42,6 +42,10 @@ bbApp.factory('bbIdentitySvc', [
     return {
         currentUser   : currentUser || undefined,
         authenticated : undefined,
-        locked        : locked || undefined
+        locked        : locked || undefined,
+
+        isAuthorized  : function( role ) {
+            return !!this.currentUser && this.currentUser.roles.indexOf( role ) > -1;
+        }
     };
 }]);
