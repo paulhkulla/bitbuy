@@ -14,12 +14,13 @@
 
 bbApp.controller( 'bbMainCtrl', [
     '$scope',
+    '$location',
     'bbLoginDropdownSvc',
     'bbLogoutSvc',
     'bbAuthSvc',
     'bbIdentitySvc',
     'bbWarningModalSvc',
-    function( $scope, bbLoginDropdownSvc, bbLogoutSvc, bbAuthSvc, bbIdentitySvc, bbWarningModalSvc ) {
+    function( $scope, $location, bbLoginDropdownSvc, bbLogoutSvc, bbAuthSvc, bbIdentitySvc, bbWarningModalSvc ) {
 
         $scope.bbLoginDropdownSvc = bbLoginDropdownSvc;
         $scope.signout            = bbLogoutSvc.signout;
@@ -30,24 +31,5 @@ bbApp.controller( 'bbMainCtrl', [
         $scope.minifyMenu         = function () {
             $scope.isMinified = $scope.isMinified ? false : true;
         };
-
-        $scope.$on( 'event:auth-loginRequired', function() {
-            
-            bbAuthSvc.logoutUser( false ).then( function() {
-                if ( bbWarningModalSvc.warningModalInstance ) {
-                    bbWarningModalSvc.warningModalInstance.close();
-                    bbWarningModalSvc.warningModalInstance = undefined;
-                }
-                bbLoginDropdownSvc.activateTab( 'login' );
-                bbLoginDropdownSvc.activateDropdown();
-                $.smallBox({
-                    title : 'Juurdepääs piiratud',
-                    content : "Jätkamiseks palun logige sisse!",
-                    color : "#c7262c",
-                    timeout: 8000,
-                    iconSmall : "fa fa-times shake animated"
-                }); 
-            });
-        });
 
 }]);

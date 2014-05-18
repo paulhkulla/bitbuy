@@ -18,9 +18,8 @@ bbApp.factory( 'bbAuthSvc', [
     '$idle',
     '$keepalive',
     'bbLockedModalSvc',
-    'authService',
     'bbUser',
-    function( $http, bbIdentitySvc, $q, $window, $idle, $keepalive, bbLockedModalSvc, authService, bbUser ) {
+    function( $http, bbIdentitySvc, $q, $window, $idle, $keepalive, bbLockedModalSvc, bbUser ) {
 
         var initSession = function( data ) {
             var user = new bbUser();
@@ -51,14 +50,13 @@ bbApp.factory( 'bbAuthSvc', [
                         .then( function( response ) {
                             if( response.data.success ) {
                                 initSession( response.data );
-                                authService.loginConfirmed();
-                                dfd.resolve( true );
+                                dfd.resolve( response.data );
                             }
                             else {
-                                dfd.resolve( false );
+                                dfd.resolve( response.data );
                             }
                         }, function ( rejection ) {
-                            dfd.resolve( false );
+                            dfd.resolve( rejection.data );
                         });
 
                 return dfd.promise;

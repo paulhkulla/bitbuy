@@ -24,10 +24,9 @@ module.exports = function( app, config ) {
     app.get( '/api/users', auth.requiresRole( 'admin', config ),
         function( req, res ) {
             User.find({}).exec( function( err, collection ) {
-                req.result.collection = collection.map( function(doc) {
+                res.send( collection.map( function(doc) {
                     return doc.toJSON({ getters : true });
-                });
-                res.send( req.result );
+                }));
                 res.end();
             });
         });

@@ -14,14 +14,10 @@
 
 bbApp.controller( 'bbAdminCtrl', [
     '$scope',
-    '$http',
-    'bbAuthSvc',
     'bbIdentitySvc',
-    function( $scope, $http, bbAuthSvc, bbIdentitySvc ) {
+    'bbUser',
+    function( $scope, bbIdentitySvc, bbUser ) {
         if ( ! bbIdentitySvc.locked ) {
-            $http.get( '/api/users' ).then( function( response ) {
-                // bbAuthSvc.initSession( response.data );
-                $scope.users = response.data.collection;
-            });
+            $scope.users = bbUser.query();
         }
 }]);

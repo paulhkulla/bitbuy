@@ -33,11 +33,12 @@ bbApp.factory( 'bbLoginSvc', [
 
                 this.isLoginButtonDisabled = true;
 
-                bbAuthSvc.authenticateUser( username, password ).then( function( success ) {
+                bbAuthSvc.authenticateUser( username, password ).then( function( response ) {
+console.log(response);
 
                     that.isLoginButtonDisabled = false;
 
-                    if ( success ) {
+                    if ( response.success ) {
 
                         bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
 
@@ -54,19 +55,30 @@ bbApp.factory( 'bbLoginSvc', [
                         });
                     }
                     else {
-                        if ( locked ) {
-                            title = "Sisestasite vale parooli!"; 
+                        if ( response.blocked ) {
+                            $.smallBox({
+                                title : "Konto ajutiselt blokeeritud!",
+                                content : "Teie konto blokeeriti ajutiselt mitme ebaõnnestunud sisselogimiskatse tõttu. Palun oodake või kontakteeruge klienditeenindusega.",
+                                color : "#c7262c",
+                                timeout: 8000,
+                                iconSmall : "fa fa-times shake animated"
+                            }); 
                         }
                         else {
-                            title = "Sisestasite vale e-maili ja/või parooli!";
+                            if ( locked ) {
+                                title = "Sisestasite vale parooli!"; 
+                            }
+                            else {
+                                title = "Sisestasite vale e-maili ja/või parooli!";
+                            }
+                            $.smallBox({
+                                title : title,
+                                content : "Palun proovige uuesti!",
+                                color : "#c7262c",
+                                timeout: 3000,
+                                iconSmall : "fa fa-times shake animated"
+                            }); 
                         }
-                        $.smallBox({
-                            title : title,
-                            content : "Palun proovige uuesti!",
-                            color : "#c7262c",
-                            timeout: 3000,
-                            iconSmall : "fa fa-times shake animated"
-                        }); 
                     }
                 });
             }

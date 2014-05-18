@@ -16,8 +16,7 @@ bbApp.factory('bbLoginDropdownSvc', [
     '$rootScope',
     '$document',
     'bbIdentitySvc',
-    'authService',
-    function( $rootScope, $document, bbIdentitySvc, authService ) {
+    function( $rootScope, $document, bbIdentitySvc ) {
 
         var onMousedown = function( e ) {
             if ( !$( '.login-dropdown' ).is( e.target )// if the target of the click isn't the container...
@@ -28,7 +27,6 @@ bbApp.factory('bbLoginDropdownSvc', [
                 && !$( '.register-button' ).is( e.target ) && $( '.register-button' ).has( e.target ).length === 0 
                 && !( $( '#myModal' ).hasClass( 'in' ) ) ) {
                     e.data.dropdownObj.isDropdownActive = false;
-                    authService.loginCancelled();
                     $rootScope.$apply();
                     $( $document ).unbind( 'mousedown', onMousedown );
             }
@@ -50,7 +48,6 @@ bbApp.factory('bbLoginDropdownSvc', [
                     $( $document ).bind( 'mousedown', { dropdownObj : this }, onMousedown );
                 }
                 else {
-                    authService.loginCancelled();
                     $( $document ).unbind( 'mousedown', onMousedown );
                 }
             },

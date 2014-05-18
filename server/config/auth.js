@@ -56,18 +56,30 @@ exports.authenticate = function( req, res, next, config, generate_new_token, cal
         access_token, decoded
         ;
 
-        auth = passport.authenticate( 'local', { session: false }, function( err, user ) {
+        auth = passport.authenticate( 'local', { session: false }, function( err, user, blocked ) {
             if ( err ) {
                 return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
             }
             if ( ! user ) {
-                return callback( { success : false, user : null  } );
+                return callback( { success : false, user : null, blocked : blocked  } );
             }
             User.createUserAccessToken( user.username, function( err, access_token ) {
                 if ( err ) {
                     return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
                 }
-                return callback( genResObj( true, { user : user, access_token : access_token } ) );
+                if ( ! user.login_attempts && ! user.lock_until ) {
+                    return callback( genResObj( true, { user : user, access_token : access_token } ) );
+                }
+                var updates = {
+                    $set: { login_attempts: 0  },
+                    $unset: { block_until: 1  }
+                };
+                return user.update( updates, function( err ) {
+                    if ( err ) {
+                        return callback( genResObj( false, null, 500, 'error', 'server_error' ) );
+                    }
+                    return callback( genResObj( true, { user : user, access_token : access_token } ) );
+                });
             });
         });
 
@@ -160,7 +172,7 @@ exports.requiresApiLogin = function( config ) {
                     next( result );
                 }
                 else {
-                    res.status(403);
+                    res.status( 403 );
                     res.end();
                 }
             }

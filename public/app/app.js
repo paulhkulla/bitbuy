@@ -17,8 +17,7 @@ var bbApp = angular.module( 'bbApp', [
     'ngAnimate',
     'ngIdle',
     'ui.router',
-    'ui.bootstrap',
-    'http-auth-interceptor'
+    'ui.bootstrap'
 ]);
 
 bbApp.run([ 
@@ -26,12 +25,27 @@ bbApp.run([
     '$state',
     '$stateParams',
     '$window',
+    '$location',
+    '$timeout',
     'bbIdentitySvc',
     'bbIdleSvc',
-    function( $rootScope, $state, $stateParams, $window, bbIdentitySvc, bbIdleSvc ) {
+    function( $rootScope, $state, $stateParams, $window, $location, $timeout, bbIdentitySvc, bbIdleSvc ) {
         $rootScope.$state       = $state;
         $rootScope.$stateParams = $stateParams;
-
+        $rootScope.$on( '$stateChangeError', function( event, toState, toParams, fromState, fromParams, error ) {
+            if ( error === 'not authorized' ) {
+                $timeout( function() { 
+                    $location.path('/');
+                    $.smallBox({
+                        title : "Juurdepääs keelatud!",
+                        content : "Teil puuduvad piisavad õigused selle lehe vaatamiseks!",
+                        color : "#c7262c",
+                        timeout: 8000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                }, 0);
+            }
+        });
         if ( $window.sessionStorage.getItem( 'currentUser' ) ) {
             if ( ! bbIdleSvc.isIdleEventsInit ) {
                 bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
@@ -50,9 +64,9 @@ bbApp.config([
 
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
-        $idleProvider.idleDuration( 5 * 2 );
+        $idleProvider.idleDuration( 5 * 60 );
         $idleProvider.warningDuration( 15 * 60 );
-        $keepaliveProvider.interval( 2 * 5 );
+        $keepaliveProvider.interval( 12 );
 
         $httpProvider.interceptors.push('authInterceptor');
 
@@ -60,8 +74,8 @@ bbApp.config([
 
         // Redirects
         $urlRouterProvider
-            .otherwise( "/buy" )
-            .when( "/buy", '/buy/step-1' );
+            .when( "/buy", '/buy/step-1' )
+            .otherwise( "/buy" );
 
         // State routing
         $stateProvider
@@ -135,11 +149,14 @@ bbApp.config([
             .state( 'admin', {
                 url         : '/admin',
                 templateUrl : '/app/admin/admin.html',
-                // resolve     : {
-                //     loginPromise : function ( bbAuthSvc ) {
-                //         return bbAuthSvc.loginPromise;
-                //     } 
-                // },
+                resolve     : {
+                    auth : function ( bbIdentitySvc, $q ) {
+                        if ( bbIdentitySvc.currentUser && bbIdentitySvc.currentUser.isAdmin() ) {
+                            return true;
+                        } 
+                        return $q.reject( 'not authorized' );
+                    } 
+                },
                 controller  : 'bbAdminCtrl'
             });
 
@@ -147,15 +164,57 @@ bbApp.config([
 
 ]);
 
-bbApp.factory('authInterceptor', [ '$q', '$window', function( $q, $window ) {
-    return {
-        request: function ( config ) {
-            config.headers = config.headers || {};
-            if ( $window.sessionStorage.getItem( 'access_token' ) ) {
-                config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem( 'access_token' );
+bbApp.factory('authInterceptor', [
+    '$q',
+    '$window',
+    '$injector',
+    '$timeout',
+    '$location',
+    function( $q, $window, $injector, $timeout, $location ) {
+        return {
+            request: function ( config ) {
+                config.headers = config.headers || {};
+                if ( $window.sessionStorage.getItem( 'access_token' ) ) {
+                    config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem( 'access_token' );
+                }
+                return config || $q.when( config );
+            },
+            responseError: function( rejection ) {
+                var
+                    bbAuthSvc = $injector.get( 'bbAuthSvc' ),
+                    bbWarningModalSvc = $injector.get( 'bbWarningModalSvc' ),
+                    bbLoginDropdownSvc = $injector.get( 'bbLoginDropdownSvc' );
+
+                if ( rejection.status === 401 ) {
+                    bbAuthSvc.logoutUser( false ).then( function() {
+                        $location.path('/');
+                        if ( bbWarningModalSvc.warningModalInstance ) {
+                            bbWarningModalSvc.warningModalInstance.close();
+                            bbWarningModalSvc.warningModalInstance = undefined;
+                        }
+                        bbLoginDropdownSvc.activateTab( 'login' );
+                        bbLoginDropdownSvc.activateDropdown();
+                        $.smallBox({
+                            title : "Juurdepääs keelatud!",
+                            content : "Jätkamiseks palun logige sisse!",
+                            color : "#c7262c",
+                            timeout: 8000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    });
+                }
+                if ( rejection.status === 403 ) {
+                    $.smallBox({
+                        title : "Juurdepääs keelatud!",
+                        content : "Teil puuduvad piisavad õigused selle lehe vaatamiseks!",
+                        color : "#c7262c",
+                        timeout: 8000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                }
+                // otherwise, default behaviour
+                return $q.reject(rejection);
             }
-            return config || $q.when( config );
-        }
-    };
+        };
 }]);
 

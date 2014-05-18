@@ -13,14 +13,17 @@
 'use strict';
 
 bbApp.factory('bbLogoutSvc', [
+    '$location',
     'bbIdentitySvc',
     'bbAuthSvc',
-    function( bbIdentitySvc, bbAuthSvc ) {
+    function( $location, bbIdentitySvc, bbAuthSvc ) {
 
         return {
             signout                : function( lock ) {
 
                 bbAuthSvc.logoutUser( lock ).then( function() {
+
+                    $location.path('/');
 
                     if ( lock === "lock_automatically" ) {
                         $.smallBox({

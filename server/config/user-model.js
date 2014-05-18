@@ -108,6 +108,13 @@ module.exports = function( config ) {
             type    : Number,
             default : config.resetTokenExpires
         },
+        login_attempts: { 
+            type: Number,
+            default: 0
+        },
+        block_until: { 
+            type: Number
+        },
         date_updated : {
             type : Date
         },
@@ -115,6 +122,11 @@ module.exports = function( config ) {
             type    : Date,
             default : Date.now
         }
+    });
+
+    UserSchema.virtual( 'isBlocked' ).get( function() {
+        // check for a future block_until timestamp
+        return !!( this.block_until && this.block_until > Date.now() );
     });
 
     /**
@@ -154,10 +166,27 @@ module.exports = function( config ) {
         }
     });
 
+    UserSchema.methods.incLoginAttempts = function( cb ) {
+        // if we have a previous lock that has expired, restart at 1
+        if ( this.block_until && this.block_until < Date.now() ) {
+            return this.update({
+                $set: { login_attempts: 1 },
+                $unset: { block_until: 1 }
+            }, cb);
+        }
+        // otherwise we're incrementing
+        var updates = { $inc: { login_attempts: 1 } };
+        // lock the account if we've reached max attempts and it's not locked already
+        if ( this.login_attempts + 1 >= config.MAX_LOGIN_ATTEMPTS && ! this.isBlocked ) {
+            updates.$set = { block_until: Date.now() + config.BLOCK_TIME };
+        }
+        return this.update( updates, cb );
+    };
+
     UserSchema.statics.findUser = function( username, access_token, cb ) {
         this.findOne({ username : username }, function( err, user ) {
             if ( err ) { return cb( err, null ); }
-            if ( !user ) { return cb( 'User mismatch', null ); }
+            if ( ! user ) { return cb( 'User mismatch', null ); }
             if ( user.access_token && user.access_token.token ) {
                 utils.compareHash( access_token, user.access_token.token, function( err, isMatch ) {
                     if ( err ) { return cb( err, null ); }
