@@ -36,7 +36,7 @@ module.exports = function(app, config, env) {
     }); 
     app.engine( 'html', consolidate.swig );
     app.set( 'view engine', 'html' );
-    app.set( 'views', config.rootPath + '/server/views' );
+    app.set( 'views', config.rootPath + '/app/views' );
     //-------------------- END TEMPLATE CONFIG -----------------------
 
     //-------------------- BEGIN EXPRESS CONFIG ----------------------

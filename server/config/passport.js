@@ -23,7 +23,7 @@ var
 
 module.exports = function( config ) {
 
-    var utils = require( './utils' )( config );
+    var utils = require( '../utils/utils' )( config );
 
     passport.use( new LocalStrategy(
         function( username, password, done ) {

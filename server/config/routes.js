@@ -15,48 +15,22 @@
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var 
     auth     = require( './auth' ),
+    users     = require( '../../app/controllers/users' ),
     mongoose = require('mongoose'),
     User     = mongoose.model( 'User' );
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function( app, config ) {
 
-    app.get( '/api/users', auth.requiresRole( 'admin', config ),
-        function( req, res ) {
-            User.find({}).exec( function( err, collection ) {
-                res.send( collection.map( function(doc) {
-                    return doc.toJSON({ getters : true });
-                }));
-                res.end();
-            });
-        });
+    app.get( '/api/users', auth.requiresRole( 'admin', config ), users.getUsers );
+    app.post( '/api/users', users.createUser );
 
     app.post( '/login', function( req, res, next ) {
-        auth.authenticate( req, res, next, config, true, function ( result ) {
-            if ( ! result.responseHeader ) {
-                res.send( result );
-            }
-            else {
-                res.statusCode = result.responseStatusCode;
-                if ( result.responseHeader ) {
-                    res.setHeader( result.responseHeader.attribute, result.responseHeader.value );
-                }
-            }
-            res.end();
-        });
+        auth.authenticate( req, res, next, config, true, auth.loginCallback );
     });
 
-    app.post( '/logout', function( req, res, next ) {
-        auth.authenticate( req, res, next, config, true, function ( result ) {
-            if ( result.success ) {
-                User.invalidateUserAccessToken( result.user.username, function() {
-                    res.end();
-                });
-            }
-            else {
-                res.end();
-            }
-        });
+    app.post( '/logout', function( req, res, next ) { 
+        auth.authenticate( req, res, next, config, false, auth.logoutCallback );
     });
 
     app.get( '*', function( req, res ) { res.render( 'index' ); });

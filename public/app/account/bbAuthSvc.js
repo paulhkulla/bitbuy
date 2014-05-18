@@ -76,39 +76,49 @@ bbApp.factory( 'bbAuthSvc', [
                 return dfd.promise;
             },
 
+            createUser : function( newUserData ) {
+                var 
+                    newUser = new bbUser( newUserData ),
+                    dfd = $q.defer();
+
+                newUser.$save().then( function() {
+                    console.log( "saved successfully" );
+                    dfd.resolve();
+                }, function( response ) {
+                    dfd.reject( response.data.reason );
+                });
+
+                return dfd.promise;
+            },
+
             logoutUser : function( lock ) {
 
                 $idle.unwatch();
                 $keepalive.stop();
 
-                var dfd = $q.defer();
-
-                $http.post( '/logout' ).then( function() {
-                        bbIdentitySvc.authenticated = false;
-                        $window.sessionStorage.removeItem( 'access_token' );
-                        $window.sessionStorage.removeItem( 'currentUser' );
-
-                        if ( lock ) {
-                            bbIdentitySvc.locked             = true;
-                            $window.localStorage.currentUser = JSON.stringify(bbIdentitySvc.currentUser);
-                            $window.localStorage.locked      = JSON.stringify(bbIdentitySvc.locked);
-
-                            bbLockedModalSvc.lockedModal();
-                        }
-                        else {
-                            $window.localStorage.removeItem( 'currentUser' );
-                            $window.localStorage.removeItem( 'locked' );
-                            bbIdentitySvc.currentUser = undefined;
-                            bbIdentitySvc.locked      = false;
-
-                            if ( bbLockedModalSvc.lockedModalInstance ) {
-                                bbLockedModalSvc.lockedModalInstance = undefined;
-                            }
-                        }
-                        dfd.resolve( false );
+                $http.post( '/logout' ).then( function( response ) {
+                    bbIdentitySvc.authenticated = false;
+                    $window.sessionStorage.removeItem( 'access_token' );
+                    $window.sessionStorage.removeItem( 'currentUser' );
                 });
 
-                return dfd.promise;
+                if ( lock ) {
+                    bbIdentitySvc.locked             = true;
+                    $window.localStorage.currentUser = JSON.stringify(bbIdentitySvc.currentUser);
+                    $window.localStorage.locked      = JSON.stringify(bbIdentitySvc.locked);
+
+                    bbLockedModalSvc.lockedModal();
+                }
+                else {
+                    $window.localStorage.removeItem( 'currentUser' );
+                    $window.localStorage.removeItem( 'locked' );
+                    bbIdentitySvc.currentUser = undefined;
+                    bbIdentitySvc.locked      = false;
+
+                    if ( bbLockedModalSvc.lockedModalInstance ) {
+                        bbLockedModalSvc.lockedModalInstance = undefined;
+                    }
+                }
             },
 
             authorizeCurrentUserForRoute : function ( role ) {

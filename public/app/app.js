@@ -43,7 +43,7 @@ bbApp.run([
                         timeout: 8000,
                         iconSmall : "fa fa-times shake animated"
                     }); 
-                }, 0);
+                });
             }
         });
         if ( $window.sessionStorage.getItem( 'currentUser' ) ) {
@@ -65,7 +65,11 @@ bbApp.config([
         var routeRoleChecks = {
             admin : { auth : [ 'bbAuthSvc', function ( bbAuthSvc ) {
                 return bbAuthSvc.authorizeCurrentUserForRoute( 'admin' );
+            }]},
+            user : { auth : [ 'bbAuthSvc', function ( bbAuthSvc ) {
+                return bbAuthSvc.authorizeCurrentUserForRoute( 'user' );
             }]}
+
         }
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
@@ -154,7 +158,7 @@ bbApp.config([
             .state( 'admin', {
                 url         : '/admin',
                 templateUrl : '/app/admin/admin.html',
-                resolve     : routeRoleChecks.admin,
+                resolve     : routeRoleChecks.user,
                 controller  : 'bbAdminCtrl'
             });
 

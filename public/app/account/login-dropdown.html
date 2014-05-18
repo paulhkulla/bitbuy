@@ -79,26 +79,26 @@
         <h4>Registreeru</h4>
         </header>
 
-        <form class="smart-form" id="register-form" action="" novalidate="novalidate">
+        <form class="smart-form" id="register-form" name="registerForm" novalidate="novalidate">
 
             <fieldset>
                 <section>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                    <input type="email" placeholder="E-mail" name="email">
+                    <input type="email" placeholder="E-mail" name="email" data-ng-model="firstEmail" required>
                     <b class="tooltip tooltip-bottom-right">Kasutatakse kinnitusteks ja autentimiseks</b> 
                 </label>
                 </section>
 
                 <section>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                    <input type="email" placeholder="Sisestage e-mail uuesti" name="email">
+                    <input type="email" placeholder="Sisestage e-mail uuesti" name="email" data-ng-model="email" required>
                     <b class="tooltip tooltip-bottom-right">Palun kinnitage enda e-mail</b>
                 </label>
                 </section>
 
                 <section>
                 <label class="input"> <i class="icon-append fa fa-key"></i>
-                    <input type="password" id="password" placeholder="Parool" name="password">
+                    <input type="password" id="password" placeholder="Parool" name="password" data-ng-model="r_password" required>
                     <b class="tooltip tooltip-bottom-right">Valige turvaline parool</b>
                 </label>
                 </section>
@@ -106,14 +106,14 @@
                 <section>
                 <div class="col col-2sbs">
                     <label class="input">
-                        <input id="first-name" placeholder="Eesnimi" name="firstName">
+                        <input id="first-name" placeholder="Eesnimi" name="firstName" data-ng-model="firstName" required>
                         <b class="tooltip tooltip-bottom-left">Palun veenduge sisestatud eesnime täpsuses.</b>
                     </label>
                 </div>
                 <div class="col col-2spacer"></div>
                 <div class="col col-2sbs">
                     <label class="input">
-                        <input id="last-name" placeholder="Perekonnanimi" name="lastName">
+                        <input id="last-name" placeholder="Perekonnanimi" name="lastName" data-ng-model="lastName" required>
                         <b class="tooltip tooltip-bottom-left">Palun veenduge sisestatud perekonnanime täpsuses.</b>
                     </label>
                 </div>
@@ -130,16 +130,16 @@
 
                 <section>
                 <label class="checkbox">
-                    <input type="checkbox" id="terms" name="terms">
+                    <input type="checkbox" id="terms" name="terms" data-ng-model="agreeTOS" required>
                     <i></i>Ma nõustun <a data-target="#myModal" data-toggle="modal" href="#">kasutajalepinguga</a>
                 </label>
                 </section>
             </fieldset>
 
             <footer>
-            <button class="btn btn-labeled btn-success" type="submit">
+            <button class="btn btn-labeled btn-success" data-ng-disabled="registerForm.$invalid" data-ng-click="signup()">
                 <span class="btn-label">
-                    <i class="fa fa-pencil"></i>
+                    <i class="fa" data-ng-class="{ 'fa-pencil' : !isRegisterButtonDisabled, 'fa-refresh fa-spin' : isRegisterButtonDisabled  }"></i>
                 </span>
                 Registreeru
             </button>

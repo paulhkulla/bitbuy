@@ -12,7 +12,11 @@
 
 'use strict';
 
-bbApp.controller( 'bbLoginDropdownCtrl', [ '$scope', 'bbLoginSvc', function( $scope, bbLoginSvc ) {
+bbApp.controller( 'bbLoginDropdownCtrl', [
+'$scope',
+'bbLoginSvc',
+'bbAuthSvc',
+function( $scope, bbLoginSvc, bbAuthSvc ) {
 
     // Inititalize birtday picker
     $("#birthday-picker-dropdown").birthdaypicker({
@@ -29,5 +33,23 @@ bbApp.controller( 'bbLoginDropdownCtrl', [ '$scope', 'bbLoginSvc', function( $sc
     $scope.username              = bbLoginSvc.username;
     $scope.password              = bbLoginSvc.password;
     $scope.isLoginButtonDisabled = bbLoginSvc.isLoginButtonDisabled;
+
+    $scope.signup = function() {
+        var newUserData = {
+            username  : $scope.email,
+            password  : $scope.r_password,
+            firstName : $scope.firstName,
+            lastName  : $scope.lastName,
+            birthday  : $scope.birthday,
+        };
+        console.log(newUserData);
+
+        bbAuthSvc.createUser( newUserData ).then( function() {
+            // success
+        }, function ( reason ) {
+            // error
+            console.log(reason);
+        });
+    };
 
 } ]);

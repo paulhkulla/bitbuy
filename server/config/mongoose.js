@@ -24,21 +24,21 @@ module.exports = function( config ) {
 
     var 
         User, 
-        utils = require( './utils' )( config );
+        utils = require( '../utils/utils' )( config );
 
     mongoose.connect( config.db );
     db = mongoose.connection;
     db.on( 'error', console.error.bind( console, 'db connection error') );
     db.once( 'open', function() { console.log( 'db connection established' ); } );
 
-    require( './token-model' )( config );
-    require( './user-model' )( config );
+    require( '../../app/models/token' )( config );
+    require( '../../app/models/user' )( config );
 
     User = mongoose.model( 'User' );
 
     User.find({}).exec(function( err, collection ) {
         if ( collection.length === 0 ) {
-            var testUser1 = new User({ firstName: 'Obi-wan', lastName: 'Kenobi', username: 'admin@gmail.com', password: 'jaladmaha', birthday: "1990-09-05", roles: [ 'admin' ] });
+            var testUser1 = new User({ firstName: 'Obi-wan', lastName: 'Kenobi', username: 'admin@gmail.com', password: 'jaladmaha', birthday: "1990-09-05", roles: [ 'admin', 'user' ] });
             testUser1.save(function (err) {
                 if (err) {
                     console.log(err);

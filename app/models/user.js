@@ -30,7 +30,7 @@ module.exports = function( config ) {
 
     var 
         validatePassword, validateEmail,
-        utils = require( './utils' )( config );
+        utils = require( '../../server/utils/utils' )( config );
 
     validatePassword = function( password ) {
         var score = zxcvbn( password );
@@ -73,7 +73,7 @@ module.exports = function( config ) {
         birthday : {
             type : String,
             default : '',
-            required : 'Birthday is required!',
+            // required : 'Birthday is required!',
         },
         euroBalance : {
             type    : Number,

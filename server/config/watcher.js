@@ -17,7 +17,7 @@ var
     //---------------- BEGIN CONFIGURABLE VARIABLES ------------------
     pollingInterval = 100,
 
-    privDir    = './server/includes',
+    privDir    = './app/views',
     exclPrivDirs = [
         'node_modules',
         'public',
