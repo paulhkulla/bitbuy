@@ -73,7 +73,7 @@ module.exports = function( config ) {
         birthday : {
             type : String,
             default : '',
-            // required : 'Birthday is required!',
+            required : 'Birthday is required!',
         },
         euroBalance : {
             type    : Number,

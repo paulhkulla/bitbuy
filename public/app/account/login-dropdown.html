@@ -21,7 +21,7 @@
     <!-- BEGIN LOGIN TAB -->
     <div id="login-tab" data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'login'">
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
-            ×
+            &times;
         </button>
         <header>
         <h4>Logi sisse</h4>
@@ -73,7 +73,7 @@
     <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register'" id="register-tab">
 
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
-            ×
+            &times;
         </button>
         <header>
         <h4>Registreeru</h4>
@@ -125,13 +125,15 @@
 
                 <section>
                 <label class="label">Sünniaeg</label>
-                <div class="birthday-picker" id="birthday-picker-dropdown"></div>
+                <div class="birthday-picker" id="birthday-picker-dropdown" data-bb-bday-picker></div>
+                <input id="birthday" type="hidden" name="birthday" data-ng-model="birthday" required>
                 </section>
+                {{ birthday }}
 
                 <section>
                 <label class="checkbox">
                     <input type="checkbox" id="terms" name="terms" data-ng-model="agreeTOS" required>
-                    <i></i>Ma nõustun <a data-target="#myModal" data-toggle="modal" href="#">kasutajalepinguga</a>
+                    <i></i>Ma nõustun <a data-ng-click="openTos()" href="">kasutajalepinguga</a>
                 </label>
                 </section>
             </fieldset>
@@ -154,7 +156,7 @@
     <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'forgot'" id="forgot-tab">
 
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
-            ×
+            &times;
         </button>
         <header>
         <h4>Unustasid parooli?</h4>

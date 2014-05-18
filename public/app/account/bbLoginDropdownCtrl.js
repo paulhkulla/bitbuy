@@ -16,19 +16,10 @@ bbApp.controller( 'bbLoginDropdownCtrl', [
 '$scope',
 'bbLoginSvc',
 'bbAuthSvc',
-function( $scope, bbLoginSvc, bbAuthSvc ) {
+'bbTosModalSvc',
+function( $scope, bbLoginSvc, bbAuthSvc, bbTosModalSvc ) {
 
-    // Inititalize birtday picker
-    $("#birthday-picker-dropdown").birthdaypicker({
-        dateFormat: "littleEndian",
-        minAge: 16,
-        maxAge: 110,
-        hidden: false,
-        placeholder: false,
-        defaultDate: "1990-01-01"
-
-    });
-
+    $scope.birthday = undefined;
     $scope.signin                = bbLoginSvc.signin;
     $scope.username              = bbLoginSvc.username;
     $scope.password              = bbLoginSvc.password;
@@ -52,4 +43,13 @@ function( $scope, bbLoginSvc, bbAuthSvc ) {
         });
     };
 
-} ]);
+    $scope.openTos = function() {
+        bbTosModalSvc.tosModal();
+        bbTosModalSvc.tosModalInstance.result.then(
+            function() {
+                $scope.agreeTOS = true;
+            }
+        );
+    };
+
+}]);
