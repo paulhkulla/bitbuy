@@ -36,6 +36,10 @@ module.exports = function( config ) {
                             return done( null, false, { message : 'User blocked' } );
                         });
                     }
+                    if ( ! user.email_activated ) {
+                        console.log("here");
+                        return done( null, false, { message : 'User not activated' } );
+                    }
                     // check if password matches
                     utils.compareHash( password, user.password, function( err, isMatch ) {
                         if ( err ) { throw err; }

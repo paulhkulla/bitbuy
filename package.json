@@ -30,6 +30,7 @@
     "walk-sync": "^0.1.2",
     "zxcvbn": "^1.0.0",
     "zxcvbn2": "^1.0.0",
-    "mongoose-encrypt": "0.0.1-alpha.2"
+    "mongoose-encrypt": "0.0.1-alpha.2",
+    "ip": "^0.3.0"
   }
 }

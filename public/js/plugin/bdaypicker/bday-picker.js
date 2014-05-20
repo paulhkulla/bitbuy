@@ -104,10 +104,10 @@
 
       // Create the hidden date markup
       if (settings["hiddenDate"]) {
-        $("<input type='hidden' name='" + settings["fieldName"] + "' data-ng-model='birthday' required />")
-            .attr("id", settings["fieldId"])
-            .val(hiddenDate)
-            .appendTo($fieldset);
+        // $("<input type='hidden' name='" + settings["fieldName"] + "' data-ng-model='birthday' />")
+        //     .attr("id", settings["fieldId"])
+        //     .val(hiddenDate)
+        //     .appendTo($fieldset);
       }
 
       // Build the initial option sets

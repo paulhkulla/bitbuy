@@ -14,12 +14,12 @@
 
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
-    mongoose    = require( 'mongoose' ),
-    crypto      = require( 'crypto' ),
-    AccessToken = require( 'mongoose' ).model( 'AccessToken' ),
-    zxcvbn      = require( 'zxcvbn2' ),
-    encrypt     = require( 'mongoose-encrypt' ),
-    Schema      = mongoose.Schema,
+    mongoose = require( 'mongoose' ),
+    crypto   = require( 'crypto' ),
+    Token    = require( 'mongoose' ).model( 'Token' ),
+    zxcvbn   = require( 'zxcvbn2' ),
+    encrypt  = require( 'mongoose-encrypt' ),
+    Schema   = mongoose.Schema,
 
     UserSchema, User
     ;
@@ -46,8 +46,17 @@ module.exports = function( config ) {
     };
 
     UserSchema = new Schema({
+        email_activated : {
+            type    : Boolean,
+            default : false
+        },
+        activation_code : {
+            type    : Number,
+            default : 0
+        },
         username : {
             type     : String,
+            unique   : true,
             trim     : true,
             default  : '',
             required : 'E-mail is required!'
@@ -75,6 +84,11 @@ module.exports = function( config ) {
             default : '',
             required : 'Birthday is required!',
         },
+        ip : {
+            type : [{
+                type : Number
+            }],
+        },
         euroBalance : {
             type    : Number,
             default : 0
@@ -87,6 +101,10 @@ module.exports = function( config ) {
             type    : Number,
             default : 1000
         },
+        tradeFee : {
+            type    : Number,
+            default : 0
+        },
         roles: {
             type: [{
                 type : String,
@@ -97,12 +115,15 @@ module.exports = function( config ) {
         access_token : {
             type : Object
         },
+        confirmation_token : {
+            type : Object
+        },
+        reset_token : {
+            type : Object
+        },
         token_exp : { 
             type    : Number,
             default : config.token_expires
-        },
-        reset_token : {
-            type : Object,
         },
         reset_token_exp : { 
             type    : Number,
@@ -218,14 +239,14 @@ module.exports = function( config ) {
 
         this.findOne({ username : username }, function( err, user ) {
             if(err || !user) {
-                console.log('err');
+                return cb( err, null );
             }
             //Create a token and add to user and save
             
             now = new Date().getTime();
             access_token = utils.jwtEncode({ username : username, date_created : now });
             utils.hash( access_token, function( err, hashedToken ) {
-                user.access_token = new AccessToken({ token : hashedToken, date_created : now });
+                user.access_token = new Token({ token : hashedToken, date_created : now });
                 user.save(function( err, user ) {
                     if ( err ) {
                         cb( err, null );
@@ -242,7 +263,7 @@ module.exports = function( config ) {
     UserSchema.statics.invalidateUserAccessToken = function( username, cb ) {
         this.findOne( { username : username }, function( err, user ) {
             if( err || !user ) {
-                return cb( err, null )
+                return cb( err, null );
             }
             user.access_token = null;
             user.save( function( err, user ) {
@@ -255,24 +276,49 @@ module.exports = function( config ) {
         });
     };
 
-    UserSchema.statics.generateResetToken = function( email, cb ) {
-        var now, expires;
+    UserSchema.statics.createUserConfirmationToken = function( username, cb ) {
+        var 
+            now, confirmation_token,
+            that = this
+            ;
 
-        console.log( "in generateResetToken...." );
-        this.findUserByEmailOnly( email, function( err, user ) {
-            if ( err ) {
+        this.findOne({ username : username }, function( err, user ) {
+
+            if( err ) {
+                return cb( err, null );
+            }
+
+            now = new Date().getTime();
+            confirmation_token = crypto.randomBytes( 32 ).toString( 'hex' );
+            that.findOne({ 'confirmation_token.token' : confirmation_token }, function( err, user_match ) {
+                if( err ) {
+                    return cb( err, null );
+                }
+                if ( user_match ) {
+                    that.createUserConfirmationToken( username, cb );
+                }
+                else {
+                    user.confirmation_token = new Token({ token : confirmation_token, date_created : now });
+                    user.save(function( err, user ) {
+                        if ( err ) {
+                            cb( err, null );
+                        }
+                        else {
+                            cb( false, confirmation_token );
+                        }
+                    });
+                }
+            });
+        });
+    };
+
+    UserSchema.statics.findUserByConfirmationToken = function( confirmation_token, cb ) {
+        this.findOne({ 'confirmation_token.token' : confirmation_token }, function( err, user ) {
+            if( err || !user ) {
                 cb( err, null );
-            } else if ( user ) {
-                //Generate reset token and URL link; also, create expiry for reset token
-                user.reset_token = crypto.randomBytes( 32 ).toString( 'hex' );
-                now = new Date();
-                expires = new Date( now.getTime() + ( config.reset_token_expires ) ).getTime();
-                user.reset_token_exp = expires;
-                user.save();
+            }
+            else {
                 cb( false, user );
-            } else {
-                //TODO: This is not really robust and we should probably return an error code or something here
-                cb( new Error( 'No user with that email found.' ), null );
             }
         });
     };

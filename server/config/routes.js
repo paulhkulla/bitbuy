@@ -15,9 +15,8 @@
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var 
     auth     = require( './auth' ),
-    users     = require( '../../app/controllers/users' ),
-    mongoose = require('mongoose'),
-    User     = mongoose.model( 'User' );
+    users    = require( '../../app/controllers/users' ),
+    mongoose = require('mongoose');
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function( app, config ) {
@@ -32,6 +31,8 @@ module.exports = function( app, config ) {
     app.post( '/logout', function( req, res, next ) { 
         auth.authenticate( req, res, next, config, false, auth.logoutCallback );
     });
+
+    app.get( "/confirm_email/:confirmation_token", users.checkConfirmationToken );
 
     app.get( '*', function( req, res ) { res.render( 'index' ); });
 };

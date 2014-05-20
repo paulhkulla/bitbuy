@@ -46,6 +46,30 @@ bbApp.run([
                     }); 
                 });
             }
+            if ( error === 'invalid confirmation token' ) {
+                $timeout( function() { 
+                    $location.path('/');
+                    $.smallBox({
+                        title : "Esines viga!",
+                        content : "Konto aktiveerimine ebaõnnestus! Konto võib juba olla aktiivne või esines viga serveriga. Palun proovige sisse logida või uuesti aktiveerida. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
+                        color : "#c7262c",
+                        timeout: 12000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                });
+            }
+            if ( error === 'valid confirmation token' ) {
+                $timeout( function() { 
+                    $location.path('/');
+                    $.smallBox({
+                        title : "Teie konto on aktiveeritud, <strong>" + bbIdentitySvc.currentUser.firstName + "</strong>!",
+                        content : "Täname teid, et liitusite. Anname endast parima ning teeme kõik, et naudiksite enda siin viibimist!<br><br><i>&ldquo;Parim aeg puu istutamiseks oli 20 aastat tagasi. Teine parim aeg on hetkel.&rdquo;</i> <small>-Hiina vanasõna</small>",
+                        color : "#96BF48",
+                        timeout: 12000,
+                        icon : "fa fa-check fadeInLeft animated"
+                    });
+                });
+            }
         });
         if ( $window.sessionStorage.getItem( 'currentUser' ) ) {
             if ( ! bbIdleSvc.isIdleEventsInit ) {
@@ -71,6 +95,12 @@ bbApp.config([
                 return bbAuthSvc.authorizeCurrentUserForRoute( 'user' );
             }]}
 
+        },
+
+        checkConfirmationToken = {
+            check : [ '$stateParams', 'bbAuthSvc', function ( $stateParams, bbAuthSvc ) {
+                return bbAuthSvc.checkConfirmationToken( $stateParams.confirmationToken );
+            }]
         }
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
@@ -89,6 +119,10 @@ bbApp.config([
 
         // State routing
         $stateProvider
+            .state( 'confirmation', {
+                url         : '/confirm/{confirmationToken}',
+                resolve     : checkConfirmationToken
+            })
             //--------------------- HEADER-NAV STATES ------------------------
             .state( 'what-is-bitcoin', {
                 url         : '/what-is-bitcoin',

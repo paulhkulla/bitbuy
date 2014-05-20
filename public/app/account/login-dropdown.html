@@ -33,7 +33,7 @@
                 <label class="label">E-mail</label>
                 <label class="input">
                     <i class="icon-append fa fa-envelope"></i>
-                    <input id="dropdown-username" data-ng-disabled="isLoginButtonDisabled" data-ng-model="username">
+                    <input id="dropdown-username" data-ng-model="username">
                     <b class="tooltip tooltip-top-right">
                         <i class="fa fa-envelope"></i> Palun sisestage enda e-mail
                     </b>
@@ -44,7 +44,7 @@
                 <label class="label">Parool</label>
                 <label class="input">
                     <i class="icon-append fa fa-key"></i>
-                    <input type="password" data-ng-disabled="isLoginButtonDisabled" data-ng-model="password">
+                    <input type="password" data-ng-model="password">
                     <b class="tooltip tooltip-top-right">
                         <i class="fa fa-key"></i> Palun sisestage enda parool
                     </b>
@@ -56,9 +56,9 @@
             </fieldset>
 
             <footer>
-            <button class="btn btn-labeled btn-success" data-ng-disabled="isLoginButtonDisabled" data-ng-click="signin( username, password )">
+            <button class="btn btn-labeled btn-success" data-ng-disabled="isSubmitButtonDisabled" data-ng-click="signin( username, password )">
                 <span class="btn-label">
-                    <i class="fa" data-ng-class="{ 'fa-sign-in' : !isLoginButtonDisabled, 'fa-refresh fa-spin' : isLoginButtonDisabled  }"></i>
+                    <i class="fa" data-ng-class="{ 'fa-sign-in' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
                 </span>
                 Logi sisse
             </button>
@@ -79,7 +79,7 @@
         <h4>Registreeru</h4>
         </header>
 
-        <form class="smart-form" id="register-form" name="registerForm" data-bb-custom-submit="signup()" novalidate>
+        <form class="smart-form" id="register-form" name="registerForm" data-bb-custom-submit="signup( email, r_password, firstName, lastName, birthday )" novalidate>
 
             <fieldset>
                 <section>
@@ -165,7 +165,7 @@
                         data-placement="top"
                         data-toggle="popover" 
                         data-html="true" 
-                        data-content="<img src='/img/encrypted.png' alt='Krüpteeritud'><br><br>Me võtame teie privaatsust ja turvalisust väga tõsiselt. Sellepärast krüpteerime teie isikuandmed AES spetsifikatsiooni aluses 256-bit pikkuse võtmega. Teie parool on omakorda turvatud läbi bcrypt funktsiooni."
+                        data-content="<img src='/img/encrypted.png' alt='Krüpteeritud'><br><br>Me võtame teie privaatsust ja turvalisust väga tõsiselt. Sellepärast krüpteerime teie isikuandmed AES spetsifikatsiooni alusel 256-bit pikkuse võtmega. Teie parool on omakorda turvatud läbi bcrypt funktsiooni."
                         title="Teie andmed on heades kätes">Teie isiklikud andmed on kaitstud.</a>
                 </div>
                 </section>
@@ -173,7 +173,7 @@
                 <section>
                 <label class="label">Sünniaeg</label>
                 <div class="birthday-picker" id="birthday-picker-dropdown" data-bb-bday-picker></div>
-                <input id="birthday" type="hidden" name="birthday" data-ng-model="birthday" required>
+                <input id="birthday" type="hidden" name="birthday" data-ng-model="birthday" value="1997-01-01">
                 </section>
 
                 <section>
@@ -185,9 +185,9 @@
             </fieldset>
 
             <footer>
-            <button type="submit" class="btn btn-labeled btn-success">
+            <button type="submit" data-ng-disabled="isSubmitButtonDisabled" class="btn btn-labeled btn-success">
                 <span class="btn-label">
-                    <i class="fa" data-ng-class="{ 'fa-pencil' : !isRegisterButtonDisabled, 'fa-refresh fa-spin' : isRegisterButtonDisabled  }"></i>
+                    <i class="fa" data-ng-class="{ 'fa-pencil' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
                 </span>
                 Registreeru
             </button>

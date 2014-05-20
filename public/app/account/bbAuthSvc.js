@@ -126,6 +126,23 @@ bbApp.factory( 'bbAuthSvc', [
                     return true;
                 } 
                 return $q.reject( 'not authorized' );
+            },
+
+            checkConfirmationToken : function( confirmation_token ) {
+                dfd = $q.defer();
+                $http.get( '/confirm_email/' + confirmation_token ).then( function( response ) {
+                    if ( response.data.success ) {
+                        initSession( response.data );
+                        dfd.reject( 'valid confirmation token' );
+                    }
+                    else {
+                        console.log( "fail" );
+                        dfd.reject( 'invalid confirmation token' );
+                    }
+                });
+                return dfd.promise;
             }
+
         };
+
     }]);

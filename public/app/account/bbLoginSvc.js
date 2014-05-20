@@ -21,21 +21,21 @@ bbApp.factory( 'bbLoginSvc', [
 
         return {
 
-            username              : null,
-            password              : null,
+            username               : null,
+            password               : null,
 
-            isLoginButtonDisabled : false,
+            isSubmitButtonDisabled : false,
 
-            signin                : function( username, password, locked ) {
+            signin                 : function( username, password, locked ) {
 
                 var title,
                     that = this;
 
-                this.isLoginButtonDisabled = true;
+                this.isSubmitButtonDisabled = true;
 
                 bbAuthSvc.authenticateUser( username, password ).then( function( response ) {
 
-                    that.isLoginButtonDisabled = false;
+                    that.isSubmitButtonDisabled = false;
 
                     if ( response.success ) {
 
@@ -58,6 +58,15 @@ bbApp.factory( 'bbLoginSvc', [
                             $.smallBox({
                                 title : "Konto ajutiselt blokeeritud!",
                                 content : "Teie konto blokeeriti ajutiselt mitme ebaõnnestunud sisselogimiskatse tõttu. Palun oodake või kontakteeruge klienditeenindusega.",
+                                color : "#c7262c",
+                                timeout: 8000,
+                                iconSmall : "fa fa-times shake animated"
+                            }); 
+                        }
+                        else if ( response.info && response.info.message === "User not activated" ) {
+                            $.smallBox({
+                                title : "Teie konto ei ole aktiveeritud!",
+                                content : "Palun aktiveerige enda konto. Saatsime teile e-maili juhenditega.",
                                 color : "#c7262c",
                                 timeout: 8000,
                                 iconSmall : "fa fa-times shake animated"
@@ -87,6 +96,46 @@ bbApp.factory( 'bbLoginSvc', [
                                 iconSmall : "fa fa-times shake animated"
                             }); 
                         }
+                    }
+                });
+            },
+            signup : function ( 
+                username,
+                password,
+                firstName,
+                lastName,
+                birthday
+            ) {
+
+                var 
+                    that, 
+                    newUserData = {
+                        username  : username,
+                        password  : password,
+                        firstName : firstName,
+                        lastName  : lastName,
+                        birthday  : birthday
+                    };
+            
+                that = this;
+                this.isSubmitButtonDisabled = true;
+                console.log(this.isSubmitButtonDisabled);
+
+                console.log(newUserData);
+
+                bbAuthSvc.createUser( newUserData ).then( function() {
+                    that.isSubmitButtonDisabled = false;
+                    // success
+                }, function ( reason ) {
+                    that.isSubmitButtonDisabled = false;
+                    if ( reason === "Error: Duplicate e-mail" ) {
+                        $.smallBox({
+                            title : "E-mail on juba kasutuses!",
+                            content : "Kui tegu on teie e-mailiga, siis palun ärge avage uut kontot.",
+                            color : "#c7262c",
+                            timeout: 8000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
                     }
                 });
             }

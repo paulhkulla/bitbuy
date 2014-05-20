@@ -19,29 +19,14 @@ bbApp.controller( 'bbLoginDropdownCtrl', [
 'bbTosModalSvc',
 function( $scope, bbLoginSvc, bbAuthSvc, bbTosModalSvc ) {
 
-    $scope.birthday = undefined;
-    $scope.signin                = bbLoginSvc.signin;
-    $scope.username              = bbLoginSvc.username;
-    $scope.password              = bbLoginSvc.password;
-    $scope.isLoginButtonDisabled = bbLoginSvc.isLoginButtonDisabled;
+    moment.lang( 'et' );
+    $scope.birthday = "1997-01-01";
+    $scope.signin                 = bbLoginSvc.signin;
+    $scope.username               = bbLoginSvc.username;
+    $scope.password               = bbLoginSvc.password;
+    $scope.isSubmitButtonDisabled = bbLoginSvc.isSubmitButtonDisabled;
 
-    $scope.signup = function() {
-        var newUserData = {
-            username  : $scope.email,
-            password  : $scope.r_password,
-            firstName : $scope.firstName,
-            lastName  : $scope.lastName,
-            birthday  : $scope.birthday,
-        };
-        console.log(newUserData);
-
-        bbAuthSvc.createUser( newUserData ).then( function() {
-            // success
-        }, function ( reason ) {
-            // error
-            console.log(reason);
-        });
-    };
+    $scope.signup = bbLoginSvc.signup;
 
     $scope.openTos = function() {
         bbTosModalSvc.tosModal();
@@ -55,8 +40,6 @@ function( $scope, bbLoginSvc, bbAuthSvc, bbTosModalSvc ) {
     $scope.checkPasswordStrength = function() {
         if ( ! $scope.r_password ) { $scope.r_password = ''; }
         $scope.password_result = zxcvbn( $scope.r_password );
-        console.log( $scope.password_result );
-        moment.lang( 'et' );
         $scope.crack_time = moment.duration( $scope.password_result.crack_time,'seconds' ).humanize();
     };
 

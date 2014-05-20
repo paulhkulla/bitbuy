@@ -17,7 +17,7 @@ var
     passport    = require( 'passport' ),
     mongoose    = require( 'mongoose' ),
     User        = mongoose.model( 'User' ),
-    AccessToken = mongoose.model( 'AccessToken' ),
+    Token = mongoose.model( 'Token' ),
 
     genResObj;
 //----------------- END MODULE SCOPE VARIABLES -------------------
@@ -48,6 +48,8 @@ genResObj = function( success, tokenAndUser, statusCode, attribute, value ) {
     return obj;
 };
 
+exports.genResObj = genResObj;
+
 exports.authenticate = function( req, res, next, config, generate_new_token, callback ) {
     var
         utils = require( '../utils/utils' )( config ),
@@ -55,6 +57,10 @@ exports.authenticate = function( req, res, next, config, generate_new_token, cal
         parts, scheme,
         access_token, decoded
         ;
+
+        if ( req.body.username ) {
+            req.body.username = req.body.username.toLowerCase();
+        }
 
         auth = passport.authenticate( 'local', { session: false }, function( err, user, info ) {
             if ( err ) {
@@ -115,7 +121,7 @@ exports.authenticate = function( req, res, next, config, generate_new_token, cal
                                         'Bearer, error="invalid_token",'
                                     + ' error_description="Access token date mismatch. Potential theft. Change your password."' ) );
                                 }
-                                if ( ! AccessToken.hasExpired( user.access_token.date_created, user.token_exp ) ) {
+                                if ( ! Token.hasExpired( user.access_token.date_created, user.token_exp ) ) {
                                     if ( generate_new_token ) {
                                         User.createUserAccessToken( user.username, function( err, access_token ) {
                                             if ( err ) {
@@ -234,3 +240,4 @@ exports.requiresRole = function( role, config ) {
         });
     };
 };
+

@@ -15,13 +15,13 @@ white          : true
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
     mongoose = require( 'mongoose' ),
-    AccessTokenSchema
+    TokenSchema
     ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 
 module.exports = function( config ) {
 
-    AccessTokenSchema = mongoose.Schema({
+    TokenSchema = mongoose.Schema({
         token : {
             type : String
         },
@@ -31,7 +31,7 @@ module.exports = function( config ) {
         }
     });
 
-    AccessTokenSchema.statics.hasExpired = function( date_created, token_exp ) {
+    TokenSchema.statics.hasExpired = function( date_created, token_exp ) {
         var 
             now = new Date(),
             diff = ( now.getTime() - date_created );
@@ -39,7 +39,7 @@ module.exports = function( config ) {
         return diff > token_exp;
     };
 
-    mongoose.model( 'AccessToken', AccessTokenSchema );
+    mongoose.model( 'Token', TokenSchema );
 
 };
 
