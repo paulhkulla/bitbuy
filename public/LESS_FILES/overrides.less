@@ -1,3 +1,13 @@
+.smart-form .popover-title {
+    padding: 8px 14px;
+}
+.smart-form .popover-content {
+    padding: 9px 14px;
+}
+.smart-form .note a {
+    font-size: 11px;
+    color: #999999 !important;
+}
 #locked-modal-login-form {
     footer {
         padding: 0px !important;
@@ -132,17 +142,77 @@
     border-top: none;
     background: none;
 }
+#register-tab {
+    /*
+     * normal state
+     */
+    #firstname-required-note,
+    #lastname-required-note,
+    #password-weak-note,
+    #password-required-note,
+    #email-match-note,
+    #email-required-note,
+    #email-valid-note {
+        display: none;
+    }
+
+    .smart-form #firstname-required-note.ng-invalid-required,
+    .smart-form #lastname-required-note.ng-invalid-required,
+    .smart-form #password-required-note.ng-invalid-required,
+    .smart-form #password-weak-note.ng-invalid-validator,
+    .smart-form #email-match-note.ng-invalid-validator,
+    .smart-form #email-required-note.ng-invalid-required,
+    .smart-form #email-valid-note.ng-invalid-email {
+        display: block;
+    }
+    .smart-form input.has-visited.ng-invalid:not(.has-focus) {
+        border-color: #FF0000;
+        &:hover {
+            border-color: #FF0000;
+        }
+        &:focus {
+            border-color: #FF0000;
+        }
+    }
+    .smart-form input.has-visited.ng-valid:not(.has-focus) {
+        border-color: #82AE00;
+        &:hover {
+            border-color: #82AE00;
+        }
+        &:focus {
+            border-color: #82AE00;
+        }
+    }
+    .smart-form #password.ng-invalid.ng-dirty, .smart-form #email.ng-invalid.ng-dirty {
+        border-color: #FF0000;
+        &:hover {
+            border-color: #FF0000;
+        }
+        &:focus {
+            border-color: #FF0000;
+        }
+    }
+    .smart-form #password.ng-valid.ng-dirty, .smart-form #email.ng-valid.ng-dirty {
+        border-color: #82AE00;
+        &:hover {
+            border-color: #82AE00;
+        }
+        &:focus {
+            border-color: #82AE00;
+        }
+    }
+}
 /*
  * hover state
  */
 .smart-form .input:hover input, .smart-form .select:hover select, .smart-form .textarea:hover textarea, .smart-form .radio:hover i, .smart-form .checkbox:hover i, .smart-form .toggle:hover i {
-    border-color: #82AE00;
+    border-color: #33B5E5;
 }
 /*
  * focus state
  */
 .smart-form .input input:focus, .smart-form .select select:focus, .smart-form .textarea textarea:focus, .smart-form .radio input:focus + i, .smart-form .checkbox input:focus + i, .smart-form .toggle input:focus + i {
-    border-color: #99CC00;
+    border-color: #0092B7;
 }
 .smart-form .input input, .smart-form .select select, .smart-form .textarea textarea {
     display: block;

@@ -36,11 +36,11 @@ module.exports = function(app, config, env) {
     }); 
     app.engine( 'html', consolidate.swig );
     app.set( 'view engine', 'html' );
-    app.set( 'views', config.rootPath + '/app/views' );
+    app.set( 'views', config.root_path + '/app/views' );
     //-------------------- END TEMPLATE CONFIG -----------------------
 
     //-------------------- BEGIN EXPRESS CONFIG ----------------------
-    app.use( express.static( config.rootPath + '/public' ) );
+    app.use( express.static( config.root_path + '/public' ) );
     app.use( logger( 'dev' ) );
     app.use( cookieParser() );
     app.use( bodyParser() );

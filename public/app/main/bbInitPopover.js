@@ -10,6 +10,8 @@
 */
 /*global angular, bbApp, $ */
 
+'use strict';
+
 bbApp.directive("bbInitPopover", function () {
     return {
         restrict: 'A',

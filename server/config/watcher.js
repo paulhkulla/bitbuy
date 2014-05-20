@@ -90,8 +90,8 @@ module.exports = function( config, env, io ) {
             { 
                 io : io,
                 pollingInterval : pollingInterval,
-                privDir : path.join( config.rootPath + privDir ),
-                pubDir  : path.join( config.rootPath + pubDir )
+                privDir : path.join( config.root_path + privDir ),
+                pubDir  : path.join( config.root_path + pubDir )
             },
             {
                 privFiles : privFiles,

@@ -46,7 +46,7 @@ bbApp.factory( 'bbLoginSvc', [
                         that.password = null;
 
                         $.smallBox({
-                            title : "Teretulemast tagasi, <strong>" + bbIdentitySvc.currentUser.firstName + "</strong>!",
+                            title : "Tere tulemast tagasi, <strong>" + bbIdentitySvc.currentUser.firstName + "</strong>!",
                             content : "<i>&ldquo;Parim aeg puu istutamiseks oli 20 aastat tagasi. Teine parim aeg on hetkel.&rdquo;</i> <small>-Hiina vanasõna</small>",
                             color : "#96BF48",
                             timeout: 8000,
@@ -54,10 +54,19 @@ bbApp.factory( 'bbLoginSvc', [
                         });
                     }
                     else {
-                        if ( response.blocked ) {
+                        if ( response.info && response.info.message === "User blocked" ) {
                             $.smallBox({
                                 title : "Konto ajutiselt blokeeritud!",
                                 content : "Teie konto blokeeriti ajutiselt mitme ebaõnnestunud sisselogimiskatse tõttu. Palun oodake või kontakteeruge klienditeenindusega.",
+                                color : "#c7262c",
+                                timeout: 8000,
+                                iconSmall : "fa fa-times shake animated"
+                            }); 
+                        }
+                        else if ( response.info && response.info.message === "Missing credentials" ) {
+                            $.smallBox({
+                                title : "E-mail ja/või parool sisestamata!",
+                                content : "Palun sisestage mõlemad!",
                                 color : "#c7262c",
                                 timeout: 8000,
                                 iconSmall : "fa fa-times shake animated"

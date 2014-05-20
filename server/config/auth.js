@@ -56,12 +56,12 @@ exports.authenticate = function( req, res, next, config, generate_new_token, cal
         access_token, decoded
         ;
 
-        auth = passport.authenticate( 'local', { session: false }, function( err, user, blocked ) {
+        auth = passport.authenticate( 'local', { session: false }, function( err, user, info ) {
             if ( err ) {
                 return callback( req, res, genResObj( false, null, 500, 'error', 'server_error' ) );
             }
             if ( ! user ) {
-                return callback( req, res, { success : false, user : null, blocked : blocked  } );
+                return callback( req, res, { success : err, user : user, info : info } );
             }
             User.createUserAccessToken( user.username, function( err, access_token ) {
                 if ( err ) {

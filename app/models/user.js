@@ -1,5 +1,5 @@
 /*
- * user-model.js
+ * user.js
  */
 
 /*jslint browser : true, continue : true,
@@ -99,14 +99,14 @@ module.exports = function( config ) {
         },
         token_exp : { 
             type    : Number,
-            default : config.tokenExpires
+            default : config.token_expires
         },
         reset_token : {
             type : Object,
         },
         reset_token_exp : { 
             type    : Number,
-            default : config.resetTokenExpires
+            default : config.reset_token_expires
         },
         login_attempts: { 
             type: Number,
@@ -177,8 +177,8 @@ module.exports = function( config ) {
         // otherwise we're incrementing
         var updates = { $inc: { login_attempts: 1 } };
         // lock the account if we've reached max attempts and it's not locked already
-        if ( this.login_attempts + 1 >= config.MAX_LOGIN_ATTEMPTS && ! this.isBlocked ) {
-            updates.$set = { block_until: Date.now() + config.BLOCK_TIME };
+        if ( this.login_attempts + 1 >= config.max_login_attempts && ! this.isBlocked ) {
+            updates.$set = { block_until: Date.now() + config.block_time };
         }
         return this.update( updates, cb );
     };
@@ -266,7 +266,7 @@ module.exports = function( config ) {
                 //Generate reset token and URL link; also, create expiry for reset token
                 user.reset_token = crypto.randomBytes( 32 ).toString( 'hex' );
                 now = new Date();
-                expires = new Date( now.getTime() + ( config.resetTokenExpires ) ).getTime();
+                expires = new Date( now.getTime() + ( config.reset_token_expires ) ).getTime();
                 user.reset_token_exp = expires;
                 user.save();
                 cb( false, user );

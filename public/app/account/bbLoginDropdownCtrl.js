@@ -52,4 +52,12 @@ function( $scope, bbLoginSvc, bbAuthSvc, bbTosModalSvc ) {
         );
     };
 
+    $scope.checkPasswordStrength = function() {
+        if ( ! $scope.r_password ) { $scope.r_password = ''; }
+        $scope.password_result = zxcvbn( $scope.r_password );
+        console.log( $scope.password_result );
+        moment.lang( 'et' );
+        $scope.crack_time = moment.duration( $scope.password_result.crack_time,'seconds' ).humanize();
+    };
+
 }]);

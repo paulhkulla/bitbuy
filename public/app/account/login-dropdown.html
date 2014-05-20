@@ -33,7 +33,7 @@
                 <label class="label">E-mail</label>
                 <label class="input">
                     <i class="icon-append fa fa-envelope"></i>
-                    <input data-ng-disabled="isLoginButtonDisabled" data-ng-model="username">
+                    <input id="dropdown-username" data-ng-disabled="isLoginButtonDisabled" data-ng-model="username">
                     <b class="tooltip tooltip-top-right">
                         <i class="fa fa-envelope"></i> Palun sisestage enda e-mail
                     </b>
@@ -79,47 +79,94 @@
         <h4>Registreeru</h4>
         </header>
 
-        <form class="smart-form" id="register-form" name="registerForm" novalidate="novalidate">
+        <form class="smart-form" id="register-form" name="registerForm" data-bb-custom-submit="signup()" novalidate>
 
             <fieldset>
                 <section>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                    <input type="email" placeholder="E-mail" name="email" data-ng-model="firstEmail" required>
-                    <b class="tooltip tooltip-bottom-right">Kasutatakse kinnitusteks ja autentimiseks</b> 
+                    <input type="email" id="dropdown-email" placeholder="E-mail" data-validnote="#email-valid-note" data-requirednote="#email-required-note" name="firstEmail" data-ng-model="firstEmail" required>
+                    <b class="tooltip tooltip-top-right">Kasutatakse kinnitusteks ja autentimiseks</b> 
                 </label>
+                <div id="email-valid-note" class="note">
+                    Sisestatud e-mail ei ole korrektne!
+                </div>
+                <div data-ng-hide="!registerForm.firstEmail.$error.required" id="email-required-note" class="note">
+                    E-mail on kohustuslik!
+                </div>
                 </section>
 
                 <section>
                 <label class="input"> <i class="icon-append fa fa-envelope"></i>
-                    <input type="email" placeholder="Sisestage e-mail uuesti" name="email" data-ng-model="email" required>
-                    <b class="tooltip tooltip-bottom-right">Palun kinnitage enda e-mail</b>
+                    <input id="email" placeholder="Sisestage e-mail uuesti" name="email" data-ng-model="email" data-ui-validate=" '$value === firstEmail' " data-ui-validate-watch=" 'firstEmail' " required>
+                    <b class="tooltip tooltip-top-right">Palun kinnitage enda e-mail</b>
                 </label>
+                <div data-ng-show="registerForm.email.$dirty && registerForm.email.$error.validator" class="note">
+                    Sisestatud e-mailid ei ühti!
+                </div>
                 </section>
 
                 <section>
                 <label class="input"> <i class="icon-append fa fa-key"></i>
-                    <input type="password" id="password" placeholder="Parool" name="password" data-ng-model="r_password" required>
-                    <b class="tooltip tooltip-bottom-right">Valige turvaline parool</b>
+                    <input type="password" id="password" data-requirednote="#password-required-note" data-validatornote="#password-weak-note" placeholder="Parool" name="password" data-ui-validate=" 'password_result.score > 1' " ui-validate-watch=" 'password_result.score' " data-ng-model="r_password" data-ng-change="checkPasswordStrength()" required>
+                    <b class="tooltip tooltip-top-right">
+                        Valige turvaline parool, mida on raske ära arvata.<br>Turvaline parool võiks sisaldada ebatavalisi sõnu leidlike kirjapiltideggga, sUuRi tÄhTI, numbr31d ja $ümbo|eid.
+                        <span data-ng-show="password_result">
+                            <br><br>Hetkel on teie parooli skoor <strong>{{ password_result.score || 0 }}/4.</strong>
+                            <i data-ng-show="password_result.score < 2">Liiga nõrk!</i>
+                            <i data-ng-show="password_result.score === 2">Piisav!</i>
+                            <i data-ng-show="password_result.score === 3">Tugev!</i>
+                            <i data-ng-show="password_result.score === 4">Väga tugev!</i>
+                        </span>
+                        <span data-ng-show="crack_time"><br>Parooli lahti muukimiseks kuluks <strong>{{ crack_time }}</strong>...</span></b>
                 </label>
+                <div class="password-strength">
+                    <div data-ng-show="password_result.score > 0" id="strength-1" class="col-xs-3"></div>
+                    <div data-ng-show="password_result.score > 1" id="strength-2" class="col-xs-3"></div>
+                    <div data-ng-show="password_result.score > 2" id="strength-3" class="col-xs-3"></div>
+                    <div data-ng-show="password_result.score > 3" id="strength-4" class="col-xs-3"></div>
+                </div>
+                <div data-ng-hide="!registerForm.password.$error.required" id="password-required-note" class="note">
+                    Parool on kohustuslik!
+                </div>
+                <div data-ng-hide="registerForm.password.$error.required || password_result.score > 1" id="password-weak-note" class="note">
+                    Parool on liiga lihtne!
+                </div>
                 </section>
 
                 <section>
                 <div class="col col-2sbs">
                     <label class="input">
-                        <input id="first-name" placeholder="Eesnimi" name="firstName" data-ng-model="firstName" required>
-                        <b class="tooltip tooltip-bottom-left">Palun veenduge sisestatud eesnime täpsuses.</b>
+                        <input id="first-name" data-requirednote="#firstname-required-note" placeholder="Eesnimi" name="firstName" data-ng-model="firstName" required>
+                        <b class="tooltip tooltip-top-left">Palun veenduge sisestatud eesnime täpsuses.</b>
                     </label>
                 </div>
                 <div class="col col-2spacer"></div>
                 <div class="col col-2sbs">
                     <label class="input">
-                        <input id="last-name" placeholder="Perekonnanimi" name="lastName" data-ng-model="lastName" required>
-                        <b class="tooltip tooltip-bottom-left">Palun veenduge sisestatud perekonnanime täpsuses.</b>
+                        <input id="last-name" data-requirednote="#lastname-required-note" placeholder="Perekonnanimi" name="lastName" data-ng-model="lastName" required>
+                        <b class="tooltip tooltip-top-left">Palun veenduge sisestatud perekonnanime täpsuses.</b>
                     </label>
                 </div>
                 <div class="clearfix"></div>
+                <div data-ng-hide="!registerForm.firstName.$error.required" id="firstname-required-note" class="note">
+                    Eesnimi on kohustuslik!
+                </div>
+                <div data-ng-hide="!registerForm.lastName.$error.required" id="lastname-required-note" class="note">
+                    Perekonnanimi on kohustuslik!
+                </div>
                 <div class="note">
                     Sisestatud eesnimi ja perekonnanimi peavad ühtima nimega, mida kasutate sisse- ja väljamaksete tegemiseks.
+                </div>
+                <div class="note">
+                    <a href="" 
+                        data-bb-init-popover
+                        data-container="body"
+                        data-trigger="hover"
+                        data-placement="top"
+                        data-toggle="popover" 
+                        data-html="true" 
+                        data-content="<img src='/img/encrypted.png' alt='Krüpteeritud'><br><br>Me võtame teie privaatsust ja turvalisust väga tõsiselt. Sellepärast krüpteerime teie isikuandmed AES spetsifikatsiooni aluses 256-bit pikkuse võtmega. Teie parool on omakorda turvatud läbi bcrypt funktsiooni."
+                        title="Teie andmed on heades kätes">Teie isiklikud andmed on kaitstud.</a>
                 </div>
                 </section>
 
@@ -128,7 +175,6 @@
                 <div class="birthday-picker" id="birthday-picker-dropdown" data-bb-bday-picker></div>
                 <input id="birthday" type="hidden" name="birthday" data-ng-model="birthday" required>
                 </section>
-                {{ birthday }}
 
                 <section>
                 <label class="checkbox">
@@ -139,7 +185,7 @@
             </fieldset>
 
             <footer>
-            <button class="btn btn-labeled btn-success" data-ng-disabled="registerForm.$invalid" data-ng-click="signup()">
+            <button type="submit" class="btn btn-labeled btn-success">
                 <span class="btn-label">
                     <i class="fa" data-ng-class="{ 'fa-pencil' : !isRegisterButtonDisabled, 'fa-refresh fa-spin' : isRegisterButtonDisabled  }"></i>
                 </span>
@@ -166,7 +212,7 @@
             <fieldset>
                 <section>
                 <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                    <input type="email" name="email" placeholder="Registreeritud e-mail">
+                    <input id="dropdown-forgot" type="email" name="email" placeholder="Registreeritud e-mail">
                 </label>
                 <div class="note">
                     Teile saadetakse link, mis lubab sätestada uue parooli.

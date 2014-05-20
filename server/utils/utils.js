@@ -23,7 +23,7 @@ module.exports = function( config ) {
 
     return {
         hash : function( input, cb ) {
-            bcrypt.genSalt( config.SALT_WORK_FACTOR, function( err, salt ) {
+            bcrypt.genSalt( config.salt_work_factor, function( err, salt ) {
                 if ( err ) { return cb( err, null ); }
 
                 // hash the access_token along with our new salt

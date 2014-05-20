@@ -28,27 +28,28 @@ module.exports = function( config ) {
     passport.use( new LocalStrategy(
         function( username, password, done ) {
             User.findOne( { username : username } ).exec( function( err, user ) {
+                if ( err ) { throw err; }
                 if ( user ) {
                     if ( user.isBlocked ) {
                         return user.incLoginAttempts( function( err ) {
                             if ( err ) { throw err; }
-                            return done( null, false, true );
+                            return done( null, false, { message : 'User blocked' } );
                         });
                     }
                     // check if password matches
                     utils.compareHash( password, user.password, function( err, isMatch ) {
                         if ( err ) { throw err; }
                         if ( isMatch ) { 
-                            return done( null, user, false );
+                            return done( null, user );
                         }
                         user.incLoginAttempts( function( err ) {
                             if ( err ) { throw err; }
-                            return done( null, false, false );
+                            return done( null, false );
                         });
                     } );
                 }
                 else {
-                    return done( null, false, false );
+                    return done( null, false );
                 }
             });
         }

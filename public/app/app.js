@@ -17,7 +17,8 @@ var bbApp = angular.module( 'bbApp', [
     'ngAnimate',
     'ngIdle',
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'ui.utils'
 ]);
 
 bbApp.run([ 

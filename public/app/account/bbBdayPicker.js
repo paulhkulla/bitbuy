@@ -201,7 +201,7 @@ bbApp.directive("bbBdayPicker", function($compile) {
                                 if (selectedMonth<10) selectedMonth="0"+selectedMonth;
                                 if (selectedDay<10) selectedDay="0"+selectedDay;
                                 hiddenDate = selectedYear + "-" + selectedMonth + "-" + selectedDay;
-//                                 $(this).find('#'+settings["fieldId"]).val(hiddenDate);
+                                // $(this).find('#'+settings["fieldId"]).val(hiddenDate);
                                 scope.$apply(function() {
                                     scope.birthday = hiddenDate;
                                 });
@@ -210,6 +210,15 @@ bbApp.directive("bbBdayPicker", function($compile) {
                                 }
                             }
                         });
+                        $(".birth-year").change(function() {
+                            $(this).addClass('bd_blurred');
+                        });
+                        $(".birth-month").change(function() {
+                            $(this).addClass('bd_blurred');
+                        });
+                        $(".birth-day").change(function() {
+                            $(this).addClass('bd_blurred');
+                        });
                     });
                 };
                 $(element).birthdaypicker({
@@ -217,7 +226,7 @@ bbApp.directive("bbBdayPicker", function($compile) {
                     minAge: 16,
                     maxAge: 110,
                     hidden: false,
-                    placeholder: false,
+                    NERDTreeToggleplaceholder: false,
                     defaultDate: "1997-01-01"
 
                 });

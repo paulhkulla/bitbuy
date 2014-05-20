@@ -1,5 +1,5 @@
 /*
-* token-model.js
+* token.js
 */
 
 /*jslint browser : true, continue : true,
