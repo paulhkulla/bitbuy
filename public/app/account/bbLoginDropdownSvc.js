@@ -35,6 +35,8 @@ bbApp.factory('bbLoginDropdownSvc', [
         return {
             isDropdownActive  : false,
 
+            isActivationToken : false,
+
             activeDropdownTab : 'login',
 
             toggleDropdown    : function() {

@@ -1,5 +1,5 @@
 /*
- * bbBuyCtrl.js
+ * bbCheckmarkFilter.js
  */
 
 /*jslint browser : true, continue : true,
@@ -8,11 +8,13 @@
   regexp         : true, sloppy   : true, vars     : false,
   white          : true
 */
-/*global angular, bbApp */
+/*global angular, bbApp, $ */
 
 'use strict';
 
-bbApp.controller('bbBuyCtrl', ['$scope', function($scope) {
-    $scope.btcAmount = {};
-    $scope.btcAmount.bitcoinAmount = 0;
-}]);
+
+bbApp.filter('bbCheckmark', function() {
+    return function(input) {
+        return input ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
+    };
+});

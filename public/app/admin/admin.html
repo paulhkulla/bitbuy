@@ -1,18 +1,16 @@
-<div class="col-xs-2">
-    <div class="well well-glass well-sm">
-        <h1>Menüü</h1>
+<div class="well well-glass well-sm">
+    <h1><b><i class="fa fa-wrench"></i> Admin panel</b></h1>
+    <br><h4><i class="fa fa-group"></i> Users ({{ users.length }})</h4>
+    <div data-ng-repeat="user in users" class="padding-10 col-md-3 col-sm-4 col-xs-6">
+        <i class="fa fa-fw fa-user"></i> <b>{{ user.firstName + ' '  + user.lastName }}</b>
+        <br><i class="fa fa-fw fa-envelope"></i> <b>{{ user.username }}</b>
+        <br><i class="fa fa-fw fa-ambulance"></i> <b>{{ user.birthday | date : 'longDate' }}</b>
+        <br><i class="fa fa-fw fa-calendar"></i> <b>{{ user.date_created | date : 'short' }}</b>
+        <br><i class="fa fa-fw fa-laptop"></i> <b>{{ user.ip[0] }}</b>
+        <br><i class="fa fa-fw fa-thumbs-up"></i> <b><span ng-bind-html="user.email_activated | bbCheckmark | to_trusted"></span></b>
     </div>
-</div>
-<div class="col-xs-10">
-    <div class="well well-glass well-sm">
-        <h1>Admin</h1>
-        <p data-ng-repeat-start="user in users">
-        <div><b>E-mail: </b>{{ user.username }}</div>
-        <div><b>Full name: </b>{{ user.firstName + ' '  + user.lastName }}</div>
-        <div><b>Euro balance: </b>{{ user.euroBalance | currency : '€' }}</div>
-        <div data-ng-repeat-end><b>Bitcoin balance: </b>{{ user.btcBalance }}</div>
-        </p>
-    </div>
+    <div class="clearfix"></div>
+    </p>
 </div>
 
 

@@ -66,7 +66,7 @@ bbApp.factory( 'bbLoginSvc', [
                         else if ( response.info && response.info.message === "User not activated" ) {
                             $.smallBox({
                                 title : "Teie konto ei ole aktiveeritud!",
-                                content : "Palun aktiveerige enda konto. Saatsime teile e-maili juhenditega.",
+                                content : "Palun aktiveerige enda konto. Kui Te registreerusite saadeti teile e-mail juhenditega. Juhul kui see e-mail peaks kaotsi olema läinud kontakteeruge meie klienditeenindusega.",
                                 color : "#c7262c",
                                 timeout: 8000,
                                 iconSmall : "fa fa-times shake animated"
@@ -99,6 +99,7 @@ bbApp.factory( 'bbLoginSvc', [
                     }
                 });
             },
+
             signup : function ( 
                 username,
                 password,
@@ -119,13 +120,17 @@ bbApp.factory( 'bbLoginSvc', [
             
                 that = this;
                 this.isSubmitButtonDisabled = true;
-                console.log(this.isSubmitButtonDisabled);
-
-                console.log(newUserData);
 
                 bbAuthSvc.createUser( newUserData ).then( function() {
                     that.isSubmitButtonDisabled = false;
-                    // success
+                    bbLoginDropdownSvc.isActivationToken = true;
+                    $.smallBox({
+                        title : "Konto edukalt registreeritud!",
+                        content : "Enne kui saate sisse logida palume teil enda konto aktiveerida. Saatsime e-maili juhenditega teie emaili aadressile: " + newUserData.username,
+                        color : "#96BF48",
+                        timeout: 8000,
+                        icon : "fa fa-check fadeInLeft animated"
+                    });
                 }, function ( reason ) {
                     that.isSubmitButtonDisabled = false;
                     if ( reason === "Error: Duplicate e-mail" ) {
@@ -138,6 +143,40 @@ bbApp.factory( 'bbLoginSvc', [
                         }); 
                     }
                 });
-            }
+            },
+
+            activate      : function( activation_code ) {
+
+                var that = this;
+
+                this.isSubmitButtonDisabled = true;
+
+                bbAuthSvc.checkActivationCode( activation_code ).then( function( response ) {
+
+                    that.isSubmitButtonDisabled = false;
+
+                    if ( response.success ) {
+
+                        bbLoginDropdownSvc.isActivationToken = false;
+                        bbLoginDropdownSvc.isDropdownActive = false;
+                        $.smallBox({
+                            title : "Teie konto on aktiveeritud, <strong>" + bbIdentitySvc.currentUser.firstName + "</strong>!",
+                            content : "Täname teid, et liitusite. Anname endast parima ning teeme kõik, et naudiksite siin viibimist!<br><br><i>&ldquo;Parim aeg puu istutamiseks oli 20 aastat tagasi. Teine parim aeg on hetkel.&rdquo;</i> <small>-Hiina vanasõna</small>",
+                            color : "#96BF48",
+                            timeout: 12000,
+                            icon : "fa fa-check fadeInLeft animated"
+                        });
+                    }
+                    else {
+                        $.smallBox({
+                            title : "Vale aktiveerimiskood!",
+                            content : "Palun proovige uuesti!",
+                            color : "#c7262c",
+                            timeout: 8000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    }
+                });
+            },
         };
     }]);

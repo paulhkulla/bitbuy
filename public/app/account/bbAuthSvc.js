@@ -81,10 +81,13 @@ bbApp.factory( 'bbAuthSvc', [
                     newUser = new bbUser( newUserData ),
                     dfd = $q.defer();
 
-                newUser.$save().then( function() {
-                    console.log( "saved successfully" );
+                newUser.$save().then( function( response ) {
+                    console.log(response);
+                    $window.localStorage.activation_token = response.access_token;
+                    $window.localStorage.activation_email = newUserData.username;
                     dfd.resolve();
                 }, function( response ) {
+                    console.log( response );
                     dfd.reject( response.data.reason );
                 });
 
@@ -129,19 +132,42 @@ bbApp.factory( 'bbAuthSvc', [
             },
 
             checkConfirmationToken : function( confirmation_token ) {
-                dfd = $q.defer();
+                var dfd = $q.defer();
                 $http.get( '/confirm_email/' + confirmation_token ).then( function( response ) {
                     if ( response.data.success ) {
+                        $window.localStorage.removeItem( 'activation_token' );
+                        $window.localStorage.removeItem( 'activation_email' );
                         initSession( response.data );
                         dfd.reject( 'valid confirmation token' );
                     }
                     else {
-                        console.log( "fail" );
                         dfd.reject( 'invalid confirmation token' );
                     }
                 });
                 return dfd.promise;
-            }
+            },
+
+            checkActivationCode : function( activation_code ) {
+
+                var dfd = $q.defer();
+
+                $http.post( '/activate', { activation_code : activation_code }) .then( function( response ) {
+                    if( response.data.success ) {
+                        $window.localStorage.removeItem( 'activation_token' );
+                        $window.localStorage.removeItem( 'activation_email' );
+                        initSession( response.data );
+                        dfd.resolve( response.data );
+                    }
+                    else {
+                        dfd.resolve( response.data );
+                    }
+                }, function ( rejection ) {
+                    dfd.resolve( rejection.data );
+                });
+
+                return dfd.promise;
+            },
+
 
         };
 

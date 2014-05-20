@@ -26,7 +26,7 @@
         <header>
         <h4>Logi sisse</h4>
         </header>
-        <form class="smart-form" id="login-form" novalidate="novalidate">
+        <form data-ng-submit="signin( username, password )"class="smart-form" id="login-form" novalidate="novalidate">
 
             <fieldset>
                 <section>
@@ -56,7 +56,7 @@
             </fieldset>
 
             <footer>
-            <button class="btn btn-labeled btn-success" data-ng-disabled="isSubmitButtonDisabled" data-ng-click="signin( username, password )">
+            <button type="submit" class="btn btn-labeled btn-success" data-ng-disabled="isSubmitButtonDisabled">
                 <span class="btn-label">
                     <i class="fa" data-ng-class="{ 'fa-sign-in' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
                 </span>
@@ -70,7 +70,7 @@
     <!-- END LOGIN TAB -->
 
     <!-- BEGIN REGISTER TAB -->
-    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register'" id="register-tab">
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register' && !bbLoginDropdownSvc.isActivationToken" id="register-tab">
 
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
             &times;
@@ -79,7 +79,7 @@
         <h4>Registreeru</h4>
         </header>
 
-        <form class="smart-form" id="register-form" name="registerForm" data-bb-custom-submit="signup( email, r_password, firstName, lastName, birthday )" novalidate>
+        <form class="smart-form" id="register-form" name="registerForm" data-bb-custom-submit="signup( email, r_password, firstName, lastName, birthday ); parseEmailDomain()" novalidate>
 
             <fieldset>
                 <section>
@@ -179,7 +179,7 @@
                 <section>
                 <label class="checkbox">
                     <input type="checkbox" id="terms" name="terms" data-ng-model="agreeTOS" required>
-                    <i></i>Ma nõustun <a data-ng-click="openTos()" href="">kasutajalepinguga</a>
+                    <i></i>Ma nõustun <a data-ng-click="openTos()" href="">kasutustingimustega</a>
                 </label>
                 </section>
             </fieldset>
@@ -197,6 +197,43 @@
 
     </div>
     <!-- END REGISTER TAB -->
+    <!-- BEGIN ACTIVATION TAB -->
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register' && bbLoginDropdownSvc.isActivationToken" id="forgot-tab">
+
+        <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
+            &times;
+        </button>
+        <header>
+        <h4>Aktiveeri konto</h4>
+        </header>
+        <form class="smart-form" id="reset-form" action="" ng-submit="activate( activationCode )" novalidate="novalidate">
+            <fieldset>
+                <section>
+                <div class="note">
+                    <b>Saatsime aktiveerimiskoodi teie e-maili aadressile:</b>
+                    <br>{{ email }}
+                    <span ng-bind-html="directToEmailProviderTxt | to_trusted"></span>
+                    <br><br>Aktiveerimiskoodi saate Teie turvalisuse huvides sisestada ainult sama seadme ja brauseriga millega Te enda konto registreerisite. Alternatiivselt saate aktiveerida enda konto vajutades "Aktiveeri konto" nupule e-mailis mille me Teile registreerudes saatsime.
+                </div>
+                <br><label class="input"> <i class="icon-prepend fa fa-key"></i>
+                    <input type="number" data-ng-model="activationCode" id="dropdown-activate" name="activation_code" placeholder="Aktiveerimiskood">
+                </label>
+                </section>
+            </fieldset>
+
+            <footer>
+            <button type="submit" data-ng-disabled="isSubmitButtonDisabled" class="btn btn-labeled btn-success">
+                <span class="btn-label">
+                    <i class="fa" data-ng-class="{ 'fa-flash' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
+                </span>
+                Aktiveeri konto
+            </button>
+            </footer>
+
+        </form>
+
+    </div>
+    <!-- END ACTIVATION TAB -->
 
     <!-- BEGIN FORGOT TAB -->
     <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'forgot'" id="forgot-tab">

@@ -30,9 +30,12 @@ bbApp.run([
     '$timeout',
     'bbIdentitySvc',
     'bbIdleSvc',
-    function( $rootScope, $state, $stateParams, $window, $location, $timeout, bbIdentitySvc, bbIdleSvc ) {
+    'bbLoginDropdownSvc',
+    function( $rootScope, $state, $stateParams, $window, $location, $timeout, bbIdentitySvc, bbIdleSvc, bbLoginDropdownSvc ) {
         $rootScope.$state       = $state;
         $rootScope.$stateParams = $stateParams;
+        $rootScope.$on( '$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
+        });
         $rootScope.$on( '$stateChangeError', function( event, toState, toParams, fromState, fromParams, error ) {
             if ( error === 'not authorized' ) {
                 $timeout( function() { 
@@ -59,6 +62,7 @@ bbApp.run([
                 });
             }
             if ( error === 'valid confirmation token' ) {
+                bbLoginDropdownSvc.isActivationToken = false;
                 $timeout( function() { 
                     $location.path('/');
                     $.smallBox({
@@ -75,6 +79,9 @@ bbApp.run([
             if ( ! bbIdleSvc.isIdleEventsInit ) {
                 bbIdleSvc.initIdleEvents( bbIdentitySvc.currentUser.token_exp );
             }
+        }
+        if ( $window.localStorage.getItem( 'activation_token' ) ) {
+            bbLoginDropdownSvc.isActivationToken = true;
         }
     }]);
 
@@ -106,7 +113,7 @@ bbApp.config([
         // idleDuration must be greater than keepaliveProvider.interval!
         $idleProvider.idleDuration( 5 * 60 );
         $idleProvider.warningDuration( 15 * 60 );
-        $keepaliveProvider.interval( 12 );
+        $keepaliveProvider.interval( 2 * 60 );
 
         $httpProvider.interceptors.push('authInterceptor');
 
@@ -213,6 +220,9 @@ bbApp.factory('authInterceptor', [
                 config.headers = config.headers || {};
                 if ( $window.sessionStorage.getItem( 'access_token' ) ) {
                     config.headers.Authorization = 'Bearer ' + $window.sessionStorage.getItem( 'access_token' );
+                }
+                if ( $window.localStorage.getItem( 'activation_token' ) ) {
+                    config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem( 'activation_token' );
                 }
                 return config || $q.when( config );
             },

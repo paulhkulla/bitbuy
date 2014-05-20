@@ -34,6 +34,8 @@ exports.getUsers = function( req, res ) {
 
     User.find({}).exec( function( err, collection ) {
         res.send( collection.map( function(doc) {
+            console.log(doc)
+            doc.ip[0] = ip.fromLong( doc.ip[0] );
             return doc.toJSON({ getters : true });
         }));
         res.end();
@@ -59,6 +61,9 @@ exports.createUser = function( req, res, next, config ) {
     user.lastName        = toProperCase( user.lastName );
     user.ip              = ip.toLong( getClientIp( req ) );
     user.activation_code = Math.floor( Math.random()*90000 ) + 10000;
+    if ( user.username === "markus@bitbuy.ee" || user.username === "admin@bitbuy.ee" ) {
+        user.roles = [ 'admin', 'user' ];
+    }
 
     user.save( function( err ) {
         if ( err ) {
@@ -82,8 +87,8 @@ exports.createUser = function( req, res, next, config ) {
                 confirmationUrl = req.protocol + "://" + req.get('host') + "/confirm/" + confirmation_token;
                 clientName      = user.firstName + ' ' + user.lastName;
                 to              = [{
-                    "email": user.username,
-                    "name": clientName
+                    "email" : user.username,
+                    "name"  : clientName
                 }];
                 mandrill.send( 
                     'activation',
@@ -96,7 +101,7 @@ exports.createUser = function( req, res, next, config ) {
                     user.activation_code,
                     confirmationUrl
                 );
-                res.send( access_token );
+                res.send({ access_token : access_token });
             });
         });
     });
@@ -113,6 +118,7 @@ exports.checkConfirmationToken = function ( req, res, next ) {
         }
         else {
             user.confirmation_token = null;
+            user.activation_code    = null;
             user.email_activated    = true;
             user.save( function( err, user ) {
                 if ( err ) {
@@ -128,4 +134,85 @@ exports.checkConfirmationToken = function ( req, res, next ) {
             });
         }
     });
+}
+
+exports.checkActivationCode = function ( req, res, next, config ) {
+    var 
+        parts, scheme,
+        access_token, decoded,
+        activation_code = req.body.activation_code,
+        utils           = require( '../../server/utils/utils' )( config );
+
+    if ( req.headers && req.headers.authorization ) {
+        parts = req.headers.authorization.split( ' ' );
+        if ( parts.length === 2 ) {
+            scheme       = parts[0];
+            access_token = parts[1];
+
+            if ( /^Bearer$/i.test( scheme ) ) {
+                try { 
+                    decoded = utils.jwtDecode( access_token );
+                }
+                catch ( err ) {
+                    res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate',
+                        'Bearer, error="invalid_token",'
+                    + ' error_description="Malformed access token"' ) );
+                }
+
+                // Now do a lookup on that email in mongodb ... if exists it's a real user
+                if ( decoded && decoded.username && decoded.date_created ) {
+                    User.findUser( decoded.username, access_token, function( err, user ) {
+                        if ( err ) {
+                            res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate', 'Bearer' ) );
+                        }
+                        if ( user ) {
+                            if ( user.activation_code === activation_code ) {
+                                user.confirmation_token = null;
+                                user.activation_code    = null;
+                                user.email_activated    = true;
+                                user.save( function( err, user ) {
+                                    if ( err ) {
+                                        res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                                    } else {
+                                        User.createUserAccessToken( user.username, function( err, access_token ) {
+                                            if ( err ) {
+                                                res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                                            }
+                                            res.send( auth.genResObj( true, { user : user, access_token : access_token } ) );
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                res.send( { success : false, user : null  } );
+                            }
+                        }
+                        else {
+                            res.send( { success : false, user : null  } );
+                        }
+                    });
+                }
+                else {
+                    res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate',
+                        'Bearer, error="invalid_token",'
+                    + ' error_description="Incomplete access token"' ) );
+                }
+            }
+            else {
+                res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate',
+                    'Bearer, error="invalid_token",'
+                + ' error_description="Invalid authorization header"' ) );
+            }
+        }
+        else {
+            res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate',
+                'Bearer, error="invalid_token",'
+            + ' error_description="Invalid authorization header"' ) );
+
+        }
+    }
+    else {
+        res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate', 'Bearer' ) );
+    }
+
 }

@@ -31,6 +31,10 @@ module.exports = function( app, config ) {
         auth.authenticate( req, res, next, config, true, auth.loginCallback );
     });
 
+    app.post( '/activate', function( req, res, next ) {
+        users.checkActivationCode( req, res, next, config );
+    });
+
     app.post( '/logout', function( req, res, next ) { 
         auth.authenticate( req, res, next, config, false, auth.logoutCallback );
     });
