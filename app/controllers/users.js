@@ -41,10 +41,12 @@ exports.getUsers = function( req, res ) {
 
 };
 
-exports.createUser = function( req, res, next ) {
+exports.createUser = function( req, res, next, config ) {
 
     var
-        user, confirmationUrl
+        mandrill = require( '../../server/utils/mandrill' )( config ),
+        user, confirmationUrl,
+        clientName, to
         ;
 
     // For security measurement we remove the roles from the req.body object
@@ -78,7 +80,23 @@ exports.createUser = function( req, res, next ) {
                 }
                 // SEND EMAIL 
                 confirmationUrl = req.protocol + "://" + req.get('host') + "/confirm/" + confirmation_token;
-                res.send( access_token + ' ' + confirmationUrl );
+                clientName      = user.firstName + ' ' + user.lastName;
+                to              = [{
+                    "email": user.username,
+                    "name": clientName
+                }];
+                mandrill.send( 
+                    'activation',
+                    'Bitbuy OÜ',
+                    'teenindus@bitbuy.ee',
+                    to,
+                    'teenindus@bitbuy.ee',
+                    'Tere tulemast Bitbuy portaali',
+                    clientName,
+                    user.activation_code,
+                    confirmationUrl
+                );
+                res.send( access_token );
             });
         });
     });

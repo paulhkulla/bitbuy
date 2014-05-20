@@ -10,7 +10,7 @@
                 <label class="label">Parool</label>
                 <label class="input">
                     <i class="icon-append fa fa-key"></i>
-                    <input type="password" data-ng-model="password" data-ng-disabled="isLoginButtonDisabled" class="ng-valid ng-dirty" style="">
+                    <input type="password" data-ng-model="password" data-ng-disabled="isSubmitButtonDisabled" class="ng-valid ng-dirty" style="">
                     <b class="tooltip tooltip-top-right">
                         <i class="fa fa-key"></i> Palun sisestage enda parool
                     </b>
@@ -19,8 +19,8 @@
             </fieldset>
 
             <footer>
-            <button data-ng-disabled="isLoginButtonDisabled" data-ng-click="signin( identity.currentUser.username, password, true )" class="locked-modal-btn btn btn-block btn-success">
-                <i class="fa" data-ng-class="{ 'fa-lock' : !isLoginButtonDisabled, 'fa-refresh fa-spin' : isLoginButtonDisabled  }"></i>
+            <button data-ng-disabled="isSubmitButtonDisabled" data-ng-click="signin( identity.currentUser.username, password, true )" class="locked-modal-btn btn btn-block btn-success">
+                <i class="fa" data-ng-class="{ 'fa-lock' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
                 Taasta juurdepääs
             </button>
             </footer>

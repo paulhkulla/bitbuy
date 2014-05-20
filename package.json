@@ -31,6 +31,7 @@
     "zxcvbn": "^1.0.0",
     "zxcvbn2": "^1.0.0",
     "mongoose-encrypt": "0.0.1-alpha.2",
-    "ip": "^0.3.0"
+    "ip": "^0.3.0",
+    "mandrill-api": "^1.0.39"
   }
 }

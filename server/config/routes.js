@@ -22,7 +22,10 @@ var
 module.exports = function( app, config ) {
 
     app.get( '/api/users', auth.requiresRole( 'admin', config ), users.getUsers );
-    app.post( '/api/users', users.createUser );
+
+    app.post( '/api/users', function( req, res, next ) {
+        users.createUser( req, res, next, config )
+    });
 
     app.post( '/login', function( req, res, next ) {
         auth.authenticate( req, res, next, config, true, auth.loginCallback );

@@ -27,13 +27,13 @@ bbApp.factory('bbLockedModalSvc', [ '$modal', function( $modal ) {
                         'bbLogoutSvc',
                         'bbLoginSvc',
                         function( $scope, bbIdentitySvc, bbLogoutSvc, bbLoginSvc ) {
-                            $scope.identity              = bbIdentitySvc;
+                            $scope.identity               = bbIdentitySvc;
 
-                            $scope.signin                = bbLoginSvc.signin;
-                            $scope.password              = bbLoginSvc.password;
-                            $scope.isLoginButtonDisabled = bbLoginSvc.isLoginButtonDisabled;
+                            $scope.signin                 = bbLoginSvc.signin;
+                            $scope.password               = bbLoginSvc.password;
+                            $scope.isSubmitButtonDisabled = bbLoginSvc.isSubmitButtonDisabled;
 
-                            $scope.signout               = bbLogoutSvc.signout;
+                            $scope.signout                = bbLogoutSvc.signout;
                         }] 
                 });
             this.lockedModalInstance = lockedModal;

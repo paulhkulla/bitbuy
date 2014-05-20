@@ -63,7 +63,7 @@ bbApp.run([
                     $location.path('/');
                     $.smallBox({
                         title : "Teie konto on aktiveeritud, <strong>" + bbIdentitySvc.currentUser.firstName + "</strong>!",
-                        content : "Täname teid, et liitusite. Anname endast parima ning teeme kõik, et naudiksite enda siin viibimist!<br><br><i>&ldquo;Parim aeg puu istutamiseks oli 20 aastat tagasi. Teine parim aeg on hetkel.&rdquo;</i> <small>-Hiina vanasõna</small>",
+                        content : "Täname teid, et liitusite. Anname endast parima ning teeme kõik, et naudiksite siin viibimist!<br><br><i>&ldquo;Parim aeg puu istutamiseks oli 20 aastat tagasi. Teine parim aeg on hetkel.&rdquo;</i> <small>-Hiina vanasõna</small>",
                         color : "#96BF48",
                         timeout: 12000,
                         icon : "fa fa-check fadeInLeft animated"
