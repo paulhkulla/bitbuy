@@ -14,13 +14,12 @@
 
 bbApp.controller( 'bbMainCtrl', [
     '$scope',
-    '$location',
     'bbLoginDropdownSvc',
     'bbLogoutSvc',
-    'bbAuthSvc',
     'bbIdentitySvc',
-    'bbWarningModalSvc',
-    function( $scope, $location, bbLoginDropdownSvc, bbLogoutSvc, bbAuthSvc, bbIdentitySvc, bbWarningModalSvc ) {
+    'bbNaModalSvc',
+    'bbNaEnModalSvc',
+    function( $scope, bbLoginDropdownSvc, bbLogoutSvc, bbIdentitySvc, bbNaModalSvc, bbNaEnModalSvc ) {
 
         $scope.bbLoginDropdownSvc = bbLoginDropdownSvc;
         $scope.signout            = bbLogoutSvc.signout;
@@ -30,6 +29,13 @@ bbApp.controller( 'bbMainCtrl', [
 
         $scope.minifyMenu         = function () {
             $scope.isMinified = $scope.isMinified ? false : true;
+        };
+
+        $scope.openNa = function() {
+            bbNaModalSvc.naModal();
+        };
+        $scope.openNaEn = function() {
+            bbNaEnModalSvc.naEnModal();
         };
 
 }]);
