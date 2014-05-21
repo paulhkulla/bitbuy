@@ -1,6 +1,8 @@
 <!-- jQuery + jQueryUI -->
 <script src="/vendor/jquery/dist/jquery.min.js"></script>
 <script src="/vendor/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+<!-- socket.io -->
+<script src="/socket.io/socket.io.js"></script>
 
 <!-- ANGULAR -->
 <script src="/vendor/angular/angular.min.js"></script>
@@ -13,6 +15,7 @@
 <script src="/vendor/momentjs/min/moment-with-langs.min.js"></script>
 <script src="/app/app.js"></script>
 <script src="/app/angular-locale_et-ee.js"></script>
+<script src="/app/main/bbTicker.js"></script>
 <script src="/app/main/bbCustomSubmit.js"></script>
 <script src="/app/main/bbBlurFocus.js"></script>
 <script src="/app/main/bbInitPopover.js"></script>
@@ -98,9 +101,8 @@
 <script type="text/javascript" src="/js/jquery.video-background.js"></script>
 
 <!-- BEGIN WATCHING FOR HTML/CSS CHANGES -->
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/bitbuy.js"></script>
-<script src="/js/bitbuy.ticker.js"></script>
+<!-- <script src="/js/bitbuy.js"></script> -->
+<!-- <script src="/js/bitbuy.ticker.js"></script> -->
 
 {% if process.env.NODE_ENV === 'development' %}
 <script src="/js/watchWorker.js"></script>
@@ -141,7 +143,7 @@
             mp4:"/img/videos/tallinn.mp4"
         });
 
-        bitbuy.initModule();
+        // bitbuy.initModule();
 
     });
 

@@ -66,6 +66,7 @@ exports.createUser = function( req, res, next, config ) {
     }
 
     user.save( function( err ) {
+        console.log( err );
         if ( err ) {
             if ( err.toString().indexOf( 'E11000' ) > -1 ) {
                 err = new Error( 'Duplicate e-mail' );
@@ -73,37 +74,39 @@ exports.createUser = function( req, res, next, config ) {
             res.status( 400 );
             return res.send({ reason : err.toString() });
         }
-        User.createUserAccessToken( user.username, function ( err, access_token ) {
-            if ( err ) {
-                res.status( 400 );
-                return res.send({ reason : err.toString() });
-            }
-            User.createUserConfirmationToken( user.username, function ( err, confirmation_token ) {
+        else {
+        console.log("no error");
+            User.createUserAccessToken( user.username, function ( err, access_token ) {
                 if ( err ) {
                     res.status( 400 );
                     return res.send({ reason : err.toString() });
                 }
-                // SEND EMAIL 
-                confirmationUrl = req.protocol + "://" + req.get('host') + "/confirm/" + confirmation_token;
-                clientName      = user.firstName + ' ' + user.lastName;
-                to              = [{
-                    "email" : user.username,
-                    "name"  : clientName
-                }];
-                mandrill.send( 
-                    'activation',
-                    'Bitbuy OÜ',
-                    'teenindus@bitbuy.ee',
-                    to,
-                    'teenindus@bitbuy.ee',
-                    'Tere tulemast Bitbuy portaali',
-                    clientName,
-                    user.activation_code,
-                    confirmationUrl
-                );
-                res.send({ access_token : access_token });
+                User.createUserConfirmationToken( user.username, function ( err, confirmation_token ) {
+                    if ( err ) {
+                        res.status( 400 );
+                        return res.send({ reason : err.toString() });
+                    }
+                    confirmationUrl = req.protocol + "://" + req.get('host') + "/confirm/" + confirmation_token;
+                    clientName      = user.firstName + ' ' + user.lastName;
+                    to              = [{
+                        "email" : user.username,
+                        "name"  : clientName
+                    }];
+                    mandrill.send( 
+                        'activation',
+                        'Bitbuy OÜ',
+                        'teenindus@bitbuy.ee',
+                        to,
+                        'teenindus@bitbuy.ee',
+                        'Tere tulemast Bitbuy portaali',
+                        clientName,
+                        user.activation_code,
+                        confirmationUrl
+                    );
+                    res.send({ access_token : access_token });
+                });
             });
-        });
+        }
     });
 };
 
