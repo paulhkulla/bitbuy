@@ -14,7 +14,7 @@
 
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
-    env           = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
+    env           = process.env.NODE_ENV = process.env.NODE_ENV || 'prod',
     config        = require( './server/config/config' )[env],
 
     express       = require( 'express' ),
