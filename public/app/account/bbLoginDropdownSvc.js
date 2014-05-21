@@ -25,7 +25,8 @@ bbApp.factory('bbLoginDropdownSvc', [
                 && !$( '.icon-user' ).is( e.target )
                 && !$( '.login-button' ).is( e.target ) && $( '.login-button' ).has( e.target ).length === 0 
                 && !$( '.register-button' ).is( e.target ) && $( '.register-button' ).has( e.target ).length === 0 
-                && !( $( '.modal-tos' ).hasClass( 'in' ) ) ) {
+                && !( $( '.modal-tos' ).hasClass( 'in' ) )  
+                && !( $( '.modal-na' ).hasClass( 'in' ) ) ) {
                     e.data.dropdownObj.isDropdownActive = false;
                     $rootScope.$apply();
                     $( $document ).unbind( 'mousedown', onMousedown );

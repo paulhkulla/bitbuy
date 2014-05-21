@@ -2,7 +2,7 @@
 <html lang="en-GB">
 	<head>
 
-		<title>Osta ja müü Bitcoine - Bitbuy</title>
+		<title>Eelregistreerimine - Osta ja müü Bitcoine - Bitbuy</title>
 
 		<!-- META -->
 		<meta charset="utf-8">
@@ -46,16 +46,16 @@
                 <nav>
                 <ul id="header-nav" class="nav list-inline pull-left txt-color-white">
                     <li>
-                    <a data-ui-sref="what-is-bitcoin" data-ui-sref-active="active" href="" title="Mis on Bitcoin?">MIS ON BITCOIN?</a>
+                    <a data-ng-click="openNa()" href="" title="Mis on Bitcoin?">MIS ON BITCOIN?</a>
                     </li>
                     <span class="header-nav-separator">|</span><li>
-                    <a data-ui-sref="how-to-sell" data-ui-sref-active="active" title="Kuidas osta?">KUIDAS OSTA?</a>
+                    <a data-ng-click="openNa()" href="" title="Kuidas osta?">KUIDAS OSTA?</a>
                     </li>
                     <span class="header-nav-separator">|</span><li>
-                    <a data-ui-sref="how-to-buy" data-ui-sref-active="active" title="Kuidas müüa?">KUIDAS MÜÜA?</a>
+                    <a data-ng-click="openNa()" href="" title="Kuidas müüa?">KUIDAS MÜÜA?</a>
                     </li>
                     <span class="header-nav-separator">|</span><li>
-                    <a data-ui-sref="faq" data-ui-sref-active="active" title="KKK">KKK</a>
+                    <a data-ng-click="openNa()" href="" title="KKK">KKK</a>
                     </li>
                 </ul>
                 </nav>
@@ -69,16 +69,16 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li data-ui-sref-active="active">
-                        <a data-ui-sref="what-is-bitcoin" title="Mis on Bitcoin?">Mis on Bitcoin?</a>
+                        <a data-ng-click="openNa()" href="" title="Mis on Bitcoin?">Mis on Bitcoin?</a>
                         </li>
                         <li data-ui-sref-active="active">
-                        <a data-ui-sref="how-to-sell" title="Kuidas osta?">Kuidas osta?</a>
+                        <a data-ng-click="openNa()" href="" title="Kuidas osta?">Kuidas osta?</a>
                         </li>
                         <li data-ui-sref-active="active">
-                        <a data-ui-sref="how-to-buy" title="Kuidas müüa?">Kuidas müüa?</a>
+                        <a data-ng-click="openNa()" href="" title="Kuidas müüa?">Kuidas müüa?</a>
                         </li>
                         <li data-ui-sref-active="active">
-                        <a data-ui-sref="faq" title="KKK">KKK</a>
+                        <a data-ng-click="openNa()" href="" title="KKK">KKK</a>
                         </li>
                     </ul>
                     </li>
@@ -251,22 +251,22 @@
                 <a data-ui-sref="admin"><i class="fa fa-fw fa-wrench"></i><span class="menu-item-parent">Admin</span></a>
                 </li>
                 <li data-ng-show="identity.currentUser">
-                <a href="#"><i class="fa fa-fw fa-gear"></i><span class="menu-item-parent">Seaded</span></a>
+                <a data-ng-click="openNa()" href=""><i class="fa fa-fw fa-gear"></i><span class="menu-item-parent">Seaded</span></a>
                 </li>
                 <li>
-                <a href="#"><i class="fa fa-fw fa-upload"></i><span class="menu-item-parent">Sissemakse</span></a>
+                <a data-ng-click="openNa()" href=""><i class="fa fa-fw fa-upload"></i><span class="menu-item-parent">Sissemakse</span></a>
                 </li>
                 <li data-ng-class="{active: $state.includes('buy')}">
                 <a data-ui-sref="buy"><i class="fa fa-fw fa-btc"></i><span class="menu-item-parent">Osta</span></a>
                 </li>
                 <li data-ng-class="{active: $state.includes('sell')}">
-                <a data-ui-sref="sell"><i class="fa fa-fw fa-btc"></i><span class="menu-item-parent">Müü</span></a>
+                <a data-ng-click="openNa()" href=""><i class="fa fa-fw fa-btc"></i><span class="menu-item-parent">Müü</span></a>
                 </li>
                 <li data-ng-show="identity.currentUser">
-                <a href="#"><i class="fa fa-fw fa-download"></i><span class="menu-item-parent">Väljamakse</span></a>
+                <a data-ng-click="openNa()" href=""><i class="fa fa-fw fa-download"></i><span class="menu-item-parent">Väljamakse</span></a>
                 </li>
                 <li data-ng-show="identity.currentUser">
-                <a href="#"><i class="fa fa-fw fa-list-alt"></i><span class="menu-item-parent">Tehingud</span></a>
+                <a data-ng-click="openNa()" href=""><i class="fa fa-fw fa-list-alt"></i><span class="menu-item-parent">Tehingud</span></a>
                 </li>
                 <li>
                 <a href="mailto:teenindus@bitbuy.ee"><i class="fa fa-fw fa-question-circle"></i><span class="menu-item-parent">Abi</span></a>
