@@ -34,8 +34,6 @@ bbApp.run([
     function( $rootScope, $state, $stateParams, $window, $location, $timeout, bbIdentitySvc, bbIdleSvc, bbLoginDropdownSvc ) {
         $rootScope.$state       = $state;
         $rootScope.$stateParams = $stateParams;
-        $rootScope.$on( '$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
-        });
         $rootScope.$on( '$stateChangeError', function( event, toState, toParams, fromState, fromParams, error ) {
             if ( error === 'not authorized' ) {
                 $timeout( function() { 

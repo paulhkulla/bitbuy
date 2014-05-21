@@ -188,7 +188,6 @@ bbApp.directive("bbTicker", function( $timeout ) {
 
             });
             scope.$on( '$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
-                console.log("asd");
                 plotGraph( dataCache, timeSpan );
                 $('#graph-all').click(function(e) {
                     plotGraph( dataCache, '' );

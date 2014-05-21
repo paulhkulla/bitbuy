@@ -82,12 +82,10 @@ bbApp.factory( 'bbAuthSvc', [
                     dfd = $q.defer();
 
                 newUser.$save().then( function( response ) {
-                    console.log(response);
                     $window.localStorage.activation_token = response.access_token;
                     $window.localStorage.activation_email = newUserData.username;
                     dfd.resolve();
                 }, function( response ) {
-                    console.log( response );
                     dfd.reject( response.data.reason );
                 });
 

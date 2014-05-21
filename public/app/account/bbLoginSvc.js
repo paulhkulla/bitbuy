@@ -119,11 +119,6 @@ bbApp.factory( 'bbLoginSvc', [
                     };
             
                 that = this;
-                that.username  = null;
-                that.password  = null;
-                that.firstName = null;
-                that.lastName  = null;
-                that.birthday  = null;
                 this.isSubmitButtonDisabled = true;
 
                 bbAuthSvc.createUser( newUserData ).then( function() {
