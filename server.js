@@ -43,4 +43,4 @@ console.log( 'Listening on port %d in %s env...', server.address().port, env );
 
 //--------------- INITIALIZE WATCHER AND TICKER ------------------
 io = require( './lib/ticker' ).connect( server );
-require( './server/config/watcher' )( config, env, io );
+// require( './server/config/watcher' )( config, env, io );
