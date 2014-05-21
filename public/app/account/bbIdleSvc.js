@@ -28,7 +28,7 @@ bbApp.factory('bbIdleSvc', [
         // Setup and initialize idle watch and its events
         initIdleEvents = function( token_exp ) {
 
-            // console.log( "Idle events init at %s", new moment().format("HH:mm:ss") );
+            console.log( "Idle events init at %s", new moment().format("HH:mm:ss") );
 
             $idle.watch();
             if ( isIdleEventsInit ) { return; }
@@ -39,7 +39,7 @@ bbApp.factory('bbIdleSvc', [
             $rootScope.$on( '$idleStart', function() {
 
                 $keepalive.ping();
-                // console.log( "Idle start at %s", new moment().format("HH:mm:ss") );
+                console.log( "Idle start at %s", new moment().format("HH:mm:ss") );
                 bbWarningModalSvc.token_exp           = token_exp / 1000;
                 bbWarningModalSvc.countdown           = token_exp / 1000;
                 bbWarningModalSvc.countdownHumanized  = humanizeDuration( token_exp, "et" );
@@ -72,7 +72,7 @@ bbApp.factory('bbIdleSvc', [
 
             $rootScope.$on( '$keepalive', function() {
                 // do something to keep the user's session alive
-                // console.log( "Heartbeat at %s", new moment().format("HH:mm:ss") );
+                console.log( "Heartbeat at %s", new moment().format("HH:mm:ss") );
                 bbAuthSvc.authenticateToken();
             });
 
