@@ -129,22 +129,22 @@ bbApp.config([
                 resolve     : checkConfirmationToken
             })
             //--------------------- HEADER-NAV STATES ------------------------
-            .state( 'what-is-bitcoin', {
-                url         : '/what-is-bitcoin',
-                templateUrl : '/app/header-nav/what-is-bitcoin.html',
-            })
-            .state( 'how-to-sell', {
-                url         : '/how-to-sell',
-                templateUrl : '/app/header-nav/how-to-sell.html',
-            })
-            .state( 'how-to-buy', {
-                url         : '/how-to-buy',
-                templateUrl : '/app/header-nav/how-to-buy.html',
-            })
-            .state( 'faq', {
-                url         : '/faq',
-                templateUrl : '/app/header-nav/faq.html',
-            })
+            // .state( 'what-is-bitcoin', {
+            //     url         : '/what-is-bitcoin',
+            //     templateUrl : '/app/header-nav/what-is-bitcoin.html',
+            // })
+            // .state( 'how-to-sell', {
+            //     url         : '/how-to-sell',
+            //     templateUrl : '/app/header-nav/how-to-sell.html',
+            // })
+            // .state( 'how-to-buy', {
+            //     url         : '/how-to-buy',
+            //     templateUrl : '/app/header-nav/how-to-buy.html',
+            // })
+            // .state( 'faq', {
+            //     url         : '/faq',
+            //     templateUrl : '/app/header-nav/faq.html',
+            // })
 
             //--------------------- FOOTER-NAV STATES ------------------------
             .state( 'about-us', {
@@ -174,25 +174,25 @@ bbApp.config([
                 url         : '/step-1',
                 templateUrl : '/app/buy/buy.step-1.html'
             })
-            .state( 'buy.step-2', {
-                url         : '/step-2',
-                templateUrl : '/app/buy/buy.step-2.html',
-            })
-            .state( 'buy.step-3', {
-                url         : '/step-3',
-                templateUrl : '/app/buy/buy.step-3.html'
-            })
-            .state( 'buy.step-4', {
-                url         : '/step-4',
-                templateUrl : '/app/buy/buy.step-4.html'
-            })
+            // .state( 'buy.step-2', {
+            //     url         : '/step-2',
+            //     templateUrl : '/app/buy/buy.step-2.html',
+            // })
+            // .state( 'buy.step-3', {
+            //     url         : '/step-3',
+            //     templateUrl : '/app/buy/buy.step-3.html'
+            // })
+            // .state( 'buy.step-4', {
+            //     url         : '/step-4',
+            //     templateUrl : '/app/buy/buy.step-4.html'
+            // })
 
             //------------------------ SELL STATES ---------------------------
-            .state( 'sell', {
-                url         : '/sell',
-                templateUrl : '/app/sell/sell.html',
-                controller  : 'bbMainCtrl'
-            })
+            // .state( 'sell', {
+            //     url         : '/sell',
+            //     templateUrl : '/app/sell/sell.html',
+            //     controller  : 'bbMainCtrl'
+            // })
 
             //-------------------- ADMIN PANEL STATES -----------------------
             .state( 'admin', {

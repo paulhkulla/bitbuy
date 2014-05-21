@@ -9,7 +9,7 @@ module.exports = function(grunt) {
                 },
                 files: {
                     // target.css file: source.less file
-                    "public/css/smartadmin-production.css": "public/LESS_FILES/smartadmin-production.less",
+                    "public/css/stylesheet-production.css": "public/LESS_FILES/smartadmin-production.less",
                     "public/css/bootstrap.min.css": "public/LESS_FILES/bootstrap.less"
                 }
             }
