@@ -173,8 +173,35 @@ bbApp.directive("bbTicker", function( $timeout ) {
                     dataCache = data;
                 }
 
-                plotGraph( dataCache, '30min' );
+                plotGraph( dataCache, '' );
                 timeSpan = '';
+
+                plotGraph( dataCache, timeSpan );
+                $('#graph-all').click(function(e) {
+                    plotGraph( dataCache, '' );
+                    timeSpan = '';
+                    e.preventDefault();
+                });
+                $('#graph-week').click(function(e) {
+                    plotGraph( dataCache, 'week' );
+                    timeSpan = 'week';
+                    e.preventDefault();
+                });
+                $('#graph-24h').click(function(e) {
+                    plotGraph( dataCache, '24H' );
+                    timeSpan = '24H';
+                    e.preventDefault();
+                });
+                $('#graph-1h').click(function(e) {
+                    plotGraph( dataCache, '1H' );
+                    timeSpan = '1H';
+                    e.preventDefault();
+                });
+                $('#graph-30min').click(function(e) {
+                    plotGraph( dataCache, '30min' );
+                    timeSpan = '30min';
+                    e.preventDefault();
+                });
 
             });
 
@@ -188,6 +215,8 @@ bbApp.directive("bbTicker", function( $timeout ) {
 
             });
             scope.$on( '$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
+                plotGraph( dataCache, timeSpan );
+
                 plotGraph( dataCache, timeSpan );
                 $('#graph-all').click(function(e) {
                     plotGraph( dataCache, '' );
