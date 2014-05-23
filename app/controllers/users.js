@@ -220,12 +220,11 @@ exports.checkActivationCode = function ( req, res, next, config ) {
 exports.resendActivationEmail = function( req, res, next, config ) {
 
     var
-        mandrill = require( '../../server/utils/mandrill' )( config )
+        mandrill = require( '../../server/utils/mandrill' )( config ),
+        confirmationUrl, clientName, to
         ;
 
     User.findUserByEmailOnly( req.body.email, function( err, user ) {
-        console.log( err );
-        console.log( user );
         if ( err ) {
             res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
         }
@@ -233,7 +232,7 @@ exports.resendActivationEmail = function( req, res, next, config ) {
             confirmationUrl = req.protocol + "://" + req.get('host') + "/confirm/" + user.confirmation_token.token;
             clientName      = user.firstName + ' ' + user.lastName;
             to              = [{
-                "email" : user.email,
+                "email" : user.username,
                 "name"  : clientName
             }];
             mandrill.send( 
@@ -250,8 +249,7 @@ exports.resendActivationEmail = function( req, res, next, config ) {
             res.send( { success : true, user : null } )
         }
         else {
-            console.log("hit");
             res.send( { success : false, user : null  } );
         }
-    } );
+    });
 };

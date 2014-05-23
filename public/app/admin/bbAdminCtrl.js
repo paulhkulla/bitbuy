@@ -21,15 +21,15 @@ bbApp.controller( 'bbAdminCtrl', [
         $scope.getUsers = function() {
             var get_user_data = bbUser.query();
             get_user_data.$promise.then( function( result ) {
-                console.log( result );
                 $scope.users = result;
             });
         };
         $scope.resendActivationEmail = function( email ) {
-            bbAuthSvc.resendActivationEmail().then( function( response ) {
+            bbAuthSvc.resendActivationEmail( email ).then( function( response ) {
                 if ( response.success ) {
                     $.smallBox({
-                        title : "Aktiveerimiskiri saadetud emailile <strong>" + email + "</strong>!",
+                        title : "Toiming õnnestus!",
+                        content : "Aktiveerimiskiri saadetud emailile <strong>" + email + "</strong>!",
                         color : "#96BF48",
                         timeout: 8000,
                         icon : "fa fa-check fadeInLeft animated"
@@ -47,7 +47,6 @@ bbApp.controller( 'bbAdminCtrl', [
             });
             var get_user_data = bbUser.query();
             get_user_data.$promise.then( function( result ) {
-                console.log( result );
                 $scope.users = result;
             });
         };
