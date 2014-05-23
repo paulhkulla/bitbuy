@@ -174,7 +174,7 @@ bbApp.directive("bbTicker", function( $timeout ) {
                 }
 
                 plotGraph( dataCache, '30min' );
-                timeSpan = '30min';
+                timeSpan = '';
 
             });
 
