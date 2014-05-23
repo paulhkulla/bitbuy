@@ -34,7 +34,6 @@ exports.getUsers = function( req, res ) {
 
     User.find({}).exec( function( err, collection ) {
         res.send( collection.map( function(doc) {
-            console.log(doc)
             doc.ip[0] = ip.fromLong( doc.ip[0] );
             return doc.toJSON({ getters : true });
         }));
@@ -66,7 +65,6 @@ exports.createUser = function( req, res, next, config ) {
     }
 
     user.save( function( err ) {
-        console.log( err );
         if ( err ) {
             if ( err.toString().indexOf( 'E11000' ) > -1 ) {
                 err = new Error( 'Duplicate e-mail' );
@@ -75,7 +73,6 @@ exports.createUser = function( req, res, next, config ) {
             return res.send({ reason : err.toString() });
         }
         else {
-        console.log("no error");
             User.createUserAccessToken( user.username, function ( err, access_token ) {
                 if ( err ) {
                     res.status( 400 );
@@ -166,7 +163,7 @@ exports.checkActivationCode = function ( req, res, next, config ) {
                 if ( decoded && decoded.username && decoded.date_created ) {
                     User.findUser( decoded.username, access_token, function( err, user ) {
                         if ( err ) {
-                            res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate', 'Bearer' ) );
+                            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
                         }
                         if ( user ) {
                             if ( user.activation_code === activation_code ) {
@@ -219,3 +216,42 @@ exports.checkActivationCode = function ( req, res, next, config ) {
     }
 
 }
+
+exports.resendActivationEmail = function( req, res, next, config ) {
+
+    var
+        mandrill = require( '../../server/utils/mandrill' )( config )
+        ;
+
+    User.findUserByEmailOnly( req.body.email, function( err, user ) {
+        console.log( err );
+        console.log( user );
+        if ( err ) {
+            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+        }
+        if ( user ) {
+            confirmationUrl = req.protocol + "://" + req.get('host') + "/confirm/" + user.confirmation_token.token;
+            clientName      = user.firstName + ' ' + user.lastName;
+            to              = [{
+                "email" : user.email,
+                "name"  : clientName
+            }];
+            mandrill.send( 
+                'activation',
+                'Bitbuy OÜ',
+                'teenindus@bitbuy.ee',
+                to,
+                'teenindus@bitbuy.ee',
+                'Tere tulemast Bitbuy portaali',
+                clientName,
+                user.activation_code,
+                confirmationUrl
+            );
+            res.send( { success : true, user : null } )
+        }
+        else {
+            console.log("hit");
+            res.send( { success : false, user : null  } );
+        }
+    } );
+};

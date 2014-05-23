@@ -1,13 +1,13 @@
 <div class="well well-glass well-sm">
-    <h1><b><i class="fa fa-wrench"></i> Admin panel</b></h1>
-    <br><h4><i class="fa fa-group"></i> Users ({{ users.length }})</h4>
+    <h1><b><i class="fa fa-wrench"></i> Admin paneel</b></h1>
+    <br><h4><i class="fa fa-group"></i> Kasutajad (<span data-ng-bind="users.length || 'N/A'"></span>) <i data-ng-click="getUsers()" class="fa fa-fw fa-refresh cursor-pointer"></i></h4>
     <div data-ng-repeat="user in users" class="padding-10 col-md-3 col-sm-4 col-xs-6">
         <i class="fa fa-fw fa-user"></i> <b>{{ user.firstName + ' '  + user.lastName }}</b>
-        <br><i class="fa fa-fw fa-envelope"></i> <b>{{ user.username }}</b>
+        <br><i class="fa fa-fw fa-envelope"></i> <a href="mailto:{{ user.username }}"><b>{{ user.username }}</a><b></b>
         <br><i class="fa fa-fw fa-ambulance"></i> <b>{{ user.birthday | date : 'longDate' }}</b>
         <br><i class="fa fa-fw fa-calendar"></i> <b>{{ user.date_created | date : 'short' }}</b>
-        <br><i class="fa fa-fw fa-laptop"></i> <b>{{ user.ip[0] }}</b>
-        <br><i class="fa fa-fw fa-thumbs-up"></i> <b><span ng-bind-html="user.email_activated | bbCheckmark | to_trusted"></span></b>
+        <br><i class="fa fa-fw fa-laptop"></i> <a href="http://whatismyipaddress.com/ip/{{ user.ip[0] }}" target="_blank"><b>{{ user.ip[0] }}</a><b></b>
+        <br><i class="fa fa-fw fa-thumbs-up"></i> <b><span ng-bind-html="user.email_activated | bbCheckmark | to_trusted"></span> <span data-ng-hide="user.email_activated">: <i data-ng-click="resendActivationEmail( user.username )" title="Saada uus aktiveerimiskiri" class="fa fa fa-retweet cursor-pointer"></i></span></b>
     </div>
     <div class="clearfix"></div>
     </p>

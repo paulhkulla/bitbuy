@@ -14,7 +14,7 @@
 
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var
-    env           = process.env.NODE_ENV = process.env.NODE_ENV || 'prod',
+    env           = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
     config        = require( './server/config/config' )[env],
 
     express       = require( 'express' ),
@@ -43,4 +43,6 @@ console.log( 'Listening on port %d in %s env...', server.address().port, env );
 
 //--------------- INITIALIZE WATCHER AND TICKER ------------------
 io = require( './lib/ticker' ).connect( server );
-// require( './server/config/watcher' )( config, env, io );
+if ( process.env.NODE_ENV === 'development' ) {
+    require( './server/config/watcher' )( config, env, io );
+};

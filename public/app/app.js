@@ -230,23 +230,23 @@ bbApp.factory('authInterceptor', [
                     bbWarningModalSvc = $injector.get( 'bbWarningModalSvc' ),
                     bbLoginDropdownSvc = $injector.get( 'bbLoginDropdownSvc' );
 
+
                 if ( rejection.status === 401 ) {
-                    bbAuthSvc.logoutUser( false ).then( function() {
-                        $location.path('/');
-                        if ( bbWarningModalSvc.warningModalInstance ) {
-                            bbWarningModalSvc.warningModalInstance.close();
-                            bbWarningModalSvc.warningModalInstance = undefined;
-                        }
-                        bbLoginDropdownSvc.activateTab( 'login' );
-                        bbLoginDropdownSvc.activateDropdown();
-                        $.smallBox({
-                            title : "Juurdepääs keelatud!",
-                            content : "Jätkamiseks palun logige sisse!",
-                            color : "#c7262c",
-                            timeout: 8000,
-                            iconSmall : "fa fa-times shake animated"
-                        }); 
-                    });
+                    bbAuthSvc.logoutUser( false );
+                    $location.path('/');
+                    if ( bbWarningModalSvc.warningModalInstance ) {
+                        bbWarningModalSvc.warningModalInstance.close();
+                        bbWarningModalSvc.warningModalInstance = undefined;
+                    }
+                    bbLoginDropdownSvc.activateTab( 'login' );
+                    bbLoginDropdownSvc.activateDropdown();
+                    $.smallBox({
+                        title : "Juurdepääs keelatud!",
+                        content : "Jätkamiseks palun logige sisse!",
+                        color : "#c7262c",
+                        timeout: 8000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
                 }
                 if ( rejection.status === 403 ) {
                     $.smallBox({

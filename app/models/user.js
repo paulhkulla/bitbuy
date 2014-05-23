@@ -225,7 +225,7 @@ module.exports = function( config ) {
 
     UserSchema.statics.findUserByEmailOnly = function( username, cb ) {
         this.findOne({ username : username }, function( err, user ) {
-            if( err || !user ) {
+            if( err ) {
                 cb( err, null );
             }
             else {

@@ -166,6 +166,24 @@ bbApp.factory( 'bbAuthSvc', [
                 return dfd.promise;
             },
 
+            resendActivationEmail : function( email ) {
+
+                var dfd = $q.defer();
+
+                $http.post( '/resend', { email : email }) .then( function( response ) {
+                    if( response.data.success ) {
+                        dfd.resolve( response.data );
+                    }
+                    else {
+                        dfd.resolve( response.data );
+                    }
+                }, function ( rejection ) {
+                    dfd.resolve( rejection.data );
+                });
+
+                return dfd.promise;
+            }
+
 
         };
 

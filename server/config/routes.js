@@ -35,6 +35,10 @@ module.exports = function( app, config ) {
         users.checkActivationCode( req, res, next, config );
     });
 
+    app.post( '/resend', function( req, res, next ) {
+        users.resendActivationEmail( req, res, next, config );
+    });
+
     app.post( '/logout', function( req, res, next ) { 
         auth.authenticate( req, res, next, config, false, auth.logoutCallback );
     });
