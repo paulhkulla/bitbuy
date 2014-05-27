@@ -4,7 +4,7 @@
     <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
     <div class="jarviswidget jarviswidget-sortable jarviswidget-color-default" id="wid-id-0" data-widget-fullscreenbutton="false" data-widget-togglebutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-sortable="false">
-        <span class="jumbotron fadeIn animated" id="disabled-overlay">
+        <span data-ng-show="!identity.currentUser" class="jumbotron fadeIn animated" id="disabled-overlay">
             <h1 id="jumbo-heading" class="flipInX animated"><b>Eelregistreerimine on alanud!</b></h1>
             <p id="jumbo-subtext" class="fadeInUp animated"><b>Kõik kes registreeruvad eelregistreerimise ajal kauplevad avamisnädalal täiesti tasuta!
                 Alustamiseks vajuta nupule <a href="" class="btn btn-labeled btn-blue register-button" data-ng-click="bbLoginDropdownSvc.activateTab('register'); bbLoginDropdownSvc.activateDropdown()">
@@ -14,6 +14,13 @@
                     Registreeru
                 </a> !
             </b> </p> 
+            <p id="jumbo-coming-soon" class="fadeInLeft animated"><b>Kauplemine avaneb kohe varsti &trade;</b></p>
+        </span>
+        <span data-ng-show="identity.currentUser" class="jumbotron" id="disabled-overlay2">
+            <h1 id="jumbo-heading" class="flipInX animated">
+                <b>Olete eelregistreerunud...</b>
+            </h1>
+            <p id="jumbo-subtext" class="fadeInUp animated"><b>Täname teid!<br>Nüüd peate lihtsalt lõõgastuma ja ootama kuni meie tiim Bitbuy teieni toob!</b> </p> 
             <br><p id="jumbo-coming-soon" class="fadeInLeft animated"><b>Kauplemine avaneb kohe varsti &trade;</b></p>
         </span>
         <header>
