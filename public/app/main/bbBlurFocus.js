@@ -63,6 +63,13 @@ var bbBlurFocus = function () {
                     $( attr.validnote ).removeClass('ng-invalid-email');
                 }
 
+                if ( elm.hasClass( "ng-invalid-number" ) ) {
+                    $( attr.validnote ).addClass('ng-invalid-number');
+                }
+                if ( elm.hasClass( "ng-valid-number" ) ) {
+                    $( attr.validnote ).removeClass('ng-invalid-number');
+                }
+
                 scope.$apply(function () {
                     ctrl.hasFocus = false;
                     ctrl.hasVisited = true;

@@ -13,11 +13,12 @@
 'use strict';
 
 bbApp.factory( 'bbLoginSvc', [
+    '$window',
     'bbLoginDropdownSvc',
     'bbIdentitySvc',
     'bbAuthSvc',
     'bbIdleSvc',
-    function( bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
+    function( $window, bbLoginDropdownSvc, bbIdentitySvc, bbAuthSvc, bbIdleSvc ) {
 
         return {
 
@@ -100,7 +101,7 @@ bbApp.factory( 'bbLoginSvc', [
                 });
             },
 
-            signup : function ( 
+            signup : function( 
                 username,
                 password,
                 firstName,
@@ -142,6 +143,17 @@ bbApp.factory( 'bbLoginSvc', [
                             iconSmall : "fa fa-times shake animated"
                         }); 
                     }
+                    else {
+                        if ( reason ) { reason = "Veateade: " + reason; }
+                        else { reason = ""; }
+                        $.smallBox({
+                            title : "Toiming ebaõnnestus!",
+                            content : "Palun proovige uuesti või kontakteeruge klienditeenindusega! " + reason,
+                            color : "#c7262c",
+                            timeout: 8000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    }
                 });
             },
 
@@ -176,6 +188,169 @@ bbApp.factory( 'bbLoginSvc', [
                             iconSmall : "fa fa-times shake animated"
                         }); 
                     }
+                });
+            },
+
+            sendReset : function( email ) {
+
+                var that; 
+            
+                that = this;
+                this.isSubmitButtonDisabled = true;
+
+                bbAuthSvc.sendResetEmail( email ).then( function( response ) {
+
+                    that.isSubmitButtonDisabled = false;
+                    if ( response.data.success ) {
+                        bbLoginDropdownSvc.isResetSent = true;
+                        $.smallBox({
+                            title : "Toiming õnnestus!",
+                            content : "Saatsime e-maili juhenditega teie emaili aadressile: <strong>" + email + "</strong>",
+                            color : "#96BF48",
+                            timeout: 8000,
+                            icon : "fa fa-check fadeInLeft animated"
+                        });
+                    }
+                    else {
+                        $.smallBox({
+                            title : "Toiming ebaõnnestus!",
+                            content : "<strong>" + email + "</strong> ei ole meie lehel registreeritud! Kas tegite vea e-maili sisestamisel? Palun proovige uuesti või kontakteeruge klienditeenindusega!",
+                            color : "#c7262c",
+                            timeout: 8000,
+                            iconSmall : "fa fa-times shake animated"
+                        });
+                    }
+                }, function ( reason ) {
+                    that.isSubmitButtonDisabled = false;
+                    if ( reason ) { reason = "Veateade: " + reason; }
+                    else { reason = ""; }
+                    $.smallBox({
+                        title : "Toiming ebaõnnestus!",
+                        content : "Palun proovige uuesti või kontakteeruge klienditeenindusega! " + reason,
+                        color : "#c7262c",
+                        timeout: 8000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                });
+            },
+
+            checkResetCode  : function( email, confirmation_code ) {
+
+                var that = this;
+
+                this.isSubmitButtonDisabled = true;
+
+                bbAuthSvc.checkResetCode( email, confirmation_code ).then( function( response ) {
+
+                    that.isSubmitButtonDisabled = false;
+
+                    if ( response.success ) {
+
+                        bbLoginDropdownSvc.isResetConfirmedToken = true;
+                        $.smallBox({
+                            title : "Parooli muutmine edukalt kinnitatud!",
+                            content : "Palun valige nüüd uus parool!",
+                            color : "#96BF48",
+                            timeout: 12000,
+                            icon : "fa fa-check fadeInLeft animated"
+                        });
+                    }
+                    else if ( response.reason === "incorrect code" )  {
+                        $.smallBox({
+                            title : "Vale kinnituskood!",
+                            content : "Palun proovige uuesti!",
+                            color : "#c7262c",
+                            timeout: 12000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    }
+                    else if ( response.reason === "expired" )  {
+                        $window.sessionStorage.removeItem( 'reset_sent_email' );
+                        bbLoginDropdownSvc.isResetSent = false;
+                        $.smallBox({
+                            title : "Parooli muutmise kinnitamine ebaõnnestus!",
+                            content : "Kinnituskood on aegunud. Palun tellige uus kinnitus!",
+                            color : "#c7262c",
+                            timeout: 12000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    }
+                    else if ( response.reason === "attempts exceeded" )  {
+                        $window.sessionStorage.removeItem( 'reset_sent_email' );
+                        bbLoginDropdownSvc.isResetSent = false;
+                        $.smallBox({
+                            title : "Parooli muutmise kinnitamine ebaõnnestus!",
+                            content : "Parooli muutmine läbi kinnituskoodi blokeeritud! Palun kasutage parooli muutmiseks nuppu 'Sätesta uus parool' e-mailis, mille teile saatsime.",
+                            color : "#c7262c",
+                            timeout: 12000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    }
+                    else {
+                        $window.sessionStorage.removeItem( 'reset_sent_email' );
+                        bbLoginDropdownSvc.isResetSent = false;
+                        $.smallBox({
+                            title : "Esines viga!",
+                            content : "Palun tellige uus kinnitus. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
+                            color : "#c7262c",
+                            timeout: 12000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    }
+                },
+                function( rejection ) {
+                    $window.sessionStorage.removeItem( 'reset_sent_email' );
+                    bbLoginDropdownSvc.isResetSent = false;
+                    $.smallBox({
+                        title : "Esines viga!",
+                        content : "Palun tellige uus kinnitus. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
+                        color : "#c7262c",
+                        timeout: 12000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                });
+            },
+
+            changePw  : function( password ) {
+
+                var that = this;
+
+                this.isSubmitButtonDisabled = true;
+
+                bbAuthSvc.changePw( password ).then( function( response ) {
+
+                    that.isSubmitButtonDisabled = false;
+
+                    if ( response.success ) {
+                        bbLoginDropdownSvc.isDropdownActive = false;
+                        bbLoginDropdownSvc.isResetSent = false;
+                        bbLoginDropdownSvc.isResetConfirmedToken = false;
+                        $.smallBox({
+                            title : "Parool edukalt muudetud!",
+                            content : "Kui soovite võite nüüd enda uue parooliga sisse logida...",
+                            color : "#96BF48",
+                            timeout: 12000,
+                            icon : "fa fa-check fadeInLeft animated"
+                        });
+                    }
+                    else {
+                        $.smallBox({
+                            title : "Esines viga!",
+                            content : "Parooli muutmine ebaõnnestus. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
+                            color : "#c7262c",
+                            timeout: 12000,
+                            iconSmall : "fa fa-times shake animated"
+                        }); 
+                    }
+                },
+                function( rejection ) {
+                    $.smallBox({
+                        title : "Esines viga!",
+                        content : "Parooli muutmine ebaõnnestus. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
+                        color : "#c7262c",
+                        timeout: 12000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
                 });
             },
         };

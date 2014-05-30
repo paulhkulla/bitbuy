@@ -17,9 +17,12 @@ var
     mongoose = require( 'mongoose' ),
     ip       = require( 'ip' ),
     User     = mongoose.model( 'User' ),
+    Token    = mongoose.model( 'Token' ),
     auth     = require( '../../server/config/auth' ),
     user_ip,
-    getClientIp, toProperCase;
+    getClientIp, toProperCase,
+    mandrill
+    ;
 //----------------- END MODULE SCOPE VARIABLES -------------------
 getClientIp = function ( req ) {
     return (req.headers['x-forwarded-for'] || '').split(',')[0] 
@@ -45,10 +48,13 @@ exports.getUsers = function( req, res ) {
 exports.createUser = function( req, res, next, config ) {
 
     var
-        mandrill = require( '../../server/utils/mandrill' )( config ),
         user, confirmationUrl,
         clientName, to
         ;
+
+    if ( ! mandrill ) {
+        mandrill = require( '../../server/utils/mandrill' )( config );
+    }
 
     // For security measurement we remove the roles from the req.body object
     delete req.body.roles;
@@ -117,8 +123,8 @@ exports.checkConfirmationToken = function ( req, res, next ) {
             res.send({ success : false, user : null });
         }
         else {
-            user.confirmation_token = null;
-            user.activation_code    = null;
+            user.confirmation_token = undefined;
+            user.activation_code    = undefined;
             user.email_activated    = true;
             user.save( function( err, user ) {
                 if ( err ) {
@@ -134,7 +140,7 @@ exports.checkConfirmationToken = function ( req, res, next ) {
             });
         }
     });
-}
+};
 
 exports.checkActivationCode = function ( req, res, next, config ) {
     var 
@@ -215,14 +221,17 @@ exports.checkActivationCode = function ( req, res, next, config ) {
         res.send( auth.genResObj( false, null, 401, 'WWW-Authenticate', 'Bearer' ) );
     }
 
-}
+};
 
 exports.resendActivationEmail = function( req, res, next, config ) {
 
     var
-        mandrill = require( '../../server/utils/mandrill' )( config ),
         confirmationUrl, clientName, to
         ;
+
+    if ( ! mandrill ) {
+        mandrill = require( '../../server/utils/mandrill' )( config );
+    }
 
     User.findUserByEmailOnly( req.body.email, function( err, user ) {
         if ( err ) {
@@ -252,4 +261,179 @@ exports.resendActivationEmail = function( req, res, next, config ) {
             res.send( { success : false, user : null  } );
         }
     });
+};
+
+exports.sendResetEmail = function( req, res, next, config ) {
+
+    var
+    confirmationUrl, clientName, to
+    ;
+
+    if ( ! mandrill ) {
+        mandrill = require( '../../server/utils/mandrill' )( config );
+    }
+
+    User.findUserByEmailOnly( req.body.email, function( err, user ) {
+        if ( err ) {
+            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+        }
+        if ( user ) {
+
+            user.reset_confirmation_code = Math.floor( Math.random()*90000 ) + 10000;
+            user.save( function( err ) {
+                if ( err ) {
+                    res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                }
+                else {
+                    User.createUserResetToken( user.username, function ( err, reset_token ) {
+                        if ( err ) {
+                            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                        }
+                        confirmationUrl = req.protocol + "://" + req.get('host') + "/confirm_reset/" + reset_token;
+                        clientName      = user.firstName + ' ' + user.lastName;
+                        to              = [{
+                            "email" : user.username,
+                            "name"  : clientName
+                        }];
+                        mandrill.send( 
+                            'reset',
+                            'Bitbuy OÜ',
+                            'teenindus@bitbuy.ee',
+                            to,
+                            'teenindus@bitbuy.ee',
+                            'Parooli muutmine',
+                            clientName,
+                            user.reset_confirmation_code,
+                            confirmationUrl
+                        );
+                        res.send({ success : true });
+                    });
+                }
+            });
+        }
+        else {
+            res.send( { success : false  } );
+        }
+    });
+};
+
+exports.checkResetToken = function ( req, res, next ) {
+    var
+        updates,
+        reset_token = req.params.reset_token;
+    User.findUserByResetToken( reset_token, function( err, user ) {
+        if ( err ) {
+            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+        }
+        if ( ! user ) {
+            res.send({ success : false, reason : "email not found" });
+        }
+        else {
+            if ( ! Token.hasExpired( user.reset_token.date_created, user.reset_token_exp ) ) {
+                updates = { $set: { reset_attempts: 0 } };
+                user.update( updates, function( err ) {
+                    if ( err ) {
+                        res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                    }
+                    else {
+                        User.createUserResetAccessToken( user.username, function ( err, reset_access_token ) {
+                            if ( err ) {
+                                res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                            }
+                            res.send({ success : true, reset_access_token : reset_access_token, email : user.username });
+                        });
+                    }
+                });
+            }
+            else {
+                res.send({ success : false, reason : "expired" });
+            }
+        }
+    });
+};
+
+exports.checkResetConfirmationCode = function ( req, res, next ) {
+    var
+        updates,
+        email = req.body.email,
+        confirmation_code = req.body.confirmation_code;
+
+    User.findUserByEmailOnly( email, function( err, user ) {
+        if ( err ) {
+            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+        }
+        if ( ! user ) {
+            res.send({ success : false, reason : "email not found" });
+        }
+        else {
+            if ( ! Token.hasExpired( user.reset_token.date_created, user.reset_token_exp ) ) {
+                if ( user.reset_attempts >= 3 ) {
+                    res.send({ success : false, reason : "attempts exceeded" });
+                }
+                else {
+                    updates = { $inc: { reset_attempts: 1 } };
+                    user.update( updates, function( err ) {
+                        if ( err ) {
+                            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                        }
+                        else {
+                            if ( user.reset_confirmation_code === confirmation_code ) {
+                                updates = { $set: { reset_attempts: 0 } };
+                                user.update( updates, function( err ) {
+                                    if ( err ) {
+                                        res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                                    }
+                                    else {
+                                        User.createUserResetAccessToken( user.username, function ( err, reset_access_token ) {
+                                            if ( err ) {
+                                                res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                                            }
+                                            res.send({ success : true, reset_access_token : reset_access_token });
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                res.send({ success : false, reason : "incorrect code" });
+                            }
+                        }
+                    });
+                }
+            }
+            else {
+                res.send({ success : false, reason : "expired" });
+            }
+        }
+    });
+};
+
+exports.changePw = function ( req, res, next, config ) {
+    var 
+    email              = req.body.email,
+    reset_access_token = req.body.reset_access_token,
+    new_password       = req.body.password;
+
+    User.findUserByResetAccessToken( email, reset_access_token, function( err, user ) {
+        if ( err ) {
+            res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+        }
+        if ( user ) {
+            user.password                = new_password;
+            user.reset_confirmation_code = undefined;
+            user.reset_token             = undefined;
+            user.reset_access_token      = undefined;
+            user.save( function( err ) {
+                if ( err ) {
+                    res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                }
+                else {
+                    res.send({ success : true });
+                }
+            });
+        }
+        else {
+            res.send( { success : false  } );
+        }
+    });
+
 };

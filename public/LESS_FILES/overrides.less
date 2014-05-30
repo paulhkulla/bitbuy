@@ -142,6 +142,88 @@
     border-top: none;
     background: none;
 }
+.login-validation {
+    /*
+     * normal state
+     */
+    #firstname-required-note,
+    #lastname-required-note,
+    #password-weak-note,
+    #password-required-note,
+    #reset-password-weak-note,
+    #reset-password-required-note,
+    #email-match-note,
+    #email-required-note,
+    #email-valid-note,
+    #forgot-email-valid-note,
+    #forgot-email-required-note,
+    #login-email-valid-note,
+    #login-email-required-note,
+    #login-password-required-note,
+    #activation-code-required-note,
+    #activation-code-valid-note,
+    #pw-confirm-code-required-note,
+    #pw-confirm-code-valid-note {
+        display: none;
+    }
+
+    .smart-form #firstname-required-note.ng-invalid-required,
+    .smart-form #lastname-required-note.ng-invalid-required,
+    .smart-form #password-required-note.ng-invalid-required,
+    .smart-form #password-weak-note.ng-invalid-validator,
+    .smart-form #reset-password-required-note.ng-invalid-required,
+    .smart-form #reset-password-weak-note.ng-invalid-validator,
+    .smart-form #email-match-note.ng-invalid-validator,
+    .smart-form #email-required-note.ng-invalid-required,
+    .smart-form #email-valid-note.ng-invalid-email,
+    .smart-form #forgot-email-valid-note.ng-invalid-email,
+    .smart-form #forgot-email-required-note.ng-invalid-required,
+    .smart-form #login-email-valid-note.ng-invalid-email,
+    .smart-form #login-email-required-note.ng-invalid-required,
+    .smart-form #activation-code-required-note.ng-invalid-required,
+    .smart-form #activation-code-valid-note.ng-invalid-number,
+    .smart-form #login-password-required-note.ng-invalid-required,
+    .smart-form #pw-confirm-code-required-note.ng-invalid-required,
+    .smart-form #pw-confirm-code-valid-note.ng-invalid-number {
+        display: block;
+    }
+    .smart-form input.has-visited.ng-invalid:not(.has-focus) {
+        border-color: #FF0000;
+        &:hover {
+            border-color: #FF0000;
+        }
+        &:focus {
+            border-color: #FF0000;
+        }
+    }
+    .smart-form input.has-visited.ng-valid:not(.has-focus) {
+        border-color: #82AE00;
+        &:hover {
+            border-color: #82AE00;
+        }
+        &:focus {
+            border-color: #82AE00;
+        }
+    }
+    .smart-form #password.ng-invalid.ng-dirty, .smart-form #email.ng-invalid.ng-dirty {
+        border-color: #FF0000;
+        &:hover {
+            border-color: #FF0000;
+        }
+        &:focus {
+            border-color: #FF0000;
+        }
+    }
+    .smart-form #password.ng-valid.ng-dirty, .smart-form #email.ng-valid.ng-dirty {
+        border-color: #82AE00;
+        &:hover {
+            border-color: #82AE00;
+        }
+        &:focus {
+            border-color: #82AE00;
+        }
+    }
+}
 #register-tab {
     /*
      * normal state

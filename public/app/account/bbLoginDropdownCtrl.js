@@ -15,19 +15,50 @@
 bbApp.controller( 'bbLoginDropdownCtrl', [
 '$scope',
 '$window',
-'bbAuthSvc',
 'bbLoginSvc',
 'bbTosModalSvc',
-function( $scope, $window, bbAuthSvc, bbLoginSvc, bbTosModalSvc ) {
+function( $scope, $window, bbLoginSvc, bbTosModalSvc ) {
 
-    var parseEmailDomain = function( email ) {
+    var
+        parseEmailDomain, returnEmailDomainText;
+    
+    parseEmailDomain = function( email ) {
         var
-            email_string_array     = email.split("@"),
-            domain_string_location = email_string_array.length -1,
-            final_domain           = email_string_array[domain_string_location];
+        email_string_array     = email.split("@"),
+        domain_string_location = email_string_array.length -1,
+        final_domain           = email_string_array[domain_string_location];
 
         return final_domain;
     };
+
+    returnEmailDomainText = function( email ) {
+        var domain = parseEmailDomain( email ).toLowerCase();
+        switch ( true ) {
+            case /gmail/.test( domain ):
+            case /googlemail/.test( domain ):
+                return "<br><br> Kui soovite võime teid automaatselt <strong>Gmaili</strong> suunata.<br><a href='https://mail.google.com' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>";
+            case /outlook/.test( domain ):
+            case /hotmail/.test( domain ):
+            case /live/.test( domain ):
+            case /msn/.test( domain ):
+                return "<br><br> Kui soovite võime teid automaatselt <strong>Outlooki</strong> suunata.<br><a href='https://outlook.com' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>";
+            case /yahoo/.test( domain ):
+            case /ymail/.test( domain ):
+            case /rocketmail/.test( domain ):
+                return "<br><br> Kui soovite võime teid automaatselt <strong>Yahoo Maili</strong> suunata.<br><a href='https://login.yahoo.com' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>";
+            case /hot.ee/.test( domain ):
+                return "<br><br> Kui soovite võime teid automaatselt <strong>Hot.ee</strong>'sse suunata.<br><a href='http://live.hot.ee/user/login' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>";
+        }
+    };
+
+    if ( $window.localStorage.getItem( 'activation_email' ) ) {
+        $scope.activation_email = $window.localStorage.getItem( 'activation_email' );
+        $scope.activationEmailProviderTxt = returnEmailDomainText( $scope.activation_email );
+    }
+    if ( $window.sessionStorage.getItem( 'reset_sent_email' ) ) {
+        $scope.reset_sent_email = $window.sessionStorage.getItem( 'reset_sent_email' );
+        $scope.resetSentEmailProviderTxt = returnEmailDomainText( $scope.reset_sent_email );
+    }
 
     moment.lang( 'et' );
     $scope.birthday               = "1997-01-01";
@@ -40,35 +71,21 @@ function( $scope, $window, bbAuthSvc, bbLoginSvc, bbTosModalSvc ) {
 
     $scope.activate               = bbLoginSvc.activate;
 
-    $scope.parseEmailDomain = function() {
-        $scope.emailDomain = parseEmailDomain( $scope.email ).toLowerCase();
-        switch ( true ) {
-            case /gmail/.test( $scope.emailDomain ):
-            case /googlemail/.test( $scope.emailDomain ):
-                $scope.directToEmailProviderTxt = "<br><br> Kui soovite võime teid automaatselt Gmaili suunata.<br><a href='https://mail.google.com' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>"
-                break;
-            case /outlook/.test( $scope.emailDomain ):
-            case /hotmail/.test( $scope.emailDomain ):
-            case /live/.test( $scope.emailDomain ):
-            case /msn/.test( $scope.emailDomain ):
-                $scope.directToEmailProviderTxt = "<br><br> Kui soovite võime teid automaatselt Outlooki suunata.<br><a href='https://outlook.com' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>"
-                break;
-            case /yahoo/.test( $scope.emailDomain ):
-            case /ymail/.test( $scope.emailDomain ):
-            case /rocketmail/.test( $scope.emailDomain ):
-                $scope.directToEmailProviderTxt = "<br><br> Kui soovite võime teid automaatselt Yahoo Maili suunata.<br><a href='https://login.yahoo.com' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>"
-                break;
-            case /hot.ee/.test( $scope.emailDomain ):
-                $scope.directToEmailProviderTxt = "<br><br> Kui soovite võime teid automaatselt Hot.ee'sse suunata.<br><a href='http://live.hot.ee/' target='_blank'>Vajuta siia</a> <i class='fa fa-external-link-square'></i>"
-                break;
-        }
+    $scope.sendReset              = bbLoginSvc.sendReset;
+
+    $scope.checkResetCode         = bbLoginSvc.checkResetCode;
+
+    $scope.changePw               = bbLoginSvc.changePw;
+
+    $scope.parseActivationEmailDomain = function( email ) {
+        $scope.activation_email = email;
+        $scope.activationEmailProviderTxt = returnEmailDomainText( email );
     };
 
-    if ( $window.localStorage.getItem( 'activation_email' ) ) {
-        $scope.email = $window.localStorage.getItem( 'activation_email' );
-        $scope.parseEmailDomain();
-    }
-    
+    $scope.parseResetSentEmailDomain = function( email ) {
+        $scope.reset_sent_email = email;
+        $scope.resetSentEmailProviderTxt = returnEmailDomainText( email );
+    };
 
     $scope.openTos = function() {
         bbTosModalSvc.tosModal();
@@ -79,9 +96,9 @@ function( $scope, $window, bbAuthSvc, bbLoginSvc, bbTosModalSvc ) {
         );
     };
 
-    $scope.checkPasswordStrength = function() {
-        if ( ! $scope.r_password ) { $scope.r_password = ''; }
-        $scope.password_result = zxcvbn( $scope.r_password );
+    $scope.checkPasswordStrength = function( password ) {
+        if ( ! password ) { password = ''; }
+        $scope.password_result = zxcvbn( password );
         $scope.crack_time = moment.duration( $scope.password_result.crack_time,'seconds' ).humanize();
     };
 

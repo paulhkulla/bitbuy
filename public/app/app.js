@@ -47,18 +47,6 @@ bbApp.run([
                     }); 
                 });
             }
-            if ( error === 'invalid confirmation token' ) {
-                $timeout( function() { 
-                    $location.path('/');
-                    $.smallBox({
-                        title : "Esines viga!",
-                        content : "Konto aktiveerimine ebaõnnestus! Konto võib juba olla aktiivne või esines viga serveriga. Palun proovige sisse logida või uuesti aktiveerida. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
-                        color : "#c7262c",
-                        timeout: 12000,
-                        iconSmall : "fa fa-times shake animated"
-                    }); 
-                });
-            }
             if ( error === 'valid confirmation token' ) {
                 bbLoginDropdownSvc.isActivationToken = false;
                 $timeout( function() { 
@@ -72,6 +60,57 @@ bbApp.run([
                     });
                 });
             }
+            if ( error === 'invalid confirmation token' ) {
+                $timeout( function() { 
+                    $location.path('/');
+                    $.smallBox({
+                        title : "Esines viga!",
+                        content : "Konto aktiveerimine ebaõnnestus! Konto võib juba olla aktiivne või esines viga serveriga. Palun proovige sisse logida või uuesti aktiveerida. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
+                        color : "#c7262c",
+                        timeout: 12000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                });
+            }
+            if ( error === 'valid reset token' ) {
+                bbLoginDropdownSvc.isResetConfirmedToken = true;
+                bbLoginDropdownSvc.activateTab( 'forgot' );
+                bbLoginDropdownSvc.activateDropdown();
+                $timeout( function() { 
+                    $location.path('/');
+                        $.smallBox({
+                            title : "Parooli muutmine edukalt kinnitatud!",
+                            content : "Palun valige nüüd uus parool!",
+                            color : "#96BF48",
+                            timeout: 12000,
+                            icon : "fa fa-check fadeInLeft animated"
+                        });
+                });
+            }
+            if ( error === 'invalid reset token' ) {
+                $timeout( function() { 
+                    $location.path('/');
+                    $.smallBox({
+                        title : "Esines viga!",
+                        content : "Parooli kinnitamise URL võis olla vigane või esines viga serveriga. Palun proovige uuesti või tellige uus kinnitus. Probleemi jätkumisel palun kontakteeruge klienditeenindusega.",
+                        color : "#c7262c",
+                        timeout: 12000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                });
+            }
+            if ( error === 'reset token expired' ) {
+                $timeout( function() { 
+                    $location.path('/');
+                    $.smallBox({
+                        title : "Parooli muutmise kinnitamine ebaõnnestus!",
+                        content : "Kinnituse URL on aegunud. Palun tellige uus kinnitus!",
+                        color : "#c7262c",
+                        timeout: 12000,
+                        iconSmall : "fa fa-times shake animated"
+                    }); 
+                });
+            }
         });
         if ( $window.sessionStorage.getItem( 'currentUser' ) ) {
             if ( ! bbIdleSvc.isIdleEventsInit ) {
@@ -80,6 +119,12 @@ bbApp.run([
         }
         if ( $window.localStorage.getItem( 'activation_token' ) ) {
             bbLoginDropdownSvc.isActivationToken = true;
+        }
+        if ( $window.sessionStorage.getItem( 'reset_sent_email' ) ) {
+            bbLoginDropdownSvc.isResetSent = true;
+        }
+        if ( $window.sessionStorage.getItem( 'reset_confirmed_token' ) ) {
+            bbLoginDropdownSvc.isResetConfirmedToken = true;
         }
     }]);
 
@@ -106,7 +151,14 @@ bbApp.config([
             check : [ '$stateParams', 'bbAuthSvc', function ( $stateParams, bbAuthSvc ) {
                 return bbAuthSvc.checkConfirmationToken( $stateParams.confirmationToken );
             }]
+        },
+
+        checkResetToken = {
+            check : [ '$stateParams', 'bbAuthSvc', function ( $stateParams, bbAuthSvc ) {
+                return bbAuthSvc.checkResetToken( $stateParams.resetToken );
+            }]
         }
+
         // configure idle settings, durations are in seconds
         // idleDuration must be greater than keepaliveProvider.interval!
         $idleProvider.idleDuration( 5 * 60 );
@@ -124,9 +176,13 @@ bbApp.config([
 
         // State routing
         $stateProvider
-            .state( 'confirmation', {
+            .state( 'email_confirmation', {
                 url         : '/confirm/{confirmationToken}',
                 resolve     : checkConfirmationToken
+            })
+            .state( 'reset_confirmation', {
+                url         : '/confirm_reset/{resetToken}',
+                resolve     : checkResetToken
             })
             //--------------------- HEADER-NAV STATES ------------------------
             // .state( 'what-is-bitcoin', {
@@ -154,8 +210,7 @@ bbApp.config([
             .state( 'privacy-and-security', {
                 url         : '/privacy-and-security',
                 templateUrl : '/app/footer-nav/privacy-and-security.html',
-            })
-            .state( 'user-agreement', {
+            }) .state( 'user-agreement', {
                 url         : '/user-agreement',
                 templateUrl : '/app/footer-nav/user-agreement.html',
             })

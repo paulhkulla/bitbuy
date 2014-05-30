@@ -31,6 +31,10 @@ module.exports = function( app, config ) {
         auth.authenticate( req, res, next, config, true, auth.loginCallback );
     });
 
+    app.post( '/logout', function( req, res, next ) { 
+        auth.authenticate( req, res, next, config, false, auth.logoutCallback );
+    });
+
     app.post( '/activate', function( req, res, next ) {
         users.checkActivationCode( req, res, next, config );
     });
@@ -39,11 +43,21 @@ module.exports = function( app, config ) {
         users.resendActivationEmail( req, res, next, config );
     });
 
-    app.post( '/logout', function( req, res, next ) { 
-        auth.authenticate( req, res, next, config, false, auth.logoutCallback );
+    app.post( '/reset_send', function( req, res, next ) {
+        users.sendResetEmail( req, res, next, config );
+    });
+
+    app.post( '/reset_check', function( req, res, next ) {
+        users.checkResetConfirmationCode( req, res, next, config );
+    });
+
+    app.post( '/change_pw', function( req, res, next ) {
+        users.changePw( req, res, next, config );
     });
 
     app.get( "/confirm_email/:confirmation_token", users.checkConfirmationToken );
+
+    app.get( "/confirm_reset_token/:reset_token", users.checkResetToken );
 
     app.get( '*', function( req, res ) { res.render( 'index' ); });
 };

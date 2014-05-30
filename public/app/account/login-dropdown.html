@@ -19,36 +19,45 @@
 <div class="login-dropdown-content custom-scroll tab-content">
 
     <!-- BEGIN LOGIN TAB -->
-    <div id="login-tab" data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'login'">
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'login'" class="login-dropdown-tab login-validation">
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
             &times;
         </button>
         <header>
         <h4>Logi sisse</h4>
         </header>
-        <form data-ng-submit="signin( username, password )"class="smart-form" id="login-form" novalidate="novalidate">
+        <form name="loginForm" data-bb-custom-submit="signin( username, password )" class="smart-form" id="login-form" novalidate="novalidate">
 
             <fieldset>
                 <section>
                 <label class="label">E-mail</label>
                 <label class="input">
                     <i class="icon-append fa fa-envelope"></i>
-                    <input id="dropdown-username" data-ng-model="username">
+                    <input id="dropdown-username" data-validnote="#login-email-valid-note" data-requirednote="#login-email-required-note" data-ng-model="username" type="email" required>
                     <b class="tooltip tooltip-top-right">
                         <i class="fa fa-envelope"></i> Palun sisestage enda e-mail
                     </b>
                 </label>
+                <div id="login-email-valid-note" class="note">
+                    Sisestatud e-mail ei ole korrektne!
+                </div>
+                <div id="login-email-required-note" class="note">
+                    Palun sisestage enda e-mail!
+                </div>
                 </section>
 
                 <section>
                 <label class="label">Parool</label>
                 <label class="input">
                     <i class="icon-append fa fa-key"></i>
-                    <input type="password" data-ng-model="password">
+                    <input type="password" data-requirednote="#login-password-required-note" data-ng-model="password" required>
                     <b class="tooltip tooltip-top-right">
                         <i class="fa fa-key"></i> Palun sisestage enda parool
                     </b>
                 </label>
+                <div id="login-password-required-note" class="note">
+                    Palun sisestage enda parool!
+                </div>
                 <div class="note">
                     Ärge kunagi sisestage enda parooli seadmesse, mida te täielikult ei usalda. Ärge logige enda kasutajasse jagatud või avalikust arvutist.
                 </div>
@@ -70,7 +79,7 @@
     <!-- END LOGIN TAB -->
 
     <!-- BEGIN REGISTER TAB -->
-    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register' && !bbLoginDropdownSvc.isActivationToken" id="register-tab">
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register' && !bbLoginDropdownSvc.isActivationToken" class="login-dropdown-tab login-validation">
 
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
             &times;
@@ -79,7 +88,7 @@
         <h4>Registreeru</h4>
         </header>
 
-        <form class="smart-form" id="register-form" name="registerForm" data-bb-custom-submit="signup( email, r_password, firstName, lastName, birthday ); parseEmailDomain()" novalidate>
+        <form class="smart-form" id="register-form" name="registerForm" data-bb-custom-submit="signup( email, r_password, firstName, lastName, birthday ); parseActivationEmailDomain( email )" novalidate>
 
             <fieldset>
                 <section>
@@ -107,7 +116,7 @@
 
                 <section>
                 <label class="input"> <i class="icon-append fa fa-key"></i>
-                    <input type="password" id="password" data-requirednote="#password-required-note" data-validatornote="#password-weak-note" placeholder="Parool" name="password" data-ui-validate=" 'password_result.score > 1' " ui-validate-watch=" 'password_result.score' " data-ng-model="r_password" data-ng-change="checkPasswordStrength()" required>
+                    <input type="password" id="password" data-requirednote="#password-required-note" data-validatornote="#password-weak-note" placeholder="Parool" name="password" data-ui-validate=" 'password_result.score > 1' " ui-validate-watch=" 'password_result.score' " data-ng-model="r_password" data-ng-change="checkPasswordStrength(r_password)" required>
                     <b class="tooltip tooltip-top-right">
                         Valige turvaline parool, mida on raske ära arvata.<br>Turvaline parool võiks sisaldada ebatavalisi sõnu leidlike kirjapiltideggga, sUuRi tÄhTI, numbr31d ja $ümbo|eid.
                         <span data-ng-show="password_result">
@@ -198,7 +207,7 @@
     </div>
     <!-- END REGISTER TAB -->
     <!-- BEGIN ACTIVATION TAB -->
-    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register' && bbLoginDropdownSvc.isActivationToken" id="forgot-tab">
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'register' && bbLoginDropdownSvc.isActivationToken" class="login-dropdown-tab login-validation">
 
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
             &times;
@@ -206,18 +215,25 @@
         <header>
         <h4>Aktiveeri konto</h4>
         </header>
-        <form class="smart-form" id="reset-form" action="" ng-submit="activate( activationCode )" novalidate="novalidate">
+        <form class="smart-form" id="reset-form" action="" name="activateForm" data-bb-custom-submit="activate( activationCode )" novalidate="novalidate">
             <fieldset>
                 <section>
                 <div class="note">
-                    <b>Saatsime aktiveerimiskoodi teie e-maili aadressile:</b>
-                    <br>{{ email }}
-                    <span ng-bind-html="directToEmailProviderTxt | to_trusted"></span>
-                    <br><br>Aktiveerimiskoodi saate Teie turvalisuse huvides sisestada ainult sama seadme ja brauseriga millega Te enda konto registreerisite. Alternatiivselt saate aktiveerida enda konto vajutades "Aktiveeri konto" nupule e-mailis mille me Teile registreerudes saatsime.
+                    <b>Saatsime aktiveerimiskoodi teie e-mailile:</b>
+                    <br>{{ activation_email }}
+                    <span ng-bind-html="activationEmailProviderTxt | to_trusted"></span>
+                    <br><br>Aktiveerimiskoodi saate Teie turvalisuse huvides sisestada ainult sama seadme ja brauseriga millega Te enda konto registreerisite. Alternatiivselt saate aktiveerida enda konto vajutades "Aktiveeri konto" nupule e-mailis mille me Teile saatsime.
                 </div>
                 <br><label class="input"> <i class="icon-prepend fa fa-key"></i>
-                    <input type="number" data-ng-model="activationCode" id="dropdown-activate" name="activation_code" placeholder="Aktiveerimiskood">
+                    <input type="number" data-ng-model="activationCode" data-requirednote="#activation-code-required-note" data-validnote="#activation-code-valid-note" id="dropdown-activate" name="activation_code" placeholder="Aktiveerimiskood" required>
+                    <b class="tooltip tooltip-top-right">Palun sisestage aktiveerimiskood</b> 
                 </label>
+                <div id="activation-code-required-note" class="note">
+                    Palun sisestage aktiveerimiskood!
+                </div>
+                <div id="activation-code-valid-note" class="note">
+                    Palun sisestage ainult numbrid!
+                </div>
                 </section>
             </fieldset>
 
@@ -236,7 +252,7 @@
     <!-- END ACTIVATION TAB -->
 
     <!-- BEGIN FORGOT TAB -->
-    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'forgot'" id="forgot-tab">
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'forgot' && !bbLoginDropdownSvc.isResetSent && !bbLoginDropdownSvc.isResetConfirmedToken" class="login-dropdown-tab login-validation">
 
         <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
             &times;
@@ -244,25 +260,32 @@
         <header>
         <h4>Unustasite parooli?</h4>
         </header>
-        <form class="smart-form" id="reset-form" action="" novalidate="novalidate">
+        <form class="smart-form" id="reset-form" action="" name="forgotForm" data-bb-custom-submit="sendReset( forgotEmail ); parseResetSentEmailDomain( forgotEmail )" novalidate="novalidate">
 
             <fieldset>
                 <section>
                 <label class="input"> <i class="icon-prepend fa fa-envelope"></i>
-                    <input id="dropdown-forgot" type="email" name="email" placeholder="Registreeritud e-mail">
+                    <input type="email" id="dropdown-forgot" placeholder="Registreeritud e-mail" data-validnote="#forgot-email-valid-note" data-requirednote="#forgot-email-required-note" name="firstEmail" data-ng-model="forgotEmail" required>
+                    <b class="tooltip tooltip-top-right">Palun sisestage enda e-mail</b> 
                 </label>
+                <div id="forgot-email-valid-note" class="note">
+                    Sisestatud e-mail ei ole korrektne!
+                </div>
+                <div id="forgot-email-required-note" class="note">
+                    Palun sisestage enda e-mail!
+                </div>
                 <div class="note">
-                    Teile saadetakse link, mis lubab sätestada uue parooli.
+                    Saadame teile e-maili, et Teid tuvastada ja sätestada uus parool.
                 </div>
                 </section>
             </fieldset>
 
             <footer>
-            <button class="btn btn-labeled btn-success" data-ng-click="openNa()" type="submit">
+            <button type="submit" data-ng-disabled="isSubmitButtonDisabled" class="btn btn-labeled btn-success">
                 <span class="btn-label">
-                    <i class="fa fa-envelope"></i>
+                    <i class="fa" data-ng-class="{ 'fa-envelope' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
                 </span>
-                Saada link
+                Saada e-mail
             </button>
             </footer>
 
@@ -270,6 +293,127 @@
 
     </div>
     <!-- END FORGOT TAB -->
+    <!-- BEGIN RESET SENT TAB -->
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'forgot' && bbLoginDropdownSvc.isResetSent && !bbLoginDropdownSvc.isResetConfirmedToken" class="login-dropdown-tab login-validation"> 
+        <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
+            &times;
+        </button>
+        <header>
+        <h4>Kinnitage parooli muutmine</h4>
+        </header>
+        <form class="smart-form" id="reset-sent-form" action="" name="resetSentForm" data-bb-custom-submit="checkResetCode( reset_sent_email, pwConfirmCode )" novalidate="novalidate">
+            <fieldset>
+                <section>
+                <div class="note">
+                    <b>Saatsime kinnituskoodi teie e-mailile:</b>
+                    <br>{{ reset_sent_email }}
+                    <span ng-bind-html="resetSentEmailProviderTxt | to_trusted"></span>
+                    <br><br>Kinnituskoodi saate Teie turvalisuse huvides sisestada ainult sama seadme ja brauseriga millega Te selle tellisite. Alternatiivselt saate sätestada uue parooli vajutades "Sätesta uus parool" nupule e-mailis mille me teile just saatsime.
+                </div>
+                <br><label class="input"> <i class="icon-prepend fa fa-key"></i>
+                    <input type="number" data-ng-model="pwConfirmCode" data-requirednote="#pw-confirm-code-required-note" data-validnote="#pw-confirm-code-valid-note" id="dropdown-confirm-pw" name="confirm_pw" placeholder="Kinnituskood" required>
+                    <b class="tooltip tooltip-top-right">Palun sisestage kinnituskood</b> 
+                </label>
+                <div id="pw-confirm-code-required-note" class="note">
+                    Palun sisestage kinnituskood!
+                </div>
+                <div id="pw-confirm-code-valid-note" class="note">
+                    Palun sisestage ainult numbrid!
+                </div>
+                </section>
+            </fieldset>
+
+            <footer>
+            <button type="submit" data-ng-disabled="isSubmitButtonDisabled" class="btn btn-labeled btn-success">
+                <span class="btn-label">
+                    <i class="fa" data-ng-class="{ 'fa-thumbs-up' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
+                </span>
+                Kinnita
+            </button>
+            </footer>
+
+        </form>
+
+    </div>
+    <!-- END RESET SENT TAB -->
+    <!-- BEGIN RESET CONFIRMED TAB -->
+    <div data-ng-show="bbLoginDropdownSvc.activeDropdownTab === 'forgot' && bbLoginDropdownSvc.isResetConfirmedToken" class="login-dropdown-tab login-validation"> 
+        <button aria-hidden="true" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"  class="close" type="button">
+            &times;
+        </button>
+        <header>
+        <h4>Valige uus parool</h4>
+        </header>
+        <form class="smart-form" id="reset-confirmed-form" action="" name="resetConfirmedForm" data-bb-custom-submit="changePw( r_c_password )" novalidate="novalidate">
+            <fieldset>
+                <section>
+                <div class="note">
+                    Valige turvaline parool, mida on raske ära arvata.<br>Turvaline parool võiks sisaldada ebatavalisi sõnu leidlike kirjapiltideggga, sUuRi tÄhTI, numbr31d ja $ümbo|eid.
+                </div>
+                <br><label class="input"> <i class="icon-append fa fa-key"></i>
+                    <input type="password" id="firstPassword" data-requirednote="#reset-password-required-note" data-validatornote="#reset-password-weak-note" placeholder="Uus parool" name="firstPassword" data-ui-validate=" 'password_result.score > 1' " ui-validate-watch=" 'password_result.score' " data-ng-model="firstPassword" data-ng-change="checkPasswordStrength(firstPassword)" required>
+                    <b class="tooltip tooltip-bottom-right">
+                        <span data-ng-show="!password_result">
+                            Sisestage turvaline parool.
+                        </span>
+                        <span data-ng-show="password_result">
+                            Hetkel on teie parooli skoor <strong>{{ password_result.score || 0 }}/4.</strong>
+                            <i data-ng-show="password_result.score < 2">Liiga nõrk!</i>
+                            <i data-ng-show="password_result.score === 2">Piisav!</i>
+                            <i data-ng-show="password_result.score === 3">Tugev!</i>
+                            <i data-ng-show="password_result.score === 4">Väga tugev!</i>
+                        </span>
+                        <span data-ng-show="crack_time"><br>Parooli lahti muukimiseks kuluks <strong>{{ crack_time }}</strong>...</span></b>
+                </label>
+                <div class="password-strength">
+                    <div data-ng-show="password_result.score > 0" id="strength-1" class="col-xs-3"></div>
+                    <div data-ng-show="password_result.score > 1" id="strength-2" class="col-xs-3"></div>
+                    <div data-ng-show="password_result.score > 2" id="strength-3" class="col-xs-3"></div>
+                    <div data-ng-show="password_result.score > 3" id="strength-4" class="col-xs-3"></div>
+                </div>
+                <div data-ng-hide="!resetConfirmedForm.firstPassword.$error.required" id="reset-password-required-note" class="note">
+                    Parool on kohustuslik!
+                </div>
+                <div data-ng-hide="resetConfirmedForm.firstPassword.$error.required || password_result.score > 1" id="reset-password-weak-note" class="note">
+                    Parool on liiga lihtne!
+                </div>
+                </section>
+
+                <section>
+                <label class="input"> <i class="icon-append fa fa-key"></i>
+                    <input type="password" id="r_c_password" placeholder="Sisestage parool uuesti" name="r_c_password" data-ng-model="r_c_password" data-ui-validate=" '$value === firstPassword' " data-ui-validate-watch=" 'firstPassword' " required>
+                    <b class="tooltip tooltip-bottom-right">Palun kinnitage enda parool</b>
+                </label>
+                <div data-ng-show="resetConfirmedForm.r_c_password.$dirty && resetConfirmedForm.r_c_password.$error.validator" class="note">
+                    Sisestatud paroolid ei ühti!
+                </div>
+                </section>
+                <div class="note">
+                    <a href="" 
+                        data-bb-init-popover
+                        data-container="body"
+                        data-trigger="hover"
+                        data-placement="top"
+                        data-toggle="popover" 
+                        data-html="true" 
+                        data-content="<img src='/img/encrypted.png' alt='Krüpteeritud'><br><br>Me võtame teie privaatsust ja turvalisust väga tõsiselt. Sellepärast krüpteerime teie isikuandmed AES spetsifikatsiooni alusel 256 bit pikkuse võtmega. Teie parool on omakorda turvatud läbi bcrypt funktsiooni."
+                        title="Teie andmed on heades kätes">Parool hashitakse.</a>
+                </div>
+            </fieldset>
+
+            <footer>
+            <button type="submit" data-ng-disabled="isSubmitButtonDisabled" class="btn btn-labeled btn-success">
+                <span class="btn-label">
+                    <i class="fa" data-ng-class="{ 'fa-arrow-circle-right' : !isSubmitButtonDisabled, 'fa-refresh fa-spin' : isSubmitButtonDisabled  }"></i>
+                </span>
+                Muuda parool
+            </button>
+            </footer>
+
+        </form>
+
+    </div>
+    <!-- END RESET CONFIRMED TAB -->
 
 </div>
 <!-- END LOGIN DROPDOWN CONTENT-->

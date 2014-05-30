@@ -34,13 +34,17 @@ bbApp.factory('bbLoginDropdownSvc', [
         };
 
         return {
-            isDropdownActive  : false,
+            isDropdownActive      : false,
 
-            isActivationToken : false,
+            isActivationToken     : false,
 
-            activeDropdownTab : 'login',
+            isResetSent           : false,
 
-            toggleDropdown    : function() {
+            isResetConfirmedToken : false,
+
+            activeDropdownTab     : 'login',
+
+            toggleDropdown        : function() {
                 if ( bbIdentitySvc.currentUser ) {
                     this.isDropdownActive = false;
                     $( $document ).unbind( 'mousedown', onMousedown );

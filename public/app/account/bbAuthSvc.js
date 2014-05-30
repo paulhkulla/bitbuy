@@ -141,6 +141,9 @@ bbApp.factory( 'bbAuthSvc', [
                     else {
                         dfd.reject( 'invalid confirmation token' );
                     }
+                },
+                function ( rejection ) {
+                    dfd.reject( 'invalid confirmation token' );
                 });
                 return dfd.promise;
             },
@@ -182,7 +185,81 @@ bbApp.factory( 'bbAuthSvc', [
                 });
 
                 return dfd.promise;
-            }
+            },
+
+            sendResetEmail : function( email ) {
+
+                var dfd = $q.defer();
+
+                $http.post( '/reset_send', { email : email }) .then( function( response ) {
+                    if ( response.data.success ) {
+                        $window.sessionStorage.reset_sent_email = email;
+                    }
+                    dfd.resolve( response );
+
+                }, function( response ) {
+                    dfd.reject( response.data.reason );
+                });
+
+                return dfd.promise;
+            },
+
+            checkResetCode : function( email, confirmation_code ) {
+
+                var dfd = $q.defer();
+
+                $http.post( '/reset_check', { email : email, confirmation_code : confirmation_code }) .then( function( response ) {
+                    if( response.data.success ) {
+                        $window.sessionStorage.reset_confirmed_token = response.data.reset_access_token;
+                    }
+                    dfd.resolve( response.data );
+                }, function ( rejection ) {
+                    dfd.resolve( rejection.data );
+                });
+
+                return dfd.promise;
+            },
+
+            checkResetToken : function( reset_token ) {
+                var dfd = $q.defer();
+                $http.get( '/confirm_reset_token/' + reset_token ).then( function( response ) {
+                    if ( response.data.success ) {
+                        $window.sessionStorage.reset_sent_email = response.data.email;
+                        $window.sessionStorage.reset_confirmed_token = response.data.reset_access_token;
+                        dfd.reject( 'valid reset token' );
+                    }
+                    else if ( response.data.reason === "expired" ) {
+                        dfd.reject( 'reset token expired' );
+                    }
+                    else {
+                        dfd.reject( 'invalid reset token' );
+                    }
+                },
+                function ( rejection ) {
+                    dfd.reject( 'invalid reset token' );
+                });
+                return dfd.promise;
+            },
+
+            changePw : function( password ) {
+
+                var
+                    email                 = $window.sessionStorage.getItem( 'reset_sent_email' ),
+                    reset_confirmed_token = $window.sessionStorage.getItem( 'reset_confirmed_token' ),
+                    dfd = $q.defer();
+
+                $http.post( '/change_pw', { email : email, reset_access_token : reset_confirmed_token, password : password }) .then( function( response ) {
+                    if( response.data.success ) {
+                        $window.sessionStorage.removeItem( 'reset_sent_email' );
+                        $window.sessionStorage.removeItem( 'reset_confirmed_token' );
+                    }
+                    dfd.resolve( response.data );
+                }, function ( rejection ) {
+                    dfd.resolve( rejection.data );
+                });
+
+                return dfd.promise;
+            },
 
 
         };

@@ -54,6 +54,10 @@ module.exports = function( config ) {
             type    : Number,
             default : 0
         },
+        reset_confirmation_code : {
+            type    : Number,
+            default : 0
+        },
         username : {
             type     : String,
             unique   : true,
@@ -118,6 +122,9 @@ module.exports = function( config ) {
         confirmation_token : {
             type : Object
         },
+        reset_access_token : {
+            type : Object
+        },
         reset_token : {
             type : Object
         },
@@ -130,6 +137,10 @@ module.exports = function( config ) {
             default : config.reset_token_expires
         },
         login_attempts: { 
+            type: Number,
+            default: 0
+        },
+        reset_attempts: { 
             type: Number,
             default: 0
         },
@@ -205,6 +216,7 @@ module.exports = function( config ) {
     };
 
     UserSchema.statics.findUser = function( username, access_token, cb ) {
+        username = username.toLowerCase();
         this.findOne({ username : username }, function( err, user ) {
             if ( err ) { return cb( err, null ); }
             if ( ! user ) { return cb( 'User mismatch', null ); }
@@ -224,6 +236,7 @@ module.exports = function( config ) {
     };
 
     UserSchema.statics.findUserByEmailOnly = function( username, cb ) {
+        username = username.toLowerCase();
         this.findOne({ username : username }, function( err, user ) {
             if( err ) {
                 cb( err, null );
@@ -233,6 +246,7 @@ module.exports = function( config ) {
             }
         });
     };
+
     UserSchema.statics.createUserAccessToken = function( username, cb ) {
         var 
             now, access_token;
@@ -260,13 +274,41 @@ module.exports = function( config ) {
         });
     };
 
+    UserSchema.statics.createUserResetAccessToken = function( username, cb ) {
+        var 
+            now, reset_access_token;
+
+        this.findOne({ username : username }, function( err, user ) {
+            if(err || !user) {
+                return cb( err, null );
+            }
+            //Create a token and add to user and save
+            
+            now = new Date().getTime();
+            reset_access_token = utils.jwtEncode({ username : username, date_created : now });
+            utils.hash( reset_access_token, function( err, hashedToken ) {
+                user.reset_access_token = new Token({ token : hashedToken, date_created : now });
+                user.save(function( err, user ) {
+                    if ( err ) {
+                        cb( err, null );
+                    }
+                    else {
+                        cb( false, reset_access_token );
+                    }
+                });
+            });
+
+        });
+    };
+
     UserSchema.statics.invalidateUserAccessToken = function( username, cb ) {
+        var updates;
         this.findOne( { username : username }, function( err, user ) {
             if( err || !user ) {
                 return cb( err, null );
             }
-            user.access_token = null;
-            user.save( function( err, user ) {
+            updates = { $unset: { access_token: 1 } };
+            user.update( updates, function( err, user ) {
                 if ( err ) {
                     cb( err, null );
                 } else {
@@ -319,6 +361,73 @@ module.exports = function( config ) {
             }
             else {
                 cb( false, user );
+            }
+        });
+    };
+
+    UserSchema.statics.createUserResetToken = function( username, cb ) {
+        var 
+            now, reset_token,
+            that = this
+            ;
+
+        this.findOne({ username : username }, function( err, user ) {
+
+            if( err ) {
+                return cb( err, null );
+            }
+
+            now = new Date().getTime();
+            reset_token = crypto.randomBytes( 32 ).toString( 'hex' );
+            that.findOne({ 'reset_token.token' : reset_token }, function( err, user_match ) {
+                if( err ) {
+                    return cb( err, null );
+                }
+                if ( user_match ) {
+                    that.createUserResetToken( username, cb );
+                }
+                else {
+                    user.reset_token = new Token({ token : reset_token, date_created : now });
+                    user.save(function( err, user ) {
+                        if ( err ) {
+                            cb( err, null );
+                        }
+                        else {
+                            cb( false, reset_token );
+                        }
+                    });
+                }
+            });
+        });
+    };
+
+    UserSchema.statics.findUserByResetToken = function( reset_token, cb ) {
+        this.findOne({ 'reset_token.token' : reset_token }, function( err, user ) {
+            if( err || !user ) {
+                cb( err, null );
+            }
+            else {
+                cb( false, user );
+            }
+        });
+    };
+
+    UserSchema.statics.findUserByResetAccessToken = function( username, reset_access_token, cb ) {
+        username = username.toLowerCase();
+        this.findOne({ username : username }, function( err, user ) {
+            if ( err ) { return cb( err, null ); }
+            if ( ! user ) { return cb( 'User mismatch', null ); }
+            if ( user.reset_access_token && user.reset_access_token.token ) {
+                utils.compareHash( reset_access_token, user.reset_access_token.token, function( err, isMatch ) {
+                    if ( err ) { return cb( err, null ); }
+                    if ( isMatch ) { cb( false, user ); }
+                    else {
+                        cb(new Error('Supplied token does not match.'), null);
+                    }
+                });
+            }  
+            else {
+                cb(new Error('Supplied token does not exist.'), null);
             }
         });
     };
