@@ -220,7 +220,7 @@
                 <section>
                 <div class="note">
                     <b>Saatsime aktiveerimiskoodi teie e-mailile:</b>
-                    <br>{{ activation_email }}
+                    <br>{{ activation_email }} <a href="" data-ng-click="resendActivationEmail(activation_email)">Saada uuesti?</a>
                     <span ng-bind-html="activationEmailProviderTxt | to_trusted"></span>
                     <br><br>Aktiveerimiskoodi saate Teie turvalisuse huvides sisestada ainult sama seadme ja brauseriga millega Te enda konto registreerisite. Alternatiivselt saate aktiveerida enda konto vajutades "Aktiveeri konto" nupule e-mailis mille me Teile saatsime.
                 </div>

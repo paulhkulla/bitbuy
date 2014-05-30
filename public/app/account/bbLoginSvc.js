@@ -353,5 +353,29 @@ bbApp.factory( 'bbLoginSvc', [
                     }); 
                 });
             },
+
+            resendActivationEmail : function( email ) {
+                bbAuthSvc.resendActivationEmail( email ).then( function( response ) {
+                    if ( response.success ) {
+                        $.smallBox({
+                            title : "Toiming õnnestus!",
+                            content : "Aktiveerimiskiri saadetud emailile <strong>" + email + "</strong>!",
+                            color : "#96BF48",
+                            timeout: 8000,
+                            icon : "fa fa-check fadeInLeft animated"
+                        });
+                    }
+                    else {
+                        $.smallBox({
+                            title : "Toiming ebaõnnestus!",
+                            content : "Aktiveerimiskirja saatmine emailile <strong>" + email + "</strong> ebaõnnestus!",
+                            color : "#c7262c",
+                            timeout: 8000,
+                            iconSmall : "fa fa-times shake animated"
+                        });
+                    }
+                });
+            }
+
         };
     }]);

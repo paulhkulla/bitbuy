@@ -77,6 +77,8 @@ function( $scope, $window, bbLoginSvc, bbTosModalSvc ) {
 
     $scope.changePw               = bbLoginSvc.changePw;
 
+    $scope.resendActivationEmail  = bbLoginSvc.resendActivationEmail;
+
     $scope.parseActivationEmailDomain = function( email ) {
         $scope.activation_email = email;
         $scope.activationEmailProviderTxt = returnEmailDomainText( email );
