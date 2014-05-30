@@ -173,8 +173,8 @@ exports.checkActivationCode = function ( req, res, next, config ) {
                         }
                         if ( user ) {
                             if ( user.activation_code === activation_code ) {
-                                user.confirmation_token = null;
-                                user.activation_code    = null;
+                                user.confirmation_token = undefined;
+                                user.activation_code    = undefined;
                                 user.email_activated    = true;
                                 user.save( function( err, user ) {
                                     if ( err ) {

@@ -52,11 +52,9 @@ module.exports = function( config ) {
         },
         activation_code : {
             type    : Number,
-            default : 0
         },
         reset_confirmation_code : {
             type    : Number,
-            default : 0
         },
         username : {
             type     : String,

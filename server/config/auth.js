@@ -14,10 +14,10 @@
 
 //---------------- BEGIN MODULE SCOPE VARIABLES ------------------
 var 
-    passport    = require( 'passport' ),
-    mongoose    = require( 'mongoose' ),
-    User        = mongoose.model( 'User' ),
-    Token = mongoose.model( 'Token' ),
+    passport = require( 'passport' ),
+    mongoose = require( 'mongoose' ),
+    User     = mongoose.model( 'User' ),
+    Token    = mongoose.model( 'Token' ),
 
     genResObj;
 //----------------- END MODULE SCOPE VARIABLES -------------------
