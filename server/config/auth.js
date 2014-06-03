@@ -113,7 +113,7 @@ exports.authenticate = function( req, res, next, config, generate_new_token, cal
                     if ( decoded && decoded.username && decoded.date_created ) {
                         User.findUser( decoded.username, access_token, function( err, user ) {
                             if ( err ) {
-                                res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );
+                                res.send( genResObj( false, null, 500, 'error', 'server_error') );
                             }
                             if ( user ) {
                                 if ( +(new Date(decoded.date_created)) !== +user.access_token.date_created ) {
