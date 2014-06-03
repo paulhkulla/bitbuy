@@ -13,16 +13,27 @@
 <script src="/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <script src="/vendor/ng-idle/src/angular-idle.js"></script>
 <script src="/vendor/momentjs/min/moment-with-langs.min.js"></script>
+<script src="/vendor/angular-socket-io/socket.js"></script>
 <script src="/app/app.js"></script>
-<script src="/app/angular-locale_et-ee.js"></script>
+<!-- <script src="/app/angular&#45;locale_et&#45;ee.js"></script> -->
+<script src="/app/main/bbSocketSvc.js"></script>
+<script src="/app/main/bbBtcPriceSvc.js"></script>
 <script src="/app/main/bbNaModalSvc.js"></script>
 <script src="/app/main/bbNaEnModalSvc.js"></script>
 <script src="/app/main/bbTicker.js"></script>
+<script src="/app/main/bbCurrencyMask.js"></script>
 <script src="/app/main/bbCustomSubmit.js"></script>
 <script src="/app/main/bbBlurFocus.js"></script>
+<script src="/app/main/bbFocusOnClick.js"></script>
+<script src="/app/main/bbScrollToTop.js"></script>
+<script src="/app/main/bbScrollToTopFade.js"></script>
 <script src="/app/main/bbInitPopover.js"></script>
 <script src="/app/main/bbMainCtrl.js"></script>
 <script src="/app/buy/bbBuyCtrl.js"></script>
+<script src="/app/buy/bbBuyStep1Ctrl.js"></script>
+<script src="/app/buy/bbBuyStep2Ctrl.js"></script>
+<script src="/app/buy/bbBuySvc.js"></script>
+<script src="/app/buy/bbCustomDepositSubmit.js"></script>
 <script src="/app/account/bbLoginDropdownSvc.js"></script>
 <script src="/app/account/bbLoginDropdown.js"></script>
 <script src="/app/account/bbLoginDropdownCtrl.js"></script>
@@ -42,9 +53,6 @@
 
 <!-- PACE LOADER -->
 <script data-pace-options='{ "restartOnRequestAfter": true, "restartOnPushState" : false }' src="/js/plugin/pace/pace.min.js"></script>
-
-<!-- JS TOUCH : include this plugin for mobile drag / drop touch events
-<script src="/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> -->
 
 <!-- BOOTSTRAP JS -->
 <script src="/js/bootstrap/bootstrap.min.js"></script>
@@ -66,7 +74,6 @@
 <script src="/js/app.js"></script>
 
 <!-- PAGE RELATED PLUGIN(S) -->
-<!-- <script src="/js/plugin/bdaypicker/bday&#45;picker.js"></script> -->
 <script src="/js/plugin/odometer/odometer.min.js"></script>
 <script src="/js/plugin/flot/jquery.flot.js"></script>
 <script src="/js/plugin/flot/jquery.flot.resize.js"></script>
@@ -88,8 +95,6 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-
-        // localStorage.clear();
 
         pageSetUp();
 

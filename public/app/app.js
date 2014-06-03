@@ -18,7 +18,8 @@ var bbApp = angular.module( 'bbApp', [
     'ngIdle',
     'ui.router',
     'ui.bootstrap',
-    'ui.utils'
+    'ui.utils',
+    'btford.socket-io'
 ]);
 
 bbApp.run([ 
@@ -227,11 +228,13 @@ bbApp.config([
             })
             .state( 'buy.step-1', {
                 url         : '/step-1',
-                templateUrl : '/app/buy/buy.step-1.html'
+                templateUrl : '/app/buy/buy.step-1.html',
+                controller  : 'bbBuyStep1Ctrl'
             })
             .state( 'buy.step-2', {
                 url         : '/step-2',
                 templateUrl : '/app/buy/buy.step-2.html',
+                controller  : 'bbBuyStep2Ctrl'
             })
             .state( 'buy.step-3', {
                 url         : '/step-3',

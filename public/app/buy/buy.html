@@ -5,7 +5,7 @@
 
     <div class="jarviswidget jarviswidget-sortable jarviswidget-color-default" id="wid-id-0" data-widget-fullscreenbutton="false" data-widget-togglebutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-sortable="false">
 
-        <span class="fadeIn animated" id="disabled-overlay">
+        <span data-ng-hide="identity.currentUser.isAdmin()" class="fadeIn animated" id="disabled-overlay">
 
             <span id="jumbo-content-unregistered" class="jumbotron" data-ng-show="!identity.currentUser">
                 <h1 id="jumbo-heading" class="flipInX animated"><b>Eelregistreerimine on alanud!</b></h1>
@@ -43,7 +43,7 @@
             </li>
 
             <li>
-            <a data-ui-sref="sell">  M<span class="hidden-mobile hidden-tablet">üü</span> <i class="fa fa-btc"></i></a>
+            <a href="">  M<span class="hidden-mobile hidden-tablet">üü</span> <i class="fa fa-btc"></i></a>
             </li>
 
         </ul>
@@ -65,10 +65,10 @@
                         <div id="myWizard" class="wizard">
                             <ul style="margin-left: 0" class="steps">
                                 <li data-ui-sref=".step-1" data-ui-sref-active="active">
-                                <span class="badge badge-info">1</span><span class="wizard-step-text hidden-mobile hidden-tablet">Sissemakse summa</span><span class="chevron"></span>
+                                <span class="badge badge-info">1</span><span class="wizard-step-text hidden-mobile hidden-tablet">Kalkuleeri summa</span><span class="chevron"></span>
                                 </li>
                                 <li data-ui-sref=".step-2" data-ui-sref-active="active">
-                                <span class="badge">2</span><span class="wizard-step-text hidden-mobile hidden-tablet">Maksemeetod</span><span class="chevron"></span>
+                                <span class="badge">2</span><span class="wizard-step-text hidden-mobile hidden-tablet">Sissemakse</span><span class="chevron"></span>
                                 </li>
                                 <li data-ui-sref=".step-3" data-ui-sref-active="active">
                                 <span class="badge">3</span><span class="wizard-step-text hidden-mobile hidden-tablet">Telli Bitcoinid</span><span class="chevron"></span>
@@ -91,17 +91,41 @@
                 </div>
 
                 <div class="widget-footer">
-                    <button class="btn btn-prev btn-sm btn-labeled btn-success" type="button" data-ng-hide="$state.includes('buy.step-1')">
+                    <button class="btn btn-prev btn-sm btn-labeled btn-success" type="button" data-ui-sref="buy.step-1" data-ng-show="$state.includes('buy.step-2')">
                         <span class="btn-label">
                             <i class="fa fa-chevron-left"></i>
                         </span>
                         Tagasi
                     </button>   
-                    <button class="btn btn-next btn-sm btn-labeled btn-success" type="button" data-ng-hide="$state.includes('buy.step-4')">
+                    <button class="btn btn-prev btn-sm btn-labeled btn-success" type="button" data-ui-sref="buy.step-2" data-ng-show="$state.includes('buy.step-3')">
+                        <span class="btn-label">
+                            <i class="fa fa-chevron-left"></i>
+                        </span>
+                        Tagasi
+                    </button>   
+                    <button class="btn btn-next btn-sm btn-labeled btn-success" type="button" data-ui-sref="buy.step-3" data-ng-show="$state.includes('buy.step-4')">
+                        <span class="btn-label">
+                            <i class="fa fa-chevron-left"></i>
+                        </span>
+                        Tagasi
+                    </button>   
+                    <button class="btn btn-next btn-sm btn-labeled btn-success" type="button" data-ui-sref="buy.step-2" data-ng-show="$state.includes('buy.step-1')">
                         <span class="btn-label">
                             <i class="fa fa-chevron-right"></i>
                         </span>
                         Edasi
+                    </button>   
+                    <button class="btn btn-next btn-sm btn-labeled btn-success" type="button" data-ui-sref="buy.step-4" data-ng-show="$state.includes('buy.step-3')">
+                        <span class="btn-label">
+                            <i class="fa fa-chevron-right"></i>
+                        </span>
+                        Edasi
+                    </button>   
+                    <button id="submit-deposit" class="btn btn-next btn-sm btn-labeled btn-success" type="button" data-ng-show="$state.includes('buy.step-2')">
+                        <span class="btn-label">
+                            <i class="fa fa-upload"></i>
+                        </span>
+                        Tee sissemakse
                     </button>   
                 </div><!-- end widget footer -->
             </div><!-- end widget content -->

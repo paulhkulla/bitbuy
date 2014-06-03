@@ -1,26 +1,65 @@
-<h2 class="heading-margin"><b>Samm 1</b><br />Mitu Bitcoini Te soovite osta?</h2>
+<div class="row select-amount">
 
-<!-- wizard form starts here -->
-<fieldset>
-
-    <div class="form-group">
-        <label class="col-xs-12 col-sm-3 col-md-2 control-label">Bitcoinide Summa:</label>
-        <div class="col-xs-7 col-sm-4 col-md-2">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-btc"></i></span>
-                <input class="form-control input-sm" placeholder="0.0000000" type="text">
+    <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+        <div class="panel panel-primary pricing-big">
+            <img alt="" class="ribbon" src="/img/ribbon_live.png">
+            <div class="panel-heading" data-ng-show="bbBuySvc.inputMode === 'btc'">
+                <h3 class="panel-title" class="heading-margin">Mitu Bitcoini Te soovite osta?</h3>
             </div>
-            <span class="help-block"></span>
+            <div class="panel-heading" data-ng-show="bbBuySvc.inputMode === 'eur'">
+                <h3 class="panel-title" class="heading-margin">Mitme Euro eest Te soovite Bitcoine osta?</h3>
+            </div>
+            <div class="panel-body no-padding text-align-center">
+                <div class="price-features no-border-top">
+                    <form></form>
+                    <div class="login-validation"> 
+                        <form class="smart-form" novalidate="novalidate">
+                                <label class="input">
+                                    <i data-ng-show="bbBuySvc.inputMode === 'btc'" class="icon-prepend fa fa-btc fa-fw"></i>
+                                    <input data-ng-show="bbBuySvc.inputMode === 'btc'" data-ng-model="bbBuySvc.inputtedBtcAmount" data-ng-change="updateEuroAmount()" placeholder="0.0000000" type="text">
+                                    <input data-ng-show="bbBuySvc.inputMode === 'eur'" data-bb-currency-mask data-ng-model="bbBuySvc.euroDepositAmount" data-ng-change="updateBtcAmount()"  placeholder="€0.00" type="text">
+                                </label>
+                        </form>
+                    </div>
+                    <br>
+                    <a data-ng-show="bbBuySvc.inputMode === 'btc'" data-ng-click="changeInputMode( 'eur' )" href="javascript:void(0);" class="btn btn-blue btn-labeled">
+                        <span class="btn-label">
+                            <i class="fa fa-euro"></i>
+                        </span>
+                        Sisesta Eurodes 
+                    </a>
+                    <a data-ng-show="bbBuySvc.inputMode === 'eur'" data-ng-click="changeInputMode( 'btc' )" href="javascript:void(0);" class="btn btn-orange btn-labeled">
+                        <span class="btn-label">
+                            <i class="fa fa-btc"></i>
+                        </span>
+                        Sisesta Bitcoinides
+                    </a>
+                </div>
+            </div>
+            <div class="panel-footer text-align-center">
+                <h1 data-ng-show="bbBuySvc.inputMode === 'btc'"><span class="nowrap"><i class="fa fa-btc margin-right-1"></i><strong>{{ bbBuySvc.inputtedBtcAmount || 0 }}</strong></span> ostmiseks vajate <span class="nowrap"><strong>{{ bbBuySvc.euroDepositAmount || 0 | currency : '€'  }}</strong> 
+                        <i class="fa fa-warning text-warning estimated-popover"
+                            data-bb-init-popover
+                            data-container="body"
+                            data-trigger="hover"
+                            data-placement="bottom"
+                            data-toggle="popover" 
+                            data-content="Bitcoini hinna volatiilsuse tõttu võib juhtuda, et lõplik vaja minev summa valitud hulga Bitcoinide ostmiseks erineb siin näidatust."
+                            title="Tegu on ligikaudse summaga"></i></span>
+                    </h1>
+                    <h1 data-ng-show="bbBuySvc.inputMode === 'eur'"><strong>{{ bbBuySvc.euroDepositAmount || 0 | currency : '€'  }}</strong> eest saate osta <span class="nowrap"><i class="fa fa-btc margin-right-1"></i><strong>{{ bbBuySvc.inputtedBtcAmount || 0 }}</strong>
+                            <i class="fa fa-warning text-warning estimated-popover"
+                            data-bb-init-popover
+                            data-container="body"
+                            data-trigger="hover"
+                            data-placement="bottom"
+                            data-toggle="popover" 
+                            data-content="Bitcoini hinna volatiilsuse tõttu võib juhtuda, et lõplik võimalik ostetav Bitcoini hulk valitud Euro summa eest erineb siin näidatust."
+                            title="Tegu on ligikaudse hulgaga"></i></span>
+                    </h1>
+            </div>
         </div>
-        <div class="col-xs-7 col-sm-3">
-            <a id="input-euro-button" href="javascript:void(0);" class="btn btn-blue">
-                Sisesta Eurodes 
-            </a>
-        </div>
-        <div class="clearfix"></div>
-        <div id="you-need" class="col-xs-12 col-sm-10 col-md-6 text-center"><h3>Selleks vajate €{{btcAmount.bitcoinAmount | number : 2}} <i class="fa fa-warning text-warning estimated-popover" data-init-popover data-animation="fade" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-title="Tegu on ligikaudse summaga" data-content="Bitcoini hinna volatiilsuse tõttu võib juhtuda, et lõplik vaja minev summa valitud hulga Bitcoinide ostmiseks erineb siin näidatust."></i></h3></div>
     </div>
+</div>
 
-</fieldset>
-
-
+</div>

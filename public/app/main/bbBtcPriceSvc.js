@@ -1,5 +1,5 @@
 /*
- * bbBuyCtrl.js
+ * bbBtcPriceSvc.js
  */
 
 /*jslint browser : true, continue : true,
@@ -12,9 +12,11 @@
 
 'use strict';
 
-bbApp.controller('bbBuyCtrl', [
-    '$scope',
-    function( $scope ) {
+bbApp.factory('bbBtcPriceSvc', [ 
+    '$rootScope',
+    function( $rootScope ) {
 
-
-    }]);
+    return {
+        currentPrice : 0
+    };
+}]);

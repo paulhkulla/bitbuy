@@ -118,7 +118,7 @@
                     <i title="Logi välja" class="fa fa-sign-out" data-ng-click="signout( false )"></i>
                 </div>
                 <div id="user-login-mobile" data-ng-class="{ 'user-login-margined': !identity.currentUser }" class="btn-header pull-right">
-                    <i class="icon-user icomoon-user icon-user-header-mobile scroll-up activity pull-left" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"></i>
+                    <i data-bb-scroll-to-top class="icon-user icomoon-user icon-user-header-mobile activity pull-left" data-ng-click="bbLoginDropdownSvc.toggleDropdown()"></i>
                 </div>
                 <div id="mobile-name-balance" data-ng-show="identity.currentUser" class="pull-right">
                     <span class="user-fullname"><i title="Lukusta konto" data-ng-show="identity.isLocked()" class="fa fa-lock" id="user-lock-mobile"></i><i title="Lukusta konto" data-ng-show="!identity.isLocked()" data-ng-click="signout( 'lock_manually' )" class="fa fa-unlock-o" id="user-lock-mobile"></i> {{identity.currentUser.firstName + " " + identity.currentUser.lastName}}</span>
@@ -306,7 +306,7 @@
                     <span class="footer-nav-separator hidden-xs">|</span><li title="Privaatsus & turvalisus"><a data-ui-sref="privacy-and-security" data-ui-sref-active="active"><i class="fa fa-shield fa-fw visible-xs"></i><span class="hidden-xs">PRIVAATSUS & TURVALISUS</span></a></li>
                     <span class="footer-nav-separator hidden-xs">|</span><li title="Kasutustingimused"><a data-ui-sref="user-agreement" data-ui-sref-active="active"><i class="fa fa-gavel fa-fw visible-xs"></i><span class="hidden-xs">KASUTUSTINGIMUSED</span></a></li>
                     <span class="footer-nav-separator hidden-xs">|</span><li title="Kontakt"><a data-ui-sref="contact" data-ui-sref-active="active"><i class="fa fa-envelope fa-fw visible-xs"></i><span class="hidden-xs">KONTAKT</span></a></li>
-                    <li title="Keri ülesse"><a href="javascript:void(0);" class="scroll-up scroll-up-footer"><i class="fa fa-hand-o-up fa-fw"></i></a></li>
+                    <li title="Keri ülesse"><a href="" class="scroll-up-footer" data-bb-scroll-to-top-fade><i class="fa fa-hand-o-up fa-fw"></i></a></li>
                 </ul>
                 </nav>
                 <!-- END FOOTER NAVIGATION -->

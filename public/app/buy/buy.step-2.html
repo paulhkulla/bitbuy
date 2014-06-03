@@ -1,8 +1,97 @@
-<h3><strong>Samm 2 </strong> - Palun valige Teile sobiv maksemeetod</h3>
-<br>
-<br>
-<h1 class="text-center text-primary">{{btcAmount.bitcoinAmount}} Maksemeetodi valik tuleb siia </h1>
-<br>
-<br>
-<br>
-<br>
+<div class="row price-display">
+
+    <div class="col-xs-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+        <div class="panel panel-primary pricing-big">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Sissemakstav summa</h3>
+            </div>
+            <div class="panel-body no-padding text-align-center">
+                <div class="the-price">
+                    <h1>
+                        <strong>{{ bbBuySvc.euroDepositAmount || 0 | currency : '€' }}</strong>
+                        <br><span class="subscript">sisaldab teenustasu {{ bbBuySvc.euroDepositFee || 0 | currency : '€' }}.</span> 
+                        <br><span class="subscript"><strong>Kättesaadav summa {{ bbBuySvc.euroReceiveAmount || 0 | currency : '€' }}.</strong></span> 
+                    </h1>
+                </div>
+                <div data-ng-show="bbBuySvc.isChangeDepositAmount" id="changeDepositAmount" class="price-features">
+                    <form></form>
+                    <div class="login-dropdown-tab login-validation"> 
+                        <form data-bb-custom-deposit-submit="submitDeposit(bbBuySvc.euroReceiveAmount)" data-bb-scroll-to=".pricing-big" data-bb-submit-button="#submit-deposit" class="smart-form" name="changeDepositForm" novalidate="novalidate">
+                                <label class="input">
+                                    <i class="icon-append fa fa-arrow-circle-up"></i>
+                                    <input type="text" data-ng-model="bbBuySvc.euroDepositAmount" data-ng-change="updateBtcAmount()" data-ui-validate=" '$value >= 10' " data-ui-validate-watch="bbBuySvc.euroDepositAmount" data-requirednote="#deposit-amount-required-note" data-bb-currency-mask id="deposit-amount" name="depositAmount" placeholder="€0.00" required>
+                                    <b class="tooltip tooltip-top-right">Palun valige soovitud sissemakstav summa</b> 
+                                </label>
+                                <div data-ng-show="changeDepositForm.depositAmount.$error.required" id="deposit-amount-required-note" class="note">
+                                    Palun sisestage sissemakstav summa!
+                                </div>
+                                <div data-ng-show="changeDepositForm.depositAmount.$error.validator" class="note">
+                                    Minimaalne sissemakstav summa on €10.00!
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-align-center">
+                <a data-ng-show="!bbBuySvc.isChangeDepositAmount" role="button" data-ng-click="toggleDepositAmountChange()" class="btn btn-success btn-sm btn-block" href="">Muuda summat</a>
+                <a data-ng-show="bbBuySvc.isChangeDepositAmount" role="button" data-ng-click="toggleDepositAmountChange()" class="btn btn-success btn-sm btn-block bg-color-orange" href="">Salvesta</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row price-panel">
+
+    <div class="col-xs-12 col-md-6 col-lg-4 col-lg-offset-2">
+        <div class="panel panel-primary pricing-big">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Pangaülekanne</h3>
+            </div>
+            <div class="panel-body no-padding text-align-center">
+                <div class="the-price">
+                    <br><h1>
+                        Kõik Eesti pangad.
+                        <br><span class="subscript">Võtab aega kuni 1 tööpäeva.</span> 
+                    </h1>
+                </div>
+                <div class="price-features">
+                    <ul class="list-unstyled text-center margin-0">
+                        <li><i class="fa fa-check text-success"></i> <strong>Ilma teenustasuta.</strong></li>
+                        <li><i class="fa fa-clock-o text-danger"></i> <strong>Tehing töödeldakse käsitsi.</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-footer text-align-center">
+                <a role="button" data-ng-class="{'active bg-color-green': bbBuySvc.depositMode === 'transfer'}" data-ng-click="changeDepositMode( 'transfer' )" class="btn btn-success btn-block" href="">Kasuta pangaülekannet</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <div class="panel panel-primary pricing-big">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Pangalink</h3>
+            </div>
+            <div class="panel-body no-padding text-align-center">
+                <div class="the-price">
+                    <img src="/img/Swedbank.gif" alt="">
+                    <br><img src="/img/SEB.gif" alt="">
+                    <br><img src="/img/Danske.gif" alt="">
+                </div>
+                <div class="price-features">
+                    <ul class="list-unstyled text-center margin-0">
+                        <li><i class="fa fa-frown-o text-danger"></i> <strong>Lisandub teenustasu.</strong></li>
+                        <li><i class="fa fa-exchange text-success"></i> <strong>Tehing töödeldakse koheselt.</strong></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-footer text-align-center">
+                <a role="button" data-ng-class="{'active bg-color-green': bbBuySvc.depositMode === 'link'}" data-ng-click="changeDepositMode( 'link' )" class="btn btn-success btn-block" href="">Kasuta pangalinki</a>
+            </div>
+        </div>
+    </div>
+
+</div>

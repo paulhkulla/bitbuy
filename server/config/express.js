@@ -16,7 +16,6 @@
 var
     express      = require( 'express' ),
     logger       = require( 'morgan' ),
-    cookieParser = require( 'cookie-parser' ),
     bodyParser   = require( 'body-parser' ),
     passport     = require( 'passport' ),
     consolidate  = require( 'consolidate' ),
@@ -29,7 +28,7 @@ var
 module.exports = function(app, config, env) {
 
     //------------------- BEGIN TEMPLATE CONFIG ----------------------
-    swigCache = env === 'development' ? false : true;
+    swigCache = env === 'development' ? false : 'memory';
     swig.setDefaults({ 
         cache: swigCache,
         varControls: [ '{[{', '}]}' ]
@@ -42,7 +41,6 @@ module.exports = function(app, config, env) {
     //-------------------- BEGIN EXPRESS CONFIG ----------------------
     app.use( express.static( config.root_path + '/public' ) );
     app.use( logger( 'dev' ) );
-    app.use( cookieParser() );
     app.use( bodyParser() );
     app.use( passport.initialize() );
     //--------------------- END EXPRESS CONFIG -----------------------

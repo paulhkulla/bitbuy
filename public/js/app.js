@@ -110,34 +110,11 @@ $(document).ready(function() {
 		e.preventDefault();
 	});
 
-	// SCROLL UP
-	$('.scroll-up').click(function(e) {
-        $("html, body").animate({ scrollTop: 0  }, "slow");
-		e.preventDefault();
-	});
-
-	$('.btn-next').click(function(e) {
-        $('#myWizard').wizard('next');
-		e.preventDefault();
-	});
-
-	$('.btn-prev').click(function(e) {
-        $('#myWizard').wizard('previous');
-		e.preventDefault();
-	});
-
 	$('.estimated-popover').click(function(e) {
         $('.estimated-popover').popover('toggle');
 		e.preventDefault();
 	});
 
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 50) {
-            $('.scroll-up-footer i').fadeIn();
-        } else {
-            $('.scroll-up-footer i').fadeOut();
-        }
-    });
 	
 	$('#show-shortcut').click(function(e) {
 		if ($.shortcut_dropdown.is(":visible")) {

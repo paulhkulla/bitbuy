@@ -1,5 +1,5 @@
 /*
- * bbBuyCtrl.js
+ * bbSocketSvc.js
  */
 
 /*jslint browser : true, continue : true,
@@ -8,13 +8,10 @@
   regexp         : true, sloppy   : true, vars     : false,
   white          : true
 */
-/*global angular, bbApp */
+/*global angular, bbApp, $ */
 
 'use strict';
 
-bbApp.controller('bbBuyCtrl', [
-    '$scope',
-    function( $scope ) {
-
-
-    }]);
+bbApp.factory('bbSocketSvc', function( socketFactory ) {
+    return socketFactory();
+});
