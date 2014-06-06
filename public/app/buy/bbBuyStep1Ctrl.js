@@ -17,17 +17,17 @@ bbApp.controller('bbBuyStep1Ctrl', [
     'bbBtcPriceSvc',
     'bbBuySvc',
     function( $scope, bbBtcPriceSvc, bbBuySvc ) {
-        $scope.bbBtcPriceSvc     = bbBtcPriceSvc;
-        $scope.bbBuySvc          = bbBuySvc;
+        $scope.bbBtcPriceSvc           = bbBtcPriceSvc;
+        $scope.bbBuySvc                = bbBuySvc;
 
-        $scope.updateEuroAmount = function() {
+        $scope.updateEuroAmount        = function() {
             bbBuySvc.euroDepositAmount = bbBtcPriceSvc.currentPrice * bbBuySvc.inputtedBtcAmount;
         };
-        $scope.updateBtcAmount = function() {
+        $scope.updateBtcAmount         = function() {
             bbBuySvc.inputtedBtcAmount = ( bbBuySvc.euroDepositAmount / bbBtcPriceSvc.currentPrice ).toFixed( 8 );
         };
-        $scope.changeInputMode = function( mode ) {
-            bbBuySvc.inputMode = mode;
+        $scope.changeInputMode         = function( mode ) {
+            bbBuySvc.inputMode         = mode;
         };
         $scope.$watch( 'bbBtcPriceSvc.currentPrice', function ( newVal ) {
             if ( bbBuySvc.inputtedBtcAmount && bbBuySvc.inputMode === 'btc' ) {

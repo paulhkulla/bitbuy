@@ -1399,8 +1399,6 @@ function pageSetUp() {
 		// activate inline charts
 		runAllCharts();
 	
-		// setup widgets
-		setup_widgets_desktop();
 	
 		//setup nav height (dynamic)
 		nav_page_height();
@@ -1422,9 +1420,6 @@ function pageSetUp() {
 	
 		// activate inline charts
 		runAllCharts();
-	
-		// setup widgets
-		setup_widgets_mobile();
 	
 		//setup nav height (dynamic)
 		nav_page_height();

@@ -18,59 +18,31 @@ bbApp.controller('bbBuyStep2Ctrl', [
     'bbBtcPriceSvc',
     'bbBuySvc',
     'bbIdentitySvc',
-    function( $scope, $state, bbBtcPriceSvc, bbBuySvc, bbIdentitySvc ) {
+    'bbDepositsSvc',
+    function( $scope, $state, bbBtcPriceSvc, bbBuySvc, bbIdentitySvc, bbDepositsSvc ) {
 
         var
-            calculateFee = function( depositAmount, mode ) {
-                var 
-                depositAmountInCents = depositAmount * 100,
-
-                bankLinkCommission,
-                bankLinkPercentage   = 0.01,
-                bankLinkMin          = 13,
-
-                additionalCommission,
-                additionalPercentage = 0.023,
-                additionalMax        = 440,
-                additionalFixedPrice = 18,
-
-                totalFee
-                ;
-
-                if ( mode === 'transfer' || ! depositAmountInCents ) { return 0; }
-
-                bankLinkCommission   = depositAmountInCents * bankLinkPercentage;
-                bankLinkCommission   = bankLinkCommission <= bankLinkMin ? bankLinkMin : bankLinkCommission;
-
-                additionalCommission = depositAmountInCents * additionalPercentage;
-                additionalCommission = additionalCommission >= additionalMax ? additionalMax : additionalCommission;
-                additionalCommission = additionalCommission + additionalFixedPrice;
-
-                totalFee             = ( ( bankLinkCommission + additionalCommission ) / 100 ).toFixed( 2 );
-
-                return totalFee;
-        },
-        calculateReceiveAmount = function( depositAmount, depositFee ) {
-            return depositAmount - depositFee;
-        };
-
-        bbBuySvc.euroDepositFee    = calculateFee( bbBuySvc.euroDepositAmount, bbBuySvc.depositMode );
+            calculateFee           = bbBuySvc.calculateFee,
+            calculateReceiveAmount = bbBuySvc.calculateReceiveAmount;
+            
+        bbBuySvc.euroDepositFee    = calculateFee( bbBuySvc.euroDepositAmount, bbDepositsSvc.depositMode );
         bbBuySvc.euroReceiveAmount = calculateReceiveAmount( bbBuySvc.euroDepositAmount, bbBuySvc.euroDepositFee );
 
         $scope.bbBtcPriceSvc       = bbBtcPriceSvc;
         $scope.bbBuySvc            = bbBuySvc;
+        $scope.bbDepositsSvc       = bbDepositsSvc;
 
-        $scope.updateBtcAmount = function() {
+        $scope.updateBtcAmount     = function() {
             bbBuySvc.inputtedBtcAmount = bbBuySvc.euroDepositAmount ? ( bbBuySvc.euroDepositAmount / bbBtcPriceSvc.currentPrice ).toFixed( 8 ) : 0;
-            bbBuySvc.euroDepositFee    = calculateFee( bbBuySvc.euroDepositAmount, bbBuySvc.depositMode );
+            bbBuySvc.euroDepositFee    = calculateFee( bbBuySvc.euroDepositAmount, bbDepositsSvc.depositMode );
             bbBuySvc.euroReceiveAmount = calculateReceiveAmount( bbBuySvc.euroDepositAmount, bbBuySvc.euroDepositFee );
         };
         $scope.toggleDepositAmountChange = function() {
             bbBuySvc.isChangeDepositAmount = bbBuySvc.isChangeDepositAmount ? false : true;
         };
         $scope.changeDepositMode = function( mode ) {
-            bbBuySvc.depositMode       = mode;
-            bbBuySvc.euroDepositFee    = calculateFee( bbBuySvc.euroDepositAmount, bbBuySvc.depositMode );
+            bbDepositsSvc.depositMode  = mode;
+            bbBuySvc.euroDepositFee    = calculateFee( bbBuySvc.euroDepositAmount, mode );
             bbBuySvc.euroReceiveAmount = calculateReceiveAmount( bbBuySvc.euroDepositAmount, bbBuySvc.euroDepositFee );
         };
         $scope.submitDeposit = function( depositAmount ) {
@@ -78,6 +50,6 @@ bbApp.controller('bbBuyStep2Ctrl', [
             if ( bbIdentitySvc.currentUser ) {
                 bbIdentitySvc.currentUser.euroBalance = bbIdentitySvc.currentUser.euroBalance + depositAmount;
             }
-            $state.go( 'buy.step-3' );
+            $state.go( 'account.deposit' );
         };
 }]);

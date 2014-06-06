@@ -1,0 +1,295 @@
+<div class="well well-glass well-sm">
+    <h1><i class="fa fa-upload fa-fw"></i> Sissemakse number 1 <i title="Kustuta" class="fa fa-times"></i></h1>
+    <div class="invoice">
+        <!-- Start .invoice -->
+
+        <div class="invoice-content">
+
+
+            <div data-ng-show="bbDepositsSvc.depositMode === 'link'" class="bank-deposit-info row text-center mb10">
+                <a class="btn btn-success btn-labeled mt5">
+                    <span class="btn-label">
+                        <i class="fa fa-upload"></i>
+                    </span>
+                    Maksa pangalingiga
+                </a>
+            </div>
+            <section class="bank-deposit-info" data-ng-show="bbDepositsSvc.depositMode === 'transfer'" data-bb-jarvis-widget id="widget-grid2">
+            <div class="row text-center mb10">
+                <h1 class="text-center">Palun valige enda pank</h1>
+                <div class="mb10-to-links">
+                    <a data-ng-click="changeBankMode( 'SWED' )" data-ng-hide="bbDepositsSvc.bankMode === 'SWED'" class="btn btn-grey btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-square"></i>
+                        </span><img src="/img/banks/EE_SWED_inactive.png" class="mt-3" alt="">
+                    </a>
+                    <a data-ng-show="bbDepositsSvc.bankMode === 'SWED'" class="btn btn-success active btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-check-square"></i>
+                        </span><img src="/img/banks/EE_SWED.png" class="mt-3" alt="">
+                    </a>
+
+                    <a data-ng-click="changeBankMode( 'SEB' )" data-ng-hide="bbDepositsSvc.bankMode === 'SEB'" class="btn btn-grey btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-square"></i>
+                        </span><img src="/img/banks/EE_SEB_inactive.png" class="mt-3" alt="">
+                    </a>
+                    <a data-ng-show="bbDepositsSvc.bankMode === 'SEB'" class="btn btn-success active btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-check-square"></i>
+                        </span><img src="/img/banks/EE_SEB.png" class="mt-3" alt="">
+                    </a>
+                </div>
+
+                <div class="mb10-to-links">
+                    <a data-ng-click="changeBankMode( 'NORDEA' )" data-ng-hide="bbDepositsSvc.bankMode === 'NORDEA'" class="btn btn-grey btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-square"></i>
+                        </span><img src="/img/banks/EE_NORDEA_inactive.png" class="mt-3" alt="">
+                    </a>
+                    <a data-ng-show="bbDepositsSvc.bankMode === 'NORDEA'" class="btn btn-success active btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-check-square"></i>
+                        </span><img src="/img/banks/EE_NORDEA.png" class="mt-3" alt="">
+                    </a>
+
+                    <a data-ng-click="changeBankMode( 'DANSKE' )" data-ng-hide="bbDepositsSvc.bankMode === 'DANSKE'" class="btn btn-grey btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-square"></i>
+                        </span><img src="/img/banks/EE_DANSKE_inactive.png" class="mt-3" alt="">
+                    </a>
+                    <a data-ng-show="bbDepositsSvc.bankMode === 'DANSKE'" class="btn btn-success active btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-check-square"></i>
+                        </span><img src="/img/banks/EE_DANSKE.png" class="mt-3" alt="">
+                    </a>
+
+                    <a data-ng-click="changeBankMode( 'LHV' )" data-ng-hide="bbDepositsSvc.bankMode === 'LHV'" class="btn btn-grey btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-square"></i>
+                        </span><img src="/img/banks/EE_LHV_inactive.png" class="mt-3" alt="">
+                    </a>
+                    <a data-ng-show="bbDepositsSvc.bankMode === 'LHV'" class="btn btn-success active btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-check-square"></i>
+                        </span><img src="/img/banks/EE_LHV.png" class="mt-3" alt="">
+                    </a>
+
+                    <a data-ng-click="changeBankMode( 'KREDIIDI' )" data-ng-hide="bbDepositsSvc.bankMode === 'KREDIIDI'" class="btn btn-grey btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-square"></i>
+                        </span><img src="/img/banks/EE_KREDIIDI_inactive.png" class="mt-3" alt="">
+                    </a>
+                    <a data-ng-show="bbDepositsSvc.bankMode === 'KREDIIDI'" class="btn btn-success active btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-check-square"></i>
+                        </span><img src="/img/banks/EE_KREDIIDI.png" class="mt-3" alt="">
+                    </a>
+                </div>
+
+                <div>
+                    <a data-ng-click="changeBankMode( 'OTHER' )" data-ng-hide="bbDepositsSvc.bankMode === 'OTHER'" class="btn btn-grey btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-square"></i>
+                        </span>Muu pank
+                    </a>
+                    <a data-ng-show="bbDepositsSvc.bankMode === 'OTHER'" class="btn btn-success active btn-labeled ml7">
+                        <span class="btn-label">
+                            <i class="fa fa-check-square"></i>
+                        </span>Muu pank
+                    </a>
+                </div>
+
+            </div>
+            <div class="row bank-deposit-info" data-ng-hide="!bbDepositsSvc.bankMode">
+
+                <h1 class="text-center">Ootame Teie pangaülekannet meie
+                    <span data-ng-show="bbDepositsSvc.bankMode === 'SEB'"><strong>SEB</strong> pangakontole</span>
+                    <span data-ng-hide="bbDepositsSvc.bankMode === 'SEB'"><strong>Swedbank</strong> pangakontole</span>
+                </h1>
+                <!-- SINGLE GRID -->
+                <article data-ng-show="bbDepositsSvc.bankMode === 'SEB'" class="bank-deposit-info col-xs-12 col-md-offset-3 col-md-6" data-widget-grid="false">
+
+                <div class="jarviswidget jarviswidget-color-deposit" id="wid-id-2" data-widget-togglebutton="false" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-sortable="false">
+
+                    <header class="text-center">
+                    <h2>Pangaülekande andmed</h2>
+                    </header><!-- widget div-->
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                        </div><!-- end widget edit box -->
+
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <table class="table table-border table-striped text-center">
+                                <tbody>
+                                    <tr>
+                                        <td>Saaja nimi</td>
+                                        <td><strong>BITBUY OÜ</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saaja konto</td>
+                                        <td><strong class="SEB-color">EE441010220230132220</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="vam">Makse selgitus</td>
+   
+                                        <td><strong>{{identity.currentUser.username}},<br>sissemakse nr. 1</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Summa</td>
+                                        <td><strong>{{ bbBuySvc.euroDepositAmount || 0 | currency : '€' }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="text-center alert alert-success no-margin fade in">
+                                <i class="fa-fw fa fa-info"></i>
+                                Sissemakse laekub 1 tööpäeva jooksul.
+                                <abbr
+                                    title="Täpsemalt"
+                                    data-bb-init-popover
+                                    data-html="true"
+                                    data-container="body"
+                                    data-trigger="hover"
+                                    data-placement="top"
+                                    data-toggle="popover" 
+                                    data-content="Raha jõuab meie pangakontole üldjuhul mõne minutiga, hiljemalt ühe tunni jooksul.<br><br>Pärast kella 22 tehtud makse jõuab meie pangakontole hiljemalt järgmisel päeval.<br><br>Peale raha kohale jõudmist lisame sissemakse Teie kontole kahe tunni jooksul.">
+                                    Täpsemalt
+                                </abbr>
+                            </div>
+
+                        </div><!-- end widget content -->
+                    </div><!-- end widget div -->
+                </div><!-- end widget -->
+
+                </article><!-- END GRID -->
+
+                <!-- SINGLE GRID -->
+                <article data-widget-grid="false" data-ng-hide="bbDepositsSvc.bankMode === 'SEB'" class="bank-deposit-info col-xs-12 col-md-offset-3 col-md-6">
+
+
+                <div class="jarviswidget jarviswidget-color-deposit" id="wid-id-3" data-widget-togglebutton="false" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" data-widget-editbutton="false" data-widget-sortable="false">
+
+                    <header class="text-center">
+
+                    <h2>Pangaülekande andmed</h2>
+                    </header><!-- widget div-->
+
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                            <input class="form-control" type="text">
+                        </div><!-- end widget edit box -->
+
+                        <!-- widget content -->
+                        <div class="widget-body no-padding">
+
+                            <table class="table table-striped text-center">
+                                <tbody>
+                                    <tr>
+                                        <td>Saaja nimi</td>
+                                        <td><strong>BITBUY OÜ</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Saaja konto</td>
+                                        <td><strong class="SWED-color">EE262200221059366105</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="vam">Makse selgitus</td>
+                                        <td><strong>{{identity.currentUser.username}},<br>sissemakse nr. 1</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Summa</td>
+                                        <td><strong>{{ bbBuySvc.euroDepositAmount || 0 | currency : '€' }}</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="text-center alert alert-success no-margin fade in">
+                                <i class="fa-fw fa fa-info"></i>
+                                Sissemakse laekub 1 tööpäeva jooksul.
+                                <abbr
+                                    data-ng-show="bbDepositsSvc.bankMode === 'SWED'"
+                                    title="Täpsemalt"
+                                    data-bb-init-popover
+                                    data-html="true"
+                                    data-container="body"
+                                    data-trigger="hover"
+                                    data-placement="top"
+                                    data-toggle="popover" 
+                                    data-content="Raha jõuab meie pangakontole üldjuhul mõne minutiga, hiljemalt ühe tunni jooksul.<br><br>Pärast kella 22 tehtud makse jõuab meie pangakontole hiljemalt järgmisel päeval.<br><br>Peale raha kohale jõudmist lisame sissemakse Teie kontole kahe tunni jooksul.">
+                                    Täpsemalt
+                                </abbr>
+                                <abbr
+                                    data-ng-hide="bbDepositsSvc.bankMode === 'SWED'"
+                                    title="Täpsemalt"
+                                    data-bb-init-popover
+                                    data-html="true"
+                                    data-container="body"
+                                    data-trigger="hover"
+                                    data-placement="top"
+                                    data-toggle="popover" 
+                                    data-content="Raha jõuab meie pangakontole üldjuhul sama päeva jooksul, kui maksekorraldus on tehtud enne kella 16.30.<br><br>Õhtuti, nädalavahetustel ja riigipühadel tehtud maksed jõuavad kohale järgmise tööpäeva hommikul.<br><br>Peale raha kohale jõudmist lisame sissemakse Teie kontole kahe tunni jooksul.">
+                                    Täpsemalt
+                                </abbr>
+                            </div>
+
+                        </div><!-- end widget content -->
+                    </div><!-- end widget div -->
+                </div><!-- end widget -->
+
+                </article><!-- END GRID -->
+
+            </div><!-- end row -->
+            </section>
+            <div class="row mb10 mt10">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-4">
+                        <div class="well bn p10 white-bg mb0 text-center">
+                            <span class="invoice-total-txt">Sissemakstav summa</span>
+                            <span class="invoice-total-sum">{{ bbBuySvc.euroDepositAmount || 0 | currency : '€' }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div data-ng-class="{'gray-bg': bbBuySvc.euroDepositFee === 0, 'red-bg': bbBuySvc.euroDepositFee > 0}" class="well bn p10 mb0 text-center">
+                            <span class="invoice-total-txt">Teenustasu</span>
+                            <span class="invoice-total-sum">{{ bbBuySvc.euroDepositFee || 0 | currency : '€' }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="well bn p10 mb0 bb-green-bg text-center">
+                            <span class="invoice-total-txt">Kättesaadav summa</span>
+                            <span class="invoice-total-sum">{{ bbBuySvc.euroReceiveAmount || 0 | currency : '€' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center mt10">
+                <a data-ng-show="bbDepositsSvc.depositMode === 'link'" data-ng-click="changeDepositMode('transfer')"class="btn btn-grey btn-labeled">
+                    <span class="btn-label">
+                        <i class="fa fa-clock-o"></i>
+                    </span>
+                    Soovite teostada pangaülekandega?
+                    </a><a data-ng-show="bbDepositsSvc.depositMode === 'transfer'" data-ng-click="changeDepositMode('link')"class="btn btn-grey btn-labeled">
+                    <span class="btn-label">
+                        <i class="fa fa-exchange"></i>
+                    </span>
+                    Soovite teostada pangalingiga?
+                </a><br>
+            </div>
+        </div>
+        <!-- End .invoice-content -->
+        <div class="invoice-footer">
+            <!-- Start .invoice-footer -->
+        </div>
+        <!-- End .invoice-footer -->
+    </div>
+</div>

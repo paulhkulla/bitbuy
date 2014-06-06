@@ -59,12 +59,12 @@
                 <div class="price-features">
                     <ul class="list-unstyled text-center margin-0">
                         <li><i class="fa fa-check text-success"></i> <strong>Ilma teenustasuta.</strong></li>
-                        <li><i class="fa fa-clock-o text-danger"></i> <strong>Tehing töödeldakse käsitsi.</strong></li>
+                        <li><i class="fa fa-clock-o text-danger"></i> <strong>Sissemakse töödeldakse käsitsi.</strong></li>
                     </ul>
                 </div>
             </div>
             <div class="panel-footer text-align-center">
-                <a role="button" data-ng-class="{'active bg-color-green': bbBuySvc.depositMode === 'transfer'}" data-ng-click="changeDepositMode( 'transfer' )" class="btn btn-success btn-block" href="">Kasuta pangaülekannet</a>
+                <a role="button" data-ng-class="{'active bg-color-green': bbDepositsSvc.depositMode === 'transfer'}" data-ng-click="changeDepositMode( 'transfer' )" class="btn btn-success btn-block" href="">Kasuta pangaülekannet</a>
             </div>
         </div>
     </div>
@@ -84,12 +84,12 @@
                 <div class="price-features">
                     <ul class="list-unstyled text-center margin-0">
                         <li><i class="fa fa-frown-o text-danger"></i> <strong>Lisandub teenustasu.</strong></li>
-                        <li><i class="fa fa-exchange text-success"></i> <strong>Tehing töödeldakse koheselt.</strong></li>
+                        <li><i class="fa fa-exchange text-success"></i> <strong>Sissemakse töödeldakse koheselt.</strong></li>
                     </ul>
                 </div>
             </div>
             <div class="panel-footer text-align-center">
-                <a role="button" data-ng-class="{'active bg-color-green': bbBuySvc.depositMode === 'link'}" data-ng-click="changeDepositMode( 'link' )" class="btn btn-success btn-block" href="">Kasuta pangalinki</a>
+                <a role="button" data-ng-class="{'active bg-color-green': bbDepositsSvc.depositMode === 'link'}" data-ng-click="changeDepositMode( 'link' )" class="btn btn-success btn-block" href="">Kasuta pangalinki</a>
             </div>
         </div>
     </div>

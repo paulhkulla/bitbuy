@@ -252,11 +252,32 @@ bbApp.config([
                 controller  : 'bbMainCtrl'
             })
 
+            //----------------------- ACCOUNT STATES -------------------------
+            .state( 'account', {
+                url         : '/account',
+                abstract    : true,
+                template    : '<div ui-view></div>',
+                resolve     : routeRoleChecks.user
+            })
+            .state( 'account.settings', {
+                url         : '/settings',
+                templateUrl : '/app/account/settings.html',
+            })
+            .state( 'account.deposits', {
+                url         : '/deposits',
+                templateUrl : '/app/account/deposits.html',
+                controller  : 'bbDepositsCtrl'
+            })
+            .state( 'account.deposit', {
+                url         : '/deposit',
+                templateUrl : '/app/account/deposit.html',
+                controller  : 'bbDepositCtrl'
+            })
             //-------------------- ADMIN PANEL STATES -----------------------
             .state( 'admin', {
                 url         : '/admin',
                 templateUrl : '/app/admin/admin.html',
-                resolve     : routeRoleChecks.user,
+                resolve     : routeRoleChecks.admin,
                 controller  : 'bbAdminCtrl'
             });
 

@@ -30,7 +30,7 @@ bbApp.factory('bbLogoutSvc', [
                         title : "Konto lukustatud!",
                         content : "<i class='fa fa-clock-o'></i> Olite üle "
                         + humanizeDuration( bbIdentitySvc.currentUser.token_exp, "et" )
-                        + " mitteaktiivne, seega lukustasime teie konto teie turvalisuse huvides."
+                        + " mitteaktiivne, seega lukustasime Teie konto Teie turvalisuse huvides."
                         + " Juurdepääsu taastamiseks sisestage enda parool...",
                         color : "#3B9FF3",
                         // timeout: 8000,

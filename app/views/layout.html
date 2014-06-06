@@ -14,8 +14,6 @@
 		<meta name="MobileOptimized" content="320">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-        <meta name="verify-paysera" content="402e04351f601d32d67ded2a046400f6">
-
 		<!-- Styles -->
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" media="screen" href="/css/font-awesome.min.css">
@@ -32,7 +30,7 @@
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,600,700">
 
 	</head>
-    <body class="smart-style-2 fixed-header fixed-navigation" data-ng-app="bbApp" data-ng-class="{minified: isMinified}" data-ng-controller="bbMainCtrl">
+    <body data-bb-setup class="smart-style-2 fixed-header fixed-navigation" data-ng-app="bbApp" data-ng-class="{minified: isMinified}" data-ng-controller="bbMainCtrl">
 
 		<!-- BEGIN HEADER TOP SMALL CONTAINER -->
         <header>
@@ -248,11 +246,11 @@
                 <li data-ng-class="{active: $state.includes('admin')}" data-ng-show="identity.currentUser.isAdmin()">
                 <a data-ui-sref="admin"><i class="fa fa-fw fa-wrench"></i><span class="menu-item-parent">Admin</span></a>
                 </li>
-                <li data-ng-show="identity.currentUser">
-                <a data-ng-click="openNa()" href=""><i class="fa fa-fw fa-gear"></i><span class="menu-item-parent">Seaded</span></a>
+                <li data-ng-class="{active: $state.includes('account.settings')}" data-ng-show="identity.currentUser">
+                <a data-ui-sref="account.settings"><i class="fa fa-fw fa-gear"></i><span class="menu-item-parent">Seaded</span></a>
                 </li>
-                <li>
-                <a data-ng-click="openNa()" href=""><i class="fa fa-fw fa-upload"></i><span class="menu-item-parent">Sissemakse</span></a>
+                <li data-ng-class="{active: $state.includes('account.deposits')}">
+                <a data-ui-sref="account.deposits"><i class="fa fa-fw fa-upload"></i><span class="menu-item-parent">Sissemaksed</span></a>
                 </li>
                 <li data-ng-class="{active: $state.includes('buy')}">
                 <a data-ui-sref="buy"><i class="fa fa-fw fa-btc"></i><span class="menu-item-parent">Osta</span></a>
@@ -306,7 +304,7 @@
                     <span class="footer-nav-separator hidden-xs">|</span><li title="Privaatsus & turvalisus"><a data-ui-sref="privacy-and-security" data-ui-sref-active="active"><i class="fa fa-shield fa-fw visible-xs"></i><span class="hidden-xs">PRIVAATSUS & TURVALISUS</span></a></li>
                     <span class="footer-nav-separator hidden-xs">|</span><li title="Kasutustingimused"><a data-ui-sref="user-agreement" data-ui-sref-active="active"><i class="fa fa-gavel fa-fw visible-xs"></i><span class="hidden-xs">KASUTUSTINGIMUSED</span></a></li>
                     <span class="footer-nav-separator hidden-xs">|</span><li title="Kontakt"><a data-ui-sref="contact" data-ui-sref-active="active"><i class="fa fa-envelope fa-fw visible-xs"></i><span class="hidden-xs">KONTAKT</span></a></li>
-                    <li title="Keri ülesse"><a href="" class="scroll-up-footer" data-bb-scroll-to-top-fade><i class="fa fa-hand-o-up fa-fw"></i></a></li>
+                    <li title="Keri ülesse"><a href="" data-bb-scroll-to-top-fade><i class="fa fa-hand-o-up fa-fw"></i></a></li>
                 </ul>
                 </nav>
                 <!-- END FOOTER NAVIGATION -->

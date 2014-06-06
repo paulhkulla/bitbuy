@@ -167,7 +167,9 @@ bbApp.directive("bbTicker", [
 
                         };
 
-                        plot = $.plot($("#bitcoin-price-graph"), [d], options);
+                        if ( $("#bitcoin-price-graph").width() > 0 ) {
+                            plot = $.plot($("#bitcoin-price-graph"), [d], options);
+                        }
                     }
 
                 };

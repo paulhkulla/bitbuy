@@ -422,6 +422,7 @@ exports.changePw = function ( req, res, next, config ) {
             user.reset_confirmation_code = undefined;
             user.reset_token             = undefined;
             user.reset_access_token      = undefined;
+            user.date_updated            = new Date().getTime();
             user.save( function( err ) {
                 if ( err ) {
                     res.send( auth.genResObj( false, null, 500, 'error', 'server_error') );

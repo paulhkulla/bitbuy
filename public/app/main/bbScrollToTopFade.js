@@ -17,6 +17,7 @@ bbApp.directive( 'bbScrollToTopFade' , [ '$window', function( $window ) {
         restrict: 'A',
         link: function( scope , element , attributes )
         {
+            $( element ).hide();
             $( $window ).scroll(function () {
                 if ($(this).scrollTop() > 50) {
                     $( element ).fadeIn();
